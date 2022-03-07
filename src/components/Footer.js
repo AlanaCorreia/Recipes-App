@@ -14,21 +14,21 @@ function Footer() {
       <button
         type="button"
         data-testid="drinks-bottom-btn"
-        onClick={ handleClick('/drinks') }
+        onClick={ () => handleClick('/drinks') }
       >
         <img src="../images/drinkIcon.svg" alt="drink icon" />
       </button>
       <button
         type="button"
         data-testid="explore-bottom-btn"
-        onClick={ handleClick('/explore') }
+        onClick={ () => handleClick('/explore') }
       >
         <img src="../images/exploreIcon.svg" alt="explore icon" />
       </button>
       <button
         type="button"
         data-testid="food-bottom-btn"
-        onClick={ handleClick('/foods') }
+        onClick={ () => handleClick('/foods') }
       >
         <img src="../images/mealtIcon.svg" alt="mealt icon" />
       </button>
