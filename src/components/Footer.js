@@ -16,24 +16,21 @@ function Footer() {
     <footer data-testid="footer" className="footer-bar">
       <button
         type="button"
-        data-testid="drinks-bottom-btn"
         onClick={ () => handleClick('/drinks') }
       >
-        <img src={ drinkIcon } alt="drink icon" />
+        <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="drink icon" />
       </button>
       <button
         type="button"
-        data-testid="explore-bottom-btn"
         onClick={ () => handleClick('/explore') }
       >
-        <img src={ explore } alt="explore icon" />
+        <img data-testid="explore-bottom-btn" src={ explore } alt="explore icon" />
       </button>
       <button
         type="button"
-        data-testid="food-bottom-btn"
         onClick={ () => handleClick('/foods') }
       >
-        <img src={ mealtIcon } alt="mealt icon" />
+        <img data-testid="food-bottom-btn" src={ mealtIcon } alt="mealt icon" />
       </button>
     </footer>
   );
