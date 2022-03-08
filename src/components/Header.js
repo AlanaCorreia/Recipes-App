@@ -1,32 +1,32 @@
 import React from 'react';
-import '../Header.css';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import profileIcon from '../images/profileIcon.svg';
 
-function Header() {
-  const history = useHistory();
-
-  handleClick = (path) => {
-    history.push(path);
-  };
-
+function Header({ name }) {
   return (
-    <header classsName="header-css">
-      <button
-        type="button"
-        data-testid="profile-top-btn"
-        onClick={ handleClick('/profile') }
+    <div className="profileTitle">
+      <Link
+        to="/profile"
       >
-        <img src="../images/profileIcon.svg" alt="profile icon" />
-      </button>
-      <h1 data-testid="page-title">Foods</h1>
-      <button
-        type="button"
-        data-testid="search-top-btn"
-      >
-        <img src="../images/searchIcon.svg" alt="search icon" />
-      </button>
-    </header>
+        <img
+          src={ profileIcon }
+          alt="profile icon"
+          data-testid="profile-top-btn"
+          className="img-icons"
+        />
+      </Link>
+      <h1 data-testid="page-title">
+        {' '}
+        {name}
+        {' '}
+      </h1>
+    </div>
   );
 }
+
+Header.propTypes = {
+  name: PropTypes.string.isRequired,
+};
 
 export default Header;
