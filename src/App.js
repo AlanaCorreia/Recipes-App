@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './Header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
@@ -22,7 +23,6 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 function App() {
   return (
     <div>
-      <h1>pagina app</h1>
       <Switch>
         <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />

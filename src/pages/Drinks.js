@@ -1,10 +1,13 @@
 import React from 'react';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
+import SearchIcon from '../components/SearchIcon';
 
 function Drinks() {
   return (
     <div>
-      <h1>Drinks</h1>
+      <Header name="Drinks" />
+      <SearchIcon />
       <Footer />
     </div>
   );
