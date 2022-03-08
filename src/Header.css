@@ -10,13 +10,13 @@
 }
 
 .profileTitle {
-  display: flex;
-  width: 60%;
-  justify-content: space-between;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
 }
 
 .img-icons {
-  width: 40px;
   height: 40px;
+  width: 40px;
 }
