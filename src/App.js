@@ -3,6 +3,21 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
+import Foods from './pages/Foods';
+import Drinks from './pages/Drinks';
+import FoodsById from './pages/FoodsById';
+import DrinksById from './pages/DrinksById';
+import FoodsByIdInProgress from './pages/FoodsByIdInProgress';
+import DrinksByIdInProgress from './pages/DrinksByIdInProgress';
+import Explore from './pages/Explore';
+import ExploreFoods from './pages/ExploreFoods';
+import ExploreDrinks from './pages/ExploreDrinks';
+import ExploreFoodsIngredients from './pages/ExploreFoodsIngredients';
+import ExploreDrinksIngredients from './pages/ExploreDrinksIngredients';
+import ExploreFoodsNationalities from './pages/ExploreFoodsNationalities';
+import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 
 function App() {
   return (
@@ -10,7 +25,6 @@ function App() {
       <h1>pagina app</h1>
       <Switch>
         <Route exact path="/" component={ Login } />
-        {/*
         <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />
         <Route exact path="/foods/{id-da-receita}" component={ FoodsById } />
@@ -46,7 +60,6 @@ function App() {
         <Route exact path="/profile" component={ Profile } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
-        */}
       </Switch>
     </div>
   );
