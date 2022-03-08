@@ -1,17 +1,16 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 function App() {
   return (
     <div>
       <h1>pagina app</h1>
-      {/*
       <Switch>
-        <Route exact path="/" component={ Login } />
+        {/* <Route exact path="/" component={ Login } /> */}
         <Route exact path="/foods" component={ Foods } />
-        <Route exact path="/drinks" component={ Drinks } />
+        {/* <Route exact path="/drinks" component={ Drinks } />
         <Route exact path="/foods/{id-da-receita}" component={ FoodsById } />
         <Route exact path="/drinks/{id-da-receita}" component={ DrinksById } />
         <Route
@@ -44,9 +43,8 @@ function App() {
         />
         <Route exact path="/profile" component={ Profile } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
-        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } /> */}
       </Switch>
-      */}
     </div>
   );
 }
