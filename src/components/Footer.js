@@ -1,11 +1,14 @@
 import React from 'react';
 import '../Footer.css';
 import { useHistory } from 'react-router-dom';
+import drinkIcon from '../images/drinkIcon.svg';
+import explore from '../images/exploreIcon.svg';
+import mealtIcon from '../images/mealIcon.svg';
 
 function Footer() {
   const history = useHistory();
 
-  handleClick = (path) => {
+  const handleClick = (path) => {
     history.push(path);
   };
 
@@ -16,21 +19,21 @@ function Footer() {
         data-testid="drinks-bottom-btn"
         onClick={ () => handleClick('/drinks') }
       >
-        <img src="../images/drinkIcon.svg" alt="drink icon" />
+        <img src={ drinkIcon } alt="drink icon" />
       </button>
       <button
         type="button"
         data-testid="explore-bottom-btn"
         onClick={ () => handleClick('/explore') }
       >
-        <img src="../images/exploreIcon.svg" alt="explore icon" />
+        <img src={ explore } alt="explore icon" />
       </button>
       <button
         type="button"
         data-testid="food-bottom-btn"
         onClick={ () => handleClick('/foods') }
       >
-        <img src="../images/mealtIcon.svg" alt="mealt icon" />
+        <img src={ mealtIcon } alt="mealt icon" />
       </button>
     </footer>
   );
