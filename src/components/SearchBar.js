@@ -7,15 +7,22 @@ import fetchFoodApi from '../services/fetchApiFood';
 
 function SearchBar({ name }) {
   const [radioValue, setRadioValue] = useState('');
-  const [apiResults, setApiResults] = useState([]);
+  const [apiResults, setApiResults] = useState({ [name]: [] });
+  const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
 
   const { searchInput } = useContext(MyContext);
 
   const history = useHistory();
+  const DOZE = 12;
 
   useEffect(() => {
-    if (apiResults.meals !== undefined || apiResults.drinks !== undefined) {
-      if (name === 'Foods') {
+    if (apiResults[name] !== undefined) {
+      if (apiResults[name].length >= DOZE) {
+        const splitedArray = apiResults[name].slice(0, DOZE);
+        setApiResultsSplited({ [name]: splitedArray });
+      }
+
+      if (name === 'meals') {
         if (apiResults.meals.length === 1) {
           history.push(`/foods/${apiResults.meals[0].idMeal}`);
         }
@@ -64,11 +71,12 @@ function SearchBar({ name }) {
   }
 
   async function fetchApi() {
-    if (name === 'Foods') {
-      searchFoods();
+    if (name === 'meals') {
+      await searchFoods();
     } else {
-      searchDrinks();
+      await searchDrinks();
     }
+    console.log(apiResults);
   }
 
   return (
@@ -117,6 +125,27 @@ function SearchBar({ name }) {
         Search
 
       </button>
+      {console.log(apiResultsSplited)}
+      {
+        apiResultsSplited[name].length > 0 && (
+          apiResultsSplited[name].map(({ strMeal, strMealThumb }, index) => (
+            <div
+              key={ strMeal }
+              data-testid={ `${index}-recipe-card` }
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ strMealThumb }
+                alt={ strMeal }
+              />
+              <p data-testid={ `${index}-card-name` }>
+                {' '}
+                { strMeal }
+              </p>
+            </div>
+          ))
+        )
+      }
     </div>
   );
 }
