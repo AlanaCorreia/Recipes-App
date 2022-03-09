@@ -5,7 +5,6 @@ import Header from '../components/Header';
 
 function Profile() {
   const userEmail = JSON.parse(localStorage.getItem('user')).email;
-  console.log(userEmail);
   const history = useHistory();
 
   const handleClick = (path) => {
