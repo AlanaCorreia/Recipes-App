@@ -1,13 +1,29 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import MyContext from '../context/myContext';
 import fetchDrinkApi from '../services/fetchApiDrink';
 import fetchFoodApi from '../services/fetchApiFood';
 
 function SearchBar({ name }) {
   const [radioValue, setRadioValue] = useState('');
+  const [apiResults, setApiResults] = useState([]);
 
   const { searchInput } = useContext(MyContext);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (apiResults.meals !== undefined || apiResults.drinks !== undefined) {
+      if (name === 'Foods') {
+        if (apiResults.meals.length === 1) {
+          history.push(`/foods/${apiResults.meals[0].idMeal}`);
+        }
+      } else if (apiResults.drinks.length === 1) {
+        history.push(`/drinks/${apiResults.drinks[0].idDrink}`);
+      }
+    }
+  }, [apiResults]);
 
   function handleRadio({ target }) {
     setRadioValue(target.value);
@@ -16,14 +32,14 @@ function SearchBar({ name }) {
   async function searchFoods() {
     if (radioValue === 'ingrediente') {
       const result = await fetchFoodApi(`filter.php?i=${searchInput}`);
-      console.log(result);
+      setApiResults(result);
     } if (radioValue === 'nome') {
       const result = await fetchFoodApi(`search.php?s=${searchInput}`);
-      console.log(result);
+      setApiResults(result);
     } if (radioValue === 'letra') {
       if (searchInput.length <= 1) {
         const result = await fetchFoodApi(`search.php?f=${searchInput}`);
-        console.log(result);
+        setApiResults(result);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
@@ -33,14 +49,14 @@ function SearchBar({ name }) {
   async function searchDrinks() {
     if (radioValue === 'ingrediente') {
       const result = await fetchDrinkApi(`filter.php?i=${searchInput}`);
-      console.log(result);
+      setApiResults(result);
     } if (radioValue === 'nome') {
       const result = await fetchDrinkApi(`search.php?s=${searchInput}`);
-      console.log(result);
+      setApiResults(result);
     } if (radioValue === 'letra') {
       if (searchInput.length <= 1) {
         const result = await fetchDrinkApi(`search.php?f=${searchInput}`);
-        console.log(result);
+        setApiResults(result);
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
