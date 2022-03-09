@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import MyContext from '../context/myContext';
+import fetchDrinkApi from '../services/fetchApiDrink';
 import fetchFoodApi from '../services/fetchApiFood';
 
-function SearchBar() {
+function SearchBar({ name }) {
   const [radioValue, setRadioValue] = useState('');
 
   const { searchInput } = useContext(MyContext);
@@ -11,7 +13,7 @@ function SearchBar() {
     setRadioValue(target.value);
   }
 
-  async function fetchApi() {
+  async function searchFoods() {
     if (radioValue === 'ingrediente') {
       const result = await fetchFoodApi(`filter.php?i=${searchInput}`);
       console.log(result);
@@ -25,6 +27,31 @@ function SearchBar() {
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
+    }
+  }
+
+  async function searchDrinks() {
+    if (radioValue === 'ingrediente') {
+      const result = await fetchDrinkApi(`filter.php?i=${searchInput}`);
+      console.log(result);
+    } if (radioValue === 'nome') {
+      const result = await fetchDrinkApi(`search.php?s=${searchInput}`);
+      console.log(result);
+    } if (radioValue === 'letra') {
+      if (searchInput.length <= 1) {
+        const result = await fetchDrinkApi(`search.php?f=${searchInput}`);
+        console.log(result);
+      } else {
+        global.alert('Your search must have only 1 (one) character');
+      }
+    }
+  }
+
+  async function fetchApi() {
+    if (name === 'Foods') {
+      searchFoods();
+    } else {
+      searchDrinks();
     }
   }
 
@@ -78,4 +105,7 @@ function SearchBar() {
   );
 }
 
+SearchBar.propTypes = {
+  name: PropTypes.string.isRequired,
+};
 export default SearchBar;

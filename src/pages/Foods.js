@@ -9,7 +9,7 @@ function Foods() {
     <div>
       <div className="header-content">
         <Header name="Foods" />
-        <SearchBar />
+        <SearchBar name="Foods" />
         <SearchIcon />
       </div>
       <Footer />
