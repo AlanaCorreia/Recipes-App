@@ -4,7 +4,7 @@ import Header from '../components/Header';
 
 function Explore() {
   return (
-    <div>
+    <div className="header-content">
       <Header name="Explore" />
       <Footer />
     </div>

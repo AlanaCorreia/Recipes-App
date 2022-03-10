@@ -5,7 +5,9 @@ import Header from '../components/Header';
 function Profile() {
   return (
     <div>
-      <Header name="Profile" />
+      <div className="header-content">
+        <Header name="Profile" />
+      </div>
       <Footer />
     </div>
   );

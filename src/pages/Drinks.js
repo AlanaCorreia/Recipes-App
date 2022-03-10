@@ -6,8 +6,10 @@ import SearchIcon from '../components/SearchIcon';
 function Drinks() {
   return (
     <div>
-      <Header name="Drinks" />
-      <SearchIcon />
+      <div className="header-content">
+        <Header name="Drinks" />
+        <SearchIcon />
+      </div>
       <Footer />
     </div>
   );
