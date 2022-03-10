@@ -7,7 +7,7 @@ import fetchFoodApi from '../services/fetchApiFood';
 import { MAX_NUMBER_CARDS } from '../services/consts';
 
 function SearchBar({ name }) {
-  const { searchInput, searchBarShow } = useContext(MyContext);
+  const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
 
   const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
@@ -136,6 +136,15 @@ function SearchBar({ name }) {
     <div>
       {searchBarShow && (
         <div>
+          <input
+            name="search-input"
+            label="search-input"
+            type="text"
+            placeholder="Search ..."
+            data-testid="search-input"
+            onChange={ handleSearch }
+            value={ searchInput }
+          />
           <label htmlFor="ingredient">
             Ingredient
             <input
