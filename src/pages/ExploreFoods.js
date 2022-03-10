@@ -5,7 +5,9 @@ import Header from '../components/Header';
 function ExploreFoods() {
   return (
     <div>
-      <Header name="Explore Foods" />
+      <div className="header-content">
+        <Header name="Explore Foods" />
+      </div>
       <Footer />
     </div>
   );

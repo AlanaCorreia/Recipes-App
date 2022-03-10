@@ -26,7 +26,9 @@ function Profile() {
 
   return (
     <div>
-      <Header name="Profile" />
+      <div className="header-content">
+        <Header name="Profile" />
+      </div>
       <p data-testid="profile-email">
         {email}
       </p>
