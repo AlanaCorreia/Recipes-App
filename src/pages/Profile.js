@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
-  const userEmail = JSON.parse(localStorage.getItem('user')).email;
   const history = useHistory();
+  console.log(JSON.parse(localStorage.getItem('user')));
+  const [email, setEmail] = useState('');
+
+  async function getUserEmail() {
+    const userEmail = await JSON.parse(localStorage.getItem('user')).email;
+    setEmail(userEmail);
+  }
+
+  useEffect(() => {
+    getUserEmail();
+  }, []);
 
   const handleClick = (path) => {
     if (path === '/') {
@@ -20,7 +30,9 @@ function Profile() {
       <div className="header-content">
         <Header name="Profile" />
       </div>
-      <p data-testid="profile-email">{userEmail}</p>
+      <p data-testid="profile-email">
+        {email}
+      </p>
       <button
         type="button"
         data-testid="profile-done-btn"
