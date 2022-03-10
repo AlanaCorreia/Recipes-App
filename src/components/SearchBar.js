@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import MyContext from '../context/myContext';
@@ -17,6 +17,21 @@ function SearchBar({ name }) {
   function handleRadio({ target }) {
     setRadioValue(target.value);
   }
+
+  useEffect(() => {
+    const fetchApiInitial = async () => {
+      if (name === 'meals') {
+        const foodResponse = await fetchFoodApi('search.php?s=');
+        const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setApiResultsSplited({ [name]: splitedFoodResponse });
+      } else {
+        const drinkResponse = await fetchDrinkApi('search.php?s=');
+        const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setApiResultsSplited({ [name]: splitedDrinkResponse });
+      }
+    };
+    fetchApiInitial();
+  }, []);
 
   // Consome as APIs de foods.
   async function searchFoods() {
