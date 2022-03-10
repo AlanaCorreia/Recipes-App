@@ -1,32 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/myContext';
 import searchIcon from '../images/searchIcon.svg';
 
 function SearchIcon() {
-  const [searchBar, setSearchBar] = useState(false);
+  const { searchBarShow, setSearchBarShow } = useContext(MyContext);
 
   return (
-    <div>
-      <button
-        type="button"
-        onClick={ () => setSearchBar(!searchBar) }
-      >
-        <img
-          src={ searchIcon }
-          data-testid="search-top-btn"
-          alt="search"
-          className="img-icons"
-        />
-      </button>
-      <div>
-        { searchBar === true ? <input
-          name="search-input"
-          label="search-input"
-          type="text"
-          placeholder="Search ..."
-          data-testid="search-input"
-        /> : null }
-      </div>
-    </div>
+    <button
+      type="button"
+      onClick={ () => setSearchBarShow(!searchBarShow) }
+    >
+      <img
+        src={ searchIcon }
+        data-testid="search-top-btn"
+        alt="search"
+        className="img-icons"
+      />
+    </button>
   );
 }
 
