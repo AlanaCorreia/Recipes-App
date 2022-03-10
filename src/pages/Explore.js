@@ -1,11 +1,38 @@
 import React from 'react';
+import '../Explore.css';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Explore() {
+  const history = useHistory();
+
+  const handleClick = (path) => {
+    history.push(path);
+  };
   return (
-    <div>
-      <Header name="Explore" />
+    <div className="explore-content">
+      <div className="header-content">
+        <Header name="Explore" />
+      </div>
+      <div className="explore-buttons">
+        <button
+          className="buttons"
+          type="button"
+          data-testid="explore-foods"
+          onClick={ () => handleClick('/explore/foods') }
+        >
+          <p>Explore Foods</p>
+        </button>
+        <button
+          className="buttons"
+          type="button"
+          data-testid="explore-drinks"
+          onClick={ () => handleClick('/explore/drinks') }
+        >
+          Explore Drinks
+        </button>
+      </div>
       <Footer />
     </div>
   );

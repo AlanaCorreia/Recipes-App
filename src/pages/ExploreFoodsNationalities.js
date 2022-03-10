@@ -7,17 +7,19 @@ function ExploreFoodsNationalities() {
   return (
     <div>
       <header>
-        <Header name="Explore Nationalities" />
-        <button
-          type="button"
-        >
-          <img
-            src={ searchIcon }
-            data-testid="search-top-btn"
-            alt="search"
-            className="img-icons"
-          />
-        </button>
+        <div className="header-content">
+          <Header name="Explore Nationalities" />
+          <button
+            type="button"
+          >
+            <img
+              src={ searchIcon }
+              data-testid="search-top-btn"
+              alt="search"
+              className="img-icons"
+            />
+          </button>
+        </div>
       </header>
       <Footer />
     </div>

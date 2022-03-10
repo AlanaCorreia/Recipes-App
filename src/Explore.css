@@ -1,0 +1,15 @@
+.explore-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.explore-buttons {
+  display: flex;
+  height: 40px;
+  justify-content: space-around;
+  margin-top: 60px;
+}
+
+.buttons {
+  align-content: center;
+}

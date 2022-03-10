@@ -10,8 +10,8 @@ function Foods() {
       <div className="header-content">
         <Header name="Foods" />
         <SearchIcon />
-        <SearchBar name="meals" />
       </div>
+      <SearchBar name="meals" />
       <Footer />
     </div>
   );
