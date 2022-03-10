@@ -5,7 +5,6 @@ import Header from '../components/Header';
 
 function Profile() {
   const history = useHistory();
-  console.log(JSON.parse(localStorage.getItem('user')));
   const [email, setEmail] = useState('');
 
   async function getUserEmail() {
