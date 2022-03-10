@@ -9,3 +9,4 @@ export const FOOD_BTN_DATA_TESTID = 'food-bottom-btn';
 
 export const EXPLORE_FOODS_DATA_TESTID = 'explore-foods';
 export const EXPLORE_DRINKS_DATA_TESTID = 'explore-drinks';
+export const MAX_NUMBER_CARDS = 12;
