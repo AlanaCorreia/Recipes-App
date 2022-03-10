@@ -93,7 +93,7 @@ function SearchBar({ name }) {
       drinkCondition();
     }
   }
-
+  // teste criando branch
   // Renderiza os Cards de foods/drinks na tela.
   function renderCards() {
     return apiResultsSplited[name].length > 0 && name === 'meals' ? (
