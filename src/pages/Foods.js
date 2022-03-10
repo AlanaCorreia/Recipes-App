@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import SearchIcon from '../components/SearchIcon';
 import SearchBar from '../components/SearchBar';
 
 function Foods() {
@@ -10,7 +9,6 @@ function Foods() {
       <div className="header-content">
         <Header name="Foods" />
         <SearchBar name="meals" />
-        <SearchIcon />
       </div>
       <Footer />
     </div>

@@ -7,7 +7,7 @@ import fetchFoodApi from '../services/fetchApiFood';
 import { MAX_NUMBER_CARDS } from '../services/consts';
 
 function SearchBar({ name }) {
-  const { searchInput } = useContext(MyContext);
+  const { searchInput, searchBarShow } = useContext(MyContext);
 
   const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
@@ -134,49 +134,53 @@ function SearchBar({ name }) {
   }
   return (
     <div>
-      <label htmlFor="ingredient">
-        Ingredient
-        <input
-          onChange={ handleRadio }
-          type="radio"
-          id="ingredient"
-          value="ingredient"
-          name="radio"
-          data-testid="ingredient-search-radio"
-        />
-      </label>
+      {searchBarShow && (
+        <div>
+          <label htmlFor="ingredient">
+            Ingredient
+            <input
+              onChange={ handleRadio }
+              type="radio"
+              id="ingredient"
+              value="ingredient"
+              name="radio"
+              data-testid="ingredient-search-radio"
+            />
+          </label>
 
-      <label htmlFor="name">
-        Name
-        <input
-          onChange={ handleRadio }
-          type="radio"
-          id="name"
-          value="name"
-          name="radio"
-          data-testid="name-search-radio"
-        />
-      </label>
+          <label htmlFor="name">
+            Name
+            <input
+              onChange={ handleRadio }
+              type="radio"
+              id="name"
+              value="name"
+              name="radio"
+              data-testid="name-search-radio"
+            />
+          </label>
 
-      <label htmlFor="first-letter">
-        First letter
-        <input
-          onChange={ handleRadio }
-          type="radio"
-          id="first-letter"
-          value="first-letter"
-          name="radio"
-          data-testid="first-letter-search-radio"
-        />
-      </label>
+          <label htmlFor="first-letter">
+            First letter
+            <input
+              onChange={ handleRadio }
+              type="radio"
+              id="first-letter"
+              value="first-letter"
+              name="radio"
+              data-testid="first-letter-search-radio"
+            />
+          </label>
 
-      <button
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ fetchApi }
-      >
-        Search
-      </button>
+          <button
+            type="button"
+            data-testid="exec-search-btn"
+            onClick={ fetchApi }
+          >
+            Search
+          </button>
+        </div>
+      )}
       {renderCards()}
     </div>
   );
