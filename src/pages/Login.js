@@ -39,15 +39,18 @@ function Login() {
 
   return (
     <div>
+      <h1>Login</h1>
       <input
         type="email"
         data-testid="email-input"
+        placeholder="Email"
         value={ stateEmail }
         onChange={ (event) => handleChange(event, setStateEmail) }
       />
       <input
         type="password"
         data-testid="password-input"
+        placeholder="Password"
         value={ statePassword }
         onChange={ (event) => handleChange(event, setStatePassword) }
       />
