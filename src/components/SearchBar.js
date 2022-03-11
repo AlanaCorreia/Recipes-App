@@ -55,30 +55,39 @@ function SearchBar({ name }) {
     }
   }
 
-  async function filterCategory(event, category) {
-    const el = document.querySelector('.selected');
-    if (el && el !== event.target) {
-      el.className = 'not-selected';
-    }
-    if (event.target.className !== 'selected') {
-      event.target.className = 'selected';
-      if (name === 'meals') {
-        const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
-        validateMeals(name, foodCategory, setApiResultsSplited, history);
-      } else {
-        const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
-        validateDrinks(name, drinkCategory, setApiResultsSplited, history);
-      }
+  async function defaultAPI() {
+    if (name === 'meals') {
+      const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
+      const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+      console.log(splitedFoodResponse);
+      setApiResultsSplited({ [name]: splitedFoodResponse });
     } else {
-      event.target.className = 'not-selected';
-      if (name === 'meals') {
-        const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
-        const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
-        setApiResultsSplited({ [name]: splitedFoodResponse });
+      const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
+      const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+      setApiResultsSplited({ [name]: splitedDrinkResponse });
+    }
+  }
+
+  async function filterCategory(event, category) {
+    if (category === 'all') {
+      defaultAPI();
+    } else {
+      const el = document.querySelector('.selected');
+      if (el && el !== event.target) {
+        el.className = 'not-selected';
+      }
+      if (event.target.className !== 'selected') {
+        event.target.className = 'selected';
+        if (name === 'meals') {
+          const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
+          validateMeals(name, foodCategory, setApiResultsSplited, history);
+        } else {
+          const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
+          validateDrinks(name, drinkCategory, setApiResultsSplited, history);
+        }
       } else {
-        const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
-        const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
-        setApiResultsSplited({ [name]: splitedDrinkResponse });
+        event.target.className = 'not-selected';
+        defaultAPI();
       }
     }
   }
@@ -179,6 +188,14 @@ function SearchBar({ name }) {
           </button>
         </div>
       )}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        className="not-selected"
+        onClick={ (event) => filterCategory(event, 'all') }
+      >
+        All
+      </button>
       {categories[name].map(({ strCategory }) => (
         <button
           type="button"
