@@ -14,7 +14,8 @@ function DrinksById() {
   async function getFetchDrinkApi() {
     const resultsApi = await fetchDrinkApi(`lookup.php?i=${id}`);
     setRecipeDrink(resultsApi.drinks);
-    setIngredients(getIngredientsAndMeasure('17', '32', resultsApi.drinks));
+    const ingredientsReturn = getIngredientsAndMeasure('17', '32', resultsApi.drinks);
+    setIngredients(ingredientsReturn.filter((element) => element[1] !== null));
     setMeasure(getIngredientsAndMeasure('32', '47', resultsApi.drinks));
   }
 
@@ -40,15 +41,16 @@ function DrinksById() {
           </button>
           <p data-testid="recipe-category">{recipe.strCategory}</p>
           <ul>
-            {console.log(ingredients)}
-            {console.log('ingredients[0]:', ingredients[0])}
-            {ingredients && ingredients.map((ingred, index) => (
-              <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-                { ingred[1] }
-                {' '}
-                { measure[index][1]}
-              </li>
-            ))}
+            {ingredients.length > 0 && measure.length > 0
+               && ingredients.map((element, index) => (
+                 <li
+                   key={ Math.random() }
+                   data-testid={ `${index}-ingredient-name-and-measure` }
+                 >
+                   <p>{element[1]}</p>
+                   { measure[index] !== null && <p>{measure[index][1]}</p>}
+                 </li>
+               ))}
           </ul>
           <p data-testid="instructions">instructions</p>
           <div data-testid={ `${0}-recomendation-card` }>
