@@ -23,6 +23,7 @@ function SearchBar({ name }) {
     setRadioValue(target.value);
   }
 
+  // ComponentDidMout montando os filtros e o retorno default da API
   useEffect(() => {
     const fetchApiInitial = async () => {
       if (name === 'meals') {
@@ -46,6 +47,7 @@ function SearchBar({ name }) {
     fetchApiInitial();
   }, []);
 
+  // função para realizar as pesquisas
   async function searchButton() {
     if (name === 'meals') {
       const dataFoodToValidate = await searchFoods(radioValue, searchInput);
@@ -56,6 +58,7 @@ function SearchBar({ name }) {
     }
   }
 
+  // função que renderiza as APIs com o retorno padrão
   async function defaultAPI() {
     if (name === 'meals') {
       const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
@@ -69,6 +72,7 @@ function SearchBar({ name }) {
     }
   }
 
+  // função para lidar com os botões de filtro
   async function filterCategory(event, category) {
     if (category === 'all') {
       defaultAPI();
@@ -93,6 +97,7 @@ function SearchBar({ name }) {
     }
   }
 
+  // Redireciona para a pagina de details quando clica em algum card
   function redirectToDetails(idReceita) {
     console.log(idReceita);
     if (name === 'meals') {

@@ -1,6 +1,7 @@
 import fetchDrinkApi from './fetchApiDrink';
 import fetchFoodApi from './fetchApiFood';
 
+// Função que faz as pesquisas de Foods
 async function searchFoods(radioValue, searchInput) {
   if (radioValue === 'ingredient') {
     const result = await fetchFoodApi(`filter.php?i=${searchInput}`);
@@ -17,6 +18,7 @@ async function searchFoods(radioValue, searchInput) {
   }
 }
 
+// Função que faz as pesquisas de Drinks
 async function searchDrinks(radioValue, searchInput) {
   if (radioValue === 'ingredient') {
     const result = await fetchDrinkApi(`filter.php?i=${searchInput}`);

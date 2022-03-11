@@ -6,6 +6,7 @@ function renderCards(apiResultsSplited, name, redirectToDetails) {
       <div
         key={ strMeal }
         data-testid={ `${index}-recipe-card` }
+        // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
         onClick={ () => redirectToDetails(idMeal) }
         onKeyDown={ redirectToDetails }
         role="button"
@@ -28,6 +29,7 @@ function renderCards(apiResultsSplited, name, redirectToDetails) {
       <div
         key={ strDrink }
         data-testid={ `${index}-recipe-card` }
+        // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
         onClick={ () => redirectToDetails(idDrink) }
         onKeyDown={ redirectToDetails }
         role="button"
