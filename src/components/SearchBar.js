@@ -4,9 +4,10 @@ import { useHistory } from 'react-router-dom';
 import MyContext from '../context/myContext';
 import fetchDrinkApi from '../services/fetchApiDrink';
 import fetchFoodApi from '../services/fetchApiFood';
-import { MAX_NUMBER_CARDS, MAX_NUMBER_CATEGORIES } from '../services/consts';
+import { DEFAULT_URL_API, MAX_NUMBER_CARDS,
+  MAX_NUMBER_CATEGORIES } from '../services/consts';
 import { searchDrinks, searchFoods } from '../services/searchApiByInputs';
-import { drinkCondition, mealsCondition } from '../services/validateDatas';
+import { validateDrinks, validateMeals } from '../services/validateDatas';
 
 function SearchBar({ name }) {
   const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
@@ -27,7 +28,7 @@ function SearchBar({ name }) {
         const foodCategories = await fetchFoodApi('list.php?c=list');
         const splitedfoodCategories = foodCategories[name]
           .slice(0, MAX_NUMBER_CATEGORIES);
-        const foodResponse = await fetchFoodApi('search.php?s=');
+        const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
         const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
         setCategories({ [name]: splitedfoodCategories });
         setApiResultsSplited({ [name]: splitedFoodResponse });
@@ -35,7 +36,7 @@ function SearchBar({ name }) {
         const drinkCategories = await fetchDrinkApi('list.php?c=list');
         const splitedDrinkCategories = drinkCategories[name]
           .slice(0, MAX_NUMBER_CATEGORIES);
-        const drinkResponse = await fetchDrinkApi('search.php?s=');
+        const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
         const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
         setCategories({ [name]: splitedDrinkCategories });
         setApiResultsSplited({ [name]: splitedDrinkResponse });
@@ -47,26 +48,38 @@ function SearchBar({ name }) {
   async function searchButton() {
     if (name === 'meals') {
       const dataFoodToValidate = await searchFoods(radioValue, searchInput);
-      mealsCondition(name, dataFoodToValidate, setApiResultsSplited, history);
+      validateMeals(name, dataFoodToValidate, setApiResultsSplited, history);
     } else {
       const dataDrinkToValidate = await searchDrinks(radioValue, searchInput);
-      drinkCondition(name, dataDrinkToValidate, setApiResultsSplited, history);
+      validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history);
     }
   }
-  /*
-  async function foodByCategory(category) {
-    const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
-  }
 
-  async function drinkByCategory(category) {
-    const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
-  }
-*/
-  function filterCategory(category) {
-    if (name === 'meals') {
-      foodByCategory(category);
+  async function filterCategory(event, category) {
+    const el = document.querySelector('.selected');
+    if (el && el !== event.target) {
+      el.className = 'not-selected';
+    }
+    if (event.target.className !== 'selected') {
+      event.target.className = 'selected';
+      if (name === 'meals') {
+        const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
+        validateMeals(name, foodCategory, setApiResultsSplited, history);
+      } else {
+        const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
+        validateDrinks(name, drinkCategory, setApiResultsSplited, history);
+      }
     } else {
-      drinkByCategory(category);
+      event.target.className = 'not-selected';
+      if (name === 'meals') {
+        const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
+        const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setApiResultsSplited({ [name]: splitedFoodResponse });
+      } else {
+        const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
+        const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setApiResultsSplited({ [name]: splitedDrinkResponse });
+      }
     }
   }
 
@@ -171,7 +184,8 @@ function SearchBar({ name }) {
           type="button"
           data-testid={ `${strCategory}-category-filter` }
           key={ strCategory }
-          onClick={ () => filterCategory(strCategory) }
+          className="not-selected"
+          onClick={ (event) => filterCategory(event, strCategory) }
         >
           {strCategory}
         </button>

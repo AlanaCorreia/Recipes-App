@@ -11,3 +11,5 @@ export const EXPLORE_FOODS_DATA_TESTID = 'explore-foods';
 export const EXPLORE_DRINKS_DATA_TESTID = 'explore-drinks';
 export const MAX_NUMBER_CARDS = 12;
 export const MAX_NUMBER_CATEGORIES = 5;
+
+export const DEFAULT_URL_API = 'search.php?s=';

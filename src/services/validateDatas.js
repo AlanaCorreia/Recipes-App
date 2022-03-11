@@ -1,7 +1,7 @@
 import { MAX_NUMBER_CARDS } from './consts';
 
 // Recebe os valores da API de foods e lida com esses valores.
-async function mealsCondition(name, dataFoodToValidate, setApiResultsSplited, history) {
+async function validateMeals(name, dataFoodToValidate, setApiResultsSplited, history) {
   if (dataFoodToValidate !== undefined) {
     if (dataFoodToValidate.meals === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
@@ -17,7 +17,7 @@ async function mealsCondition(name, dataFoodToValidate, setApiResultsSplited, hi
 }
 
 // Recebe os valores da API de drinks e lida com esses valores.
-async function drinkCondition(name, dataDrinkToValidate, setApiResultsSplited, history) {
+async function validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history) {
   if (dataDrinkToValidate !== undefined) {
     if (dataDrinkToValidate.drinks === null) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
@@ -27,9 +27,9 @@ async function drinkCondition(name, dataDrinkToValidate, setApiResultsSplited, h
       const splitedArray = dataDrinkToValidate[name].slice(0, MAX_NUMBER_CARDS);
       setApiResultsSplited({ [name]: splitedArray });
     } else {
-      setApiResultsSplited({ [name]: dataDrinkToValidate.meals });
+      setApiResultsSplited({ [name]: dataDrinkToValidate.drinks });
     }
   }
 }
 
-export { mealsCondition, drinkCondition };
+export { validateMeals, validateDrinks };
