@@ -4,13 +4,16 @@ import { useHistory } from 'react-router-dom';
 import MyContext from '../context/myContext';
 import fetchDrinkApi from '../services/fetchApiDrink';
 import fetchFoodApi from '../services/fetchApiFood';
-import { MAX_NUMBER_CARDS } from '../services/consts';
+import { MAX_NUMBER_CARDS, MAX_NUMBER_CATEGORIES } from '../services/consts';
+import { searchDrinks, searchFoods } from '../services/searchApiByInputs';
+import { drinkCondition, mealsCondition } from '../services/validateDatas';
 
 function SearchBar({ name }) {
   const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
 
   const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
+  const [categories, setCategories] = useState({ [name]: [] });
 
   const history = useHistory();
 
@@ -21,91 +24,49 @@ function SearchBar({ name }) {
   useEffect(() => {
     const fetchApiInitial = async () => {
       if (name === 'meals') {
+        const foodCategories = await fetchFoodApi('list.php?c=list');
+        const splitedfoodCategories = foodCategories[name]
+          .slice(0, MAX_NUMBER_CATEGORIES);
         const foodResponse = await fetchFoodApi('search.php?s=');
         const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setCategories({ [name]: splitedfoodCategories });
         setApiResultsSplited({ [name]: splitedFoodResponse });
       } else {
+        const drinkCategories = await fetchDrinkApi('list.php?c=list');
+        const splitedDrinkCategories = drinkCategories[name]
+          .slice(0, MAX_NUMBER_CATEGORIES);
         const drinkResponse = await fetchDrinkApi('search.php?s=');
         const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setCategories({ [name]: splitedDrinkCategories });
         setApiResultsSplited({ [name]: splitedDrinkResponse });
       }
     };
     fetchApiInitial();
   }, []);
 
-  // Consome as APIs de foods.
-  async function searchFoods() {
-    if (radioValue === 'ingredient') {
-      const result = await fetchFoodApi(`filter.php?i=${searchInput}`);
-      return result;
-    } if (radioValue === 'name') {
-      const result = await fetchFoodApi(`search.php?s=${searchInput}`);
-      return result;
-    } if (radioValue === 'first-letter') {
-      if (searchInput.length <= 1) {
-        const result = await fetchFoodApi(`search.php?f=${searchInput}`);
-        return result;
-      }
-      global.alert('Your search must have only 1 (one) character');
-    }
-  }
-
-  // Consome as APIs de drinks.
-  async function searchDrinks() {
-    if (radioValue === 'ingredient') {
-      const result = await fetchDrinkApi(`filter.php?i=${searchInput}`);
-      return result;
-    } if (radioValue === 'name') {
-      const result = await fetchDrinkApi(`search.php?s=${searchInput}`);
-      return result;
-    } if (radioValue === 'first-letter') {
-      if (searchInput.length <= 1) {
-        const result = await fetchDrinkApi(`search.php?f=${searchInput}`);
-        return result;
-      }
-      global.alert('Your search must have only 1 (one) character');
-    }
-  }
-
-  // Recebe os valores da API de foods e lida com esses valores.
-  async function mealsCondition() {
-    const returnFoodsApi = await searchFoods();
-    if (returnFoodsApi !== undefined) {
-      if (returnFoodsApi.meals === null) {
-        global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      } else if (returnFoodsApi.meals.length === 1) {
-        history.push(`/foods/${returnFoodsApi.meals[0].idMeal}`);
-      } else if (returnFoodsApi.meals.length >= MAX_NUMBER_CARDS) {
-        const splitedArray = returnFoodsApi[name].slice(0, MAX_NUMBER_CARDS);
-        setApiResultsSplited({ [name]: splitedArray });
-      } else {
-        setApiResultsSplited({ [name]: returnFoodsApi.meals });
-      }
-    }
-  }
-
-  // Recebe os valores da API de drinks e lida com esses valores.
-  async function drinkCondition() {
-    const returnDrinkApi = await searchDrinks();
-    if (returnDrinkApi !== undefined) {
-      if (returnDrinkApi.drinks === null) {
-        global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      } else if (returnDrinkApi.drinks.length === 1) {
-        history.push(`/drinks/${returnDrinkApi.drinks[0].idDrink}`);
-      } else if (returnDrinkApi.drinks.length >= MAX_NUMBER_CARDS) {
-        const splitedArray = returnDrinkApi[name].slice(0, MAX_NUMBER_CARDS);
-        setApiResultsSplited({ [name]: splitedArray });
-      } else {
-        setApiResultsSplited({ [name]: returnDrinkApi.meals });
-      }
-    }
-  }
-
-  function fetchApi() {
+  async function searchButton() {
     if (name === 'meals') {
-      mealsCondition();
+      const dataFoodToValidate = await searchFoods(radioValue, searchInput);
+      mealsCondition(name, dataFoodToValidate, setApiResultsSplited, history);
     } else {
-      drinkCondition();
+      const dataDrinkToValidate = await searchDrinks(radioValue, searchInput);
+      drinkCondition(name, dataDrinkToValidate, setApiResultsSplited, history);
+    }
+  }
+  /*
+  async function foodByCategory(category) {
+    const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
+  }
+
+  async function drinkByCategory(category) {
+    const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
+  }
+*/
+  function filterCategory(category) {
+    if (name === 'meals') {
+      foodByCategory(category);
+    } else {
+      drinkByCategory(category);
     }
   }
 
@@ -199,12 +160,22 @@ function SearchBar({ name }) {
           <button
             type="button"
             data-testid="exec-search-btn"
-            onClick={ fetchApi }
+            onClick={ searchButton }
           >
             Search
           </button>
         </div>
       )}
+      {categories[name].map(({ strCategory }) => (
+        <button
+          type="button"
+          data-testid={ `${strCategory}-category-filter` }
+          key={ strCategory }
+          onClick={ () => filterCategory(strCategory) }
+        >
+          {strCategory}
+        </button>
+      ))}
       {renderCards()}
     </div>
   );
