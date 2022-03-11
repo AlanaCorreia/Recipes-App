@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import './Header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,23 +19,25 @@ import ExploreFoodsNationalities from './pages/ExploreFoodsNationalities';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import MyContext from './context/myContext';
 
 function App() {
+  const { idPage } = useContext(MyContext);
   return (
     <div>
       <Switch>
         <Route exact path="/foods" component={ Foods } />
         <Route exact path="/drinks" component={ Drinks } />
-        <Route exact path="/foods/{id-da-receita}" component={ FoodsById } />
-        <Route exact path="/drinks/{id-da-receita}" component={ DrinksById } />
+        <Route exact path={ `/foods/${idPage}` } component={ FoodsById } />
+        <Route exact path={ `/drinks/${idPage}` } component={ DrinksById } />
         <Route
           exact
-          path="/foods/{id-da-receita}/in-progress"
+          path={ `/foods/${idPage}/in-progress` }
           component={ FoodsByIdInProgress }
         />
         <Route
           exact
-          path="/drinks/{id-da-receita}/in-progress"
+          path={ `/drinks/${idPage}/in-progress` }
           component={ DrinksByIdInProgress }
         />
         <Route exact path="/explore" component={ Explore } />

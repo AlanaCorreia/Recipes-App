@@ -11,7 +11,7 @@ import { validateDrinks, validateMeals } from '../services/validateDatas';
 import renderCards from './renderCards';
 
 function SearchBar({ name }) {
-  const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
+  const { searchInput, searchBarShow, handleSearch, setIdPage } = useContext(MyContext);
 
   const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
@@ -99,7 +99,7 @@ function SearchBar({ name }) {
 
   // Redireciona para a pagina de details quando clica em algum card
   function redirectToDetails(idReceita) {
-    console.log(idReceita);
+    setIdPage(idReceita);
     if (name === 'meals') {
       history.push(`/foods/${idReceita}`);
     } else {

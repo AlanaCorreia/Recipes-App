@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import fetchFoodApi from '../services/fetchApiFood';
 
 function FoodsById() {
   const { location: { pathname } } = useHistory();
@@ -20,26 +21,34 @@ function FoodsById() {
 
   return (
     <div>
-      <img data-testid="recipe-photo" src="" alt="imgTest" />
-      <h1 data-testid="recipe-title">Title Details Food</h1>
-      <button data-testid="share-btn" type="button">
-        share button
-      </button>
-      <button data-testid="favorite-btn" type="button">
-        favorite button
-      </button>
-      <p data-testid="recipe-category">category</p>
-      <ul>
-        <li data-testid={ `${0}-ingredient-name-and-measure` }>Ingredient 1</li>
-      </ul>
-      <p data-testid="instructions">instructions</p>
-      <iframe data-testid="video" title="video" />
-      <div data-testid={ `${0}-recomendation-card` }>
-        <p>recomendação</p>
-      </div>
-      <button data-testid="start-recipe-btn" type="button">
-        Start recipe
-      </button>
+      {recipeFood !== undefined && recipeFood.map((recipe) => (
+        <div key={ recipe.idMeal }>
+          <img
+            data-testid="recipe-photo"
+            src={ recipe.strMealThumb }
+            alt={ recipe.strMeal }
+          />
+          <h1 data-testid="recipe-title">Title Details Food</h1>
+          <button data-testid="share-btn" type="button">
+            share button
+          </button>
+          <button data-testid="favorite-btn" type="button">
+            favorite button
+          </button>
+          <p data-testid="recipe-category">category</p>
+          <ul>
+            <li data-testid={ `${0}-ingredient-name-and-measure` }>Ingredient 1</li>
+          </ul>
+          <p data-testid="instructions">instructions</p>
+          <iframe data-testid="video" title="video" />
+          <div data-testid={ `${0}-recomendation-card` }>
+            <p>recomendação</p>
+          </div>
+          <button data-testid="start-recipe-btn" type="button">
+            Start recipe
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

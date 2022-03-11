@@ -5,6 +5,7 @@ import MyContext from './myContext';
 function MyProvider({ children }) {
   const [searchInput, setsearchInput] = useState('');
   const [searchBarShow, setSearchBarShow] = useState(false);
+  const [idPage, setIdPage] = useState('');
 
   function handleSearch({ target }) {
     setsearchInput(target.value);
@@ -16,6 +17,8 @@ function MyProvider({ children }) {
     setsearchInput,
     searchBarShow,
     setSearchBarShow,
+    idPage,
+    setIdPage,
   };
   return (
     <MyContext.Provider value={ INITIAL_STATE }>
