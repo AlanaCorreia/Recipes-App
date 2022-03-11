@@ -92,15 +92,28 @@ function SearchBar({ name }) {
     }
   }
 
+  function redirectToDetails(idReceita) {
+    console.log(idReceita);
+    if (name === 'meals') {
+      history.push(`/foods/${idReceita}`);
+    } else {
+      history.push(`/drinks/${idReceita}`);
+    }
+  }
   // Renderiza os Cards de foods/drinks na tela.
   function renderCards() {
     return apiResultsSplited[name].length > 0 && name === 'meals' ? (
-      apiResultsSplited[name].map(({ strMeal, strMealThumb }, index) => (
+      apiResultsSplited[name].map(({ idMeal, strMeal, strMealThumb }, index) => (
         <div
           key={ strMeal }
           data-testid={ `${index}-recipe-card` }
+          onClick={ () => redirectToDetails(idMeal) }
+          onKeyDown={ redirectToDetails }
+          role="button"
+          tabIndex={ 0 }
         >
           <img
+            style={ { width: '300px' } }
             data-testid={ `${index}-card-img` }
             src={ strMealThumb }
             alt={ strMeal }
@@ -112,12 +125,17 @@ function SearchBar({ name }) {
         </div>
       ))
     ) : (
-      apiResultsSplited[name].map(({ strDrink, strDrinkThumb }, index) => (
+      apiResultsSplited[name].map(({ idDrink, strDrink, strDrinkThumb }, index) => (
         <div
           key={ strDrink }
           data-testid={ `${index}-recipe-card` }
+          onClick={ () => redirectToDetails(idDrink) }
+          onKeyDown={ redirectToDetails }
+          role="button"
+          tabIndex={ 0 }
         >
           <img
+            style={ { width: '300px' } }
             data-testid={ `${index}-card-img` }
             src={ strDrinkThumb }
             alt={ strDrink }
