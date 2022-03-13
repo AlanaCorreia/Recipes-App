@@ -1,0 +1,38 @@
+body {
+  margin: 20px
+}
+.img-recipe {
+  width: 80vw;
+  margin: 10px 10px 20px 28px;
+}
+
+.button-recipe {
+  font-size: 16px;
+  font-weight: bold;
+
+  color: #FFFFFF;
+  background-color: #6cbe29de;
+
+  border: none;
+  border-radius: 8px;
+
+  padding: 10px;
+}
+
+.button-recipe:hover {
+  background-color: #a5e670fa;
+}
+
+.button-recipe:active {
+  background-color: #76d627ab;
+}
+
+.icon-button {
+  margin: 10px;
+}
+
+.recommended-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
