@@ -48,68 +48,72 @@ function DrinksById() {
             src={ recipe.strDrinkThumb }
             alt={ recipe.strDrink }
           />
-          <h1 data-testid="recipe-title">{recipe.strDrink}</h1>
-          <button data-testid="share-btn" type="button" className="icon-button">
-            <img src={ shareIcon } alt="share Icon" />
-          </button>
-          <button data-testid="favorite-btn" type="button" className="icon-button">
-            <img src={ whiteHeartIcon } alt="white Heart Icon" />
-          </button>
-          <p data-testid="recipe-category">{recipe.strCategory}</p>
-          <h2>Ingredients:</h2>
-          <ul>
-            {ingredients.length > 0 && measure.length > 0
-               && ingredients.map((element, index) => (
-                 <li
-                   key={ Math.random() }
-                   data-testid={ `${index}-ingredient-name-and-measure` }
-                 >
-                   <span>{element[1]}</span>
-                   {' - '}
-                   { measure[index] !== null && <span>{measure[index][1]}</span>}
-                 </li>
-               ))}
-          </ul>
-          <h2>Instructions</h2>
-          <p data-testid="instructions">{recipe.strInstructions}</p>
-          <h2>Recommended</h2>
-          {console.log(mealsRecommendation)}
-          <div className="recommended-container">
-            { mealsRecommendation.map((meal, index) => (
-              <div
-                key={ meal.strMeal }
-                data-testid={ `${index}-recomendation-card` }
-                // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
-                onClick={ () => handleClick(meal.idMeal) }
-                onKeyDown={ handleClick }
-                role="button"
-                tabIndex={ 0 }
-              >
-                <img
-                  style={ { width: '150px' } }
-                  data-testid={ `${index}-card-img` }
-                  src={ meal.strMealThumb }
-                  alt={ meal.strMeal }
-                />
-                <p>{meal.strCategory}</p>
-                <p data-testid={ `${index}-recomendation-card` }>
-                  {' '}
-                  { meal.strMeal }
-                </p>
-              </div>
-            ))}
+          <div className="details-container">
+            <div className="header-details-container">
+              <h1 className="title-recipe-drink" data-testid="recipe-title">
+                {recipe.strDrink}
+              </h1>
+              <button data-testid="share-btn" type="button" className="icon-button">
+                <img src={ shareIcon } alt="share Icon" />
+              </button>
+              <button data-testid="favorite-btn" type="button" className="icon-button">
+                <img src={ whiteHeartIcon } alt="white Heart Icon" />
+              </button>
+            </div>
+            <p className="category" data-testid="recipe-category">
+              {recipe.strCategory}
+            </p>
+            <h2 className="subtitles-recipe">Ingredients:</h2>
+            <ul className="ingredients-list">
+              {ingredients.length > 0 && measure.length > 0
+                && ingredients.map((element, index) => (
+                  <li
+                    key={ Math.random() }
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                  >
+                    <span>{element[1]}</span>
+                    {' - '}
+                    { measure[index] !== null && <span>{measure[index][1]}</span>}
+                  </li>
+                ))}
+            </ul>
+            <h2 className="subtitles-recipe">Instructions</h2>
+            <p data-testid="instructions">{recipe.strInstructions}</p>
+            <h2 className="subtitles-recipe">Recommended</h2>
+            <div className="recommended-container">
+              { mealsRecommendation.map((meal, index) => (
+                <div
+                  key={ meal.strMeal }
+                  data-testid={ `${index}-recomendation-card` }
+                  // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                  onClick={ () => handleClick(meal.idMeal) }
+                  onKeyDown={ handleClick }
+                  role="button"
+                  tabIndex={ 0 }
+                >
+                  <img
+                    style={ { width: '150px' } }
+                    data-testid={ `${index}-card-img` }
+                    src={ meal.strMealThumb }
+                    alt={ meal.strMeal }
+                  />
+                  <p className="recommended-category-text">{meal.strCategory}</p>
+                  <p data-testid={ `${index}-recomendation-card` }>
+                    {' '}
+                    { meal.strMeal }
+                  </p>
+                </div>
+              ))}
+            </div>
+            <button
+              data-testid="start-recipe-btn"
+              type="button"
+              onClick={ () => redirectClick(id) }
+              className="button-recipe"
+            >
+              Start recipe
+            </button>
           </div>
-          <div data-testid={ `${0}-recomendation-card` }>
-            <p>recomendação</p>
-          </div>
-          <button
-            data-testid="start-recipe-btn"
-            type="button"
-            onClick={ () => redirectClick(id) }
-            className="button-recipe"
-          >
-            Start recipe
-          </button>
         </div>
       ))}
     </div>

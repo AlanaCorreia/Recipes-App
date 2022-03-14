@@ -94,7 +94,7 @@ function FoodsById() {
               title={ recipe.idMeal }
             />
             <h2 className="subtitles-recipe">Recommended</h2>
-            <div className="elements-container">
+            <div className="recommended-container">
               { drinkRecommendation.map((drink, index) => (
                 <div
                   key={ drink.strDrink }
@@ -104,10 +104,10 @@ function FoodsById() {
                   onKeyDown={ handleClick }
                   role="button"
                   tabIndex={ 0 }
-                  className="element-container"
+                  // className="element-container"
                 >
                   <img
-                    className="img-recipe-details"
+                    style={ { width: '150px' } }
                     data-testid={ `${index}-card-img` }
                     src={ drink.strDrinkThumb }
                     alt={ drink.strDrink }

@@ -12,6 +12,12 @@
   margin-right: 60px;
 }
 
+.title-recipe-drink {
+  text-align: center;
+  font-size: 40px;
+  margin-right: 150px;
+}
+
 .subtitles-recipe {
   font-size: 26px;
 }
@@ -43,7 +49,7 @@
 }
 
 .img-recipe-details {
-  width: 258px;
+  width: 150x;
 }
 
 .recommended-category-text {
