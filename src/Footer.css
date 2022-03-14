@@ -6,3 +6,8 @@
   position: fixed;
   width: 100%;
 }
+
+.button-background {
+  border: none;
+  background-color: rgb(199, 199, 199);
+}

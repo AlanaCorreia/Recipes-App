@@ -1,4 +1,6 @@
 .header-content {
+  position: fixed;
+  top: 0;
   align-items: center;
   background-color: rgb(199, 199, 199);
   display: flex;
@@ -16,6 +18,7 @@
 }
 
 .img-icons {
+  border: none;
   height: 40px;
   width: 40px;
 }

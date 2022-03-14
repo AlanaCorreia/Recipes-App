@@ -5,6 +5,7 @@ import getIngredientsAndMeasure from '../helpers/getIngredientsAndMeasure';
 import fetchFoodApi from '../services/fetchApiFood';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import '../DetailsPage.css';
 
 function FoodsById() {
   const history = useHistory();
@@ -52,68 +53,85 @@ function FoodsById() {
             data-testid="recipe-photo"
             src={ recipe.strMealThumb }
             alt={ recipe.strMeal }
+            className="img-recipe"
           />
-          <h1 data-testid="recipe-title">{recipe.strMeal}</h1>
-          <button data-testid="share-btn" type="button">
-            <img src={ shareIcon } alt="share Icon" />
-          </button>
-          <button data-testid="favorite-btn" type="button">
-            <img src={ whiteHeartIcon } alt="white Heart Icon" />
-          </button>
-          <p data-testid="recipe-category">{recipe.strCategory}</p>
-          <h2>Ingredients:</h2>
-          <ul>
-            {ingredients.length > 0 && measure.length > 0
-                && ingredients.map((element, index) => (
-                  <li
-                    key={ Math.random() }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    <span>{element[1]}</span>
-                    {' - '}
-                    { measure[index] !== null && <span>{measure[index][1]}</span>}
-                  </li>
-                ))}
-          </ul>
-          <h2>Instructions</h2>
-          <p data-testid="instructions">{recipe.strInstructions}</p>
-          <iframe
-            data-testid="video"
-            src={ getVideo(recipe.strYoutube) }
-            title={ recipe.idMeal }
-          />
-          <h2>Recommended</h2>
-          {console.log(drinkRecommendation)}
-          { drinkRecommendation.map((drink, index) => (
-            <div
-              key={ drink.strDrink }
-              data-testid={ `${index}-recipe-card` }
-              // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
-              onClick={ () => handleClick(drink.idDrink) }
-              onKeyDown={ handleClick }
-              role="button"
-              tabIndex={ 0 }
-            >
-              <img
-                style={ { width: '150px' } }
-                data-testid={ `${index}-card-img` }
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrink }
-              />
-              <p>{drink.strAlcoholic}</p>
-              <p data-testid={ `${index}-recomendation-card` }>
-                {' '}
-                { drink.strDrink }
-              </p>
+          <div className="details-container">
+            <div className="header-details-container">
+              <h1 className="title-recipe" data-testid="recipe-title">
+                {recipe.strMeal}
+              </h1>
+              <button data-testid="share-btn" type="button" className="icon-btn">
+                <img src={ shareIcon } alt="share Icon" />
+              </button>
+              <button data-testid="favorite-btn" type="button" className="icon-btn">
+                <img src={ whiteHeartIcon } alt="white Heart Icon" />
+              </button>
             </div>
-          ))}
-          <button
-            data-testid="start-recipe-btn"
-            type="button"
-            onClick={ () => redirectClick(id) }
-          >
-            Start recipe
-          </button>
+            <p className="category" data-testid="recipe-category">
+              {recipe.strCategory}
+            </p>
+            <h2 className="subtitles-recipe">Ingredients:</h2>
+            <ul className="ingredients-list">
+              {ingredients.length > 0 && measure.length > 0
+                  && ingredients.map((element, index) => (
+                    <li
+                      key={ Math.random() }
+                      data-testid={ `${index}-ingredient-name-and-measure` }
+                    >
+                      <span>{element[1]}</span>
+                      {' - '}
+                      { measure[index] !== null && <span>{measure[index][1]}</span>}
+                    </li>
+                  ))}
+            </ul>
+            <h2 className="subtitles-recipe">Instructions</h2>
+            <p data-testid="instructions" className="instructions-text">
+              {recipe.strInstructions}
+            </p>
+            <iframe
+              data-testid="video"
+              src={ getVideo(recipe.strYoutube) }
+              title={ recipe.idMeal }
+            />
+            <h2 className="subtitles-recipe">Recommended</h2>
+            <div className="elements-container">
+              { drinkRecommendation.map((drink, index) => (
+                <div
+                  key={ drink.strDrink }
+                  data-testid={ `${index}-recipe-card` }
+                  // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                  onClick={ () => handleClick(drink.idDrink) }
+                  onKeyDown={ handleClick }
+                  role="button"
+                  tabIndex={ 0 }
+                  className="element-container"
+                >
+                  <img
+                    className="img-recipe-details"
+                    data-testid={ `${index}-card-img` }
+                    src={ drink.strDrinkThumb }
+                    alt={ drink.strDrink }
+                  />
+                  <p className="recommended-category-text">{drink.strAlcoholic}</p>
+                  <p
+                    className="recommended-text"
+                    data-testid={ `${index}-recomendation-card` }
+                  >
+                    {' '}
+                    { drink.strDrink }
+                  </p>
+                </div>
+              ))}
+            </div>
+            <button
+              className="button-recipe"
+              data-testid="start-recipe-btn"
+              type="button"
+              onClick={ () => redirectClick(id) }
+            >
+              Start recipe
+            </button>
+          </div>
         </div>
       ))}
     </div>
