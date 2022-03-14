@@ -10,6 +10,7 @@ import { searchDrinks, searchFoods } from '../services/searchApiByInputs';
 import { validateDrinks, validateMeals } from '../services/validateDatas';
 import renderCards from './renderCards';
 import '../PrincipalPage.css';
+import '../Header.css';
 
 function SearchBar({ name }) {
   const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
@@ -108,7 +109,7 @@ function SearchBar({ name }) {
   }
 
   return (
-    <div>
+    <div className="searchBar">
       {searchBarShow && (
         <div>
           <input
