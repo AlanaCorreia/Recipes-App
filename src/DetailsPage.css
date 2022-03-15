@@ -1,0 +1,107 @@
+.details-container {
+  margin: 20px 20px 70px;
+}
+
+.img-recipe {
+  width: 100vw;
+}
+
+.title-recipe {
+  font-size: 40px;
+  margin-right: 40px;
+  text-align: center;
+}
+
+.title-recipe-drink {
+  font-size: 40px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.subtitles-recipe {
+  font-size: 26px;
+}
+
+.category {
+  font-size: 22px;
+  margin-left: 7px;
+}
+
+.header-details-container {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon-btn {
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.ingredients-list {
+  margin-left: 25px;
+}
+
+.instructions-text {
+  margin-bottom: 20px;
+  margin-left: 10px;
+  text-align: justify;
+}
+
+.img-recipe-details {
+  width: 150px;
+}
+
+.button-recipe {
+  background-color: #6cbe29de;
+  border: none;
+  border-radius: 8px;
+  bottom: 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 10px;
+  padding: 10px;
+  position: fixed;
+}
+
+.button-recipe:hover {
+  background-color: #a5e670fa;
+}
+
+.button-recipe:active {
+  background-color: #76d627ab;
+}
+
+.icon-button {
+  margin: 10px;
+}
+
+.recommended-container {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.recommended-card {
+  border: 1px solid gray;
+  border-radius: 8px;
+  box-shadow: 3px 3px 3px dimgray;
+  margin-right: 8px;
+}
+
+.recommended-img {
+  width: 150px;
+}
+
+.recommended-category-text {
+  font-size: 18px;
+  font-style: italic;
+  margin: 3px auto 0;
+  text-align: center;
+}
+
+.recommended-text {
+  font-size: 20px;
+  margin-bottom: 3px;
+  text-align: center;
+}
