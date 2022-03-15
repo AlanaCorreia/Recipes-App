@@ -1,47 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
+import img from '../images/shareIcon.svg';
 import Header from '../components/Header';
-import Header2 from '../components/Header2';
 
-const doneRecipes = [
-  {
-    id: '52771',
-    type: 'food',
-    nationality: 'Italian',
-    category: 'Vegetarian',
-    alcoholicOrNot: '',
-    name: 'Spicy Arrabiata Penne',
-    image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    doneDate: '23/06/2020',
-    tags: ['Pasta', 'Curry'],
-  },
-  {
-    id: '178319',
-    type: 'drink',
-    nationality: '',
-    category: 'Cocktail',
-    alcoholicOrNot: 'Alcoholic',
-    name: 'Aquamarine',
-    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-    doneDate: '23/06/2020',
-    tags: [],
-  },
-];
-
-function printTags(arrayTags) {
-  if (arrayTags.length > 2) {
-    return arrayTags.slice(0, 2);
-  }
-  return arrayTags;
-}
+const copy = require('clipboard-copy');
 
 function DoneRecipes() {
+  const [linkCopied, setLinkCopied] = useState(false);
+  const doneRecipesArray = [
+    {
+      id: '52771',
+      type: 'food',
+      nationality: 'Italian',
+      category: 'Vegetarian',
+      alcoholicOrNot: '',
+      name: 'Spicy Arrabiata Penne',
+      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+      doneDate: '23/06/2020',
+      tags: ['Pasta', 'Curry'],
+    },
+    {
+      id: '178319',
+      type: 'drink',
+      nationality: '',
+      category: 'Cocktail',
+      alcoholicOrNot: 'Alcoholic',
+      name: 'Aquamarine',
+      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+      doneDate: '23/06/2020',
+      tags: [],
+    },
+  ];
+
+  function shareButtonClick(type, id) {
+    if (type === 'food') {
+      copy(`http://localhost:3000/foods/${id}`);
+      setLinkCopied(true);
+    } else {
+      copy(`http://localhost:3000/drinks/${id}`);
+      setLinkCopied(true);
+    }
+  }
+
+  function printTags(arrayTags) {
+    if (arrayTags.length > 2) {
+      return arrayTags.slice(0, 2);
+    }
+    return arrayTags;
+  }
+
   return (
     <div>
       <div className="header-content">
         <Header name="Done Recipes" />
       </div>
-      <Header2 />
-      {doneRecipes.map((element, index) => {
+      <div>
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          // onClick={ () => filterDoneRecipes('all', doneRecipesArray, setDoneRecipesArray) }
+        >
+          All
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-food-btn"
+          // onClick={ () => filterDoneRecipes('foods', doneRecipesArray, setDoneRecipesArray) }
+
+        >
+          Food
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          // onClick={ () => filterDoneRecipes('drinks', doneRecipesArray, setDoneRecipesArray) }
+        >
+          Drinks
+        </button>
+      </div>
+      {linkCopied && <p>Link copied!</p>}
+      {doneRecipesArray.map((element, index) => {
         if (element.type === 'food') {
           return (
             <div key={ element.id }>
@@ -69,7 +106,7 @@ function DoneRecipes() {
               <ul>
                 {element.tags.length >= 1 && printTags(element.tags).map((tagElement) => (
                   <li
-                    key={ element.id }
+                    key={ tagElement }
                     data-testid={ `${index}-${tagElement}-horizontal-tag` }
                   >
                     {tagElement}
@@ -77,10 +114,13 @@ function DoneRecipes() {
               </ul>
               <button
                 type="button"
-                data-testid={ `${index}-horizontal-share-btn` }
-                src="src/images/shareIcon.svg"
+                onClick={ () => shareButtonClick(element.type, element.id) }
               >
-                Share
+                <img
+                  src={ img }
+                  alt={ element.name }
+                  data-testid={ `${index}-horizontal-share-btn` }
+                />
               </button>
             </div>
           );
@@ -110,10 +150,13 @@ function DoneRecipes() {
             </p>
             <button
               type="button"
-              data-testid={ `${index}-horizontal-share-btn` }
-              src="src/images/shareIcon.svg"
+              onClick={ () => shareButtonClick(element.type, element.id) }
             >
-              Share
+              <img
+                src={ img }
+                alt={ element.name }
+                data-testid={ `${index}-horizontal-share-btn` }
+              />
             </button>
           </div>
         );
