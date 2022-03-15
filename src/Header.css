@@ -1,11 +1,10 @@
 .header-content {
-  position: fixed;
-  top: 0;
   align-items: center;
   background-color: rgb(199, 199, 199);
   display: flex;
   height: 45px;
   justify-content: space-between;
+  position: fixed;
   top: 0;
   width: 100%;
 }
@@ -26,4 +25,3 @@
 .searchBar {
   margin: 50px auto 10px;
 }
-

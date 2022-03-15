@@ -7,15 +7,15 @@
 }
 
 .title-recipe {
-  text-align: center;
   font-size: 40px;
   margin-right: 40px;
+  text-align: center;
 }
 
 .title-recipe-drink {
-  text-align: center;
   font-size: 40px;
   margin-right: 5px;
+  text-align: center;
 }
 
 .subtitles-recipe {
@@ -28,14 +28,14 @@
 }
 
 .header-details-container {
+  align-items: center;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
 }
 
 .icon-btn {
-  padding: 5px;
   margin-right: 5px;
+  padding: 5px;
 }
 
 .ingredients-list {
@@ -43,26 +43,26 @@
 }
 
 .instructions-text {
+  margin-bottom: 20px;
   margin-left: 10px;
   text-align: justify;
-  margin-bottom: 20px;
 }
 
 .img-recipe-details {
-  width: 150x;
+  width: 150px;
 }
 
 .button-recipe {
-  position: fixed;
-  bottom: 0;
-  font-size: 16px;
-  font-weight: bold;
-  color: #FFFFFF;
   background-color: #6cbe29de;
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  bottom: 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
   margin-bottom: 10px;
+  padding: 10px;
+  position: fixed;
 }
 
 .button-recipe:hover {
@@ -83,10 +83,10 @@
 }
 
 .recommended-card {
-  margin-right: 8px;
   border: 1px solid gray;
   border-radius: 8px;
-  box-shadow: 3px 3px 3px rgb(105, 105, 105);
+  box-shadow: 3px 3px 3px dimgray;
+  margin-right: 8px;
 }
 
 .recommended-img {
@@ -94,14 +94,14 @@
 }
 
 .recommended-category-text {
-  text-align: center;
   font-size: 18px;
   font-style: italic;
-  margin: 3px auto 0px;
+  margin: 3px auto 0;
+  text-align: center;
 }
 
 .recommended-text {
-  text-align: center;
   font-size: 20px;
   margin-bottom: 3px;
+  text-align: center;
 }

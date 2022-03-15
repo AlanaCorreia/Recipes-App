@@ -10,9 +10,9 @@
 }
 
 .title-recipe {
-  text-align: center;
   font-size: 25px;
   margin: 5px;
+  text-align: center;
 }
 
 .category-buttons-container {
@@ -25,6 +25,6 @@
 .category-buttons {
   border: 1px solid gray;
   border-radius: 2px;
-  padding: 8px;
   margin-bottom: 8px;
+  padding: 8px;
 }
