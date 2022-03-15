@@ -177,10 +177,10 @@ function FoodsById() {
                   onKeyDown={ handleClick }
                   role="button"
                   tabIndex={ 0 }
-                  // className="element-container"
+                  className="recommended-card"
                 >
                   <img
-                    style={ { width: '150px' } }
+                    className="recommended-img"
                     data-testid={ `${index}-card-img` }
                     src={ drink.strDrinkThumb }
                     alt={ drink.strDrink }

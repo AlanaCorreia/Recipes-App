@@ -52,18 +52,6 @@
   width: 150x;
 }
 
-.recommended-category-text {
-  text-align: center;
-  font-size: 18px;
-  font-style: italic;
-  margin: 10px auto 5px;
-}
-
-.recommended-text {
-  text-align: center;
-  font-size: 20px;
-}
-
 .button-recipe {
   position: fixed;
   bottom: 0;
@@ -91,6 +79,29 @@
 
 .recommended-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  overflow-x: scroll;
+}
+
+.recommended-card {
+  margin-right: 8px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  box-shadow: 3px 3px 3px rgb(105, 105, 105);
+}
+
+.recommended-img {
+  width: 150px;
+}
+
+.recommended-category-text {
+  text-align: center;
+  font-size: 18px;
+  font-style: italic;
+  margin: 3px auto 0px;
+}
+
+.recommended-text {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 3px;
 }
