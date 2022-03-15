@@ -17,15 +17,15 @@ function Explore() {
       </div>
       <div className="explore-buttons">
         <button
-          className="buttons"
+          className="buttons-explore"
           type="button"
           data-testid="explore-foods"
           onClick={ () => handleClick('/explore/foods') }
         >
-          <p>Explore Foods</p>
+          Explore Foods
         </button>
         <button
-          className="buttons"
+          className="buttons-explore"
           type="button"
           data-testid="explore-drinks"
           onClick={ () => handleClick('/explore/drinks') }

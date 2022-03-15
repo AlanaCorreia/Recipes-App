@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { MIN_PASSWORD_VALUE } from '../services/consts';
+import '../Login.css';
 
 function Login() {
   const [stateEmail, setStateEmail] = useState('');
@@ -38,30 +39,35 @@ function Login() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input
-        type="email"
-        data-testid="email-input"
-        placeholder="Email"
-        value={ stateEmail }
-        onChange={ (event) => handleChange(event, setStateEmail) }
-      />
-      <input
-        type="password"
-        data-testid="password-input"
-        placeholder="Password"
-        value={ statePassword }
-        onChange={ (event) => handleChange(event, setStatePassword) }
-      />
-      <button
-        type="button"
-        disabled={ isDisabled }
-        data-testid="login-submit-btn"
-        onClick={ clickButton }
-      >
-        Enter
-      </button>
+    <div className="login-container">
+      <h1 className="title-header">Login</h1>
+      <form className="login-form-container">
+        <input
+          type="email"
+          data-testid="email-input"
+          placeholder="Email"
+          value={ stateEmail }
+          onChange={ (event) => handleChange(event, setStateEmail) }
+          className="login-input-form"
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          placeholder="Password"
+          value={ statePassword }
+          onChange={ (event) => handleChange(event, setStatePassword) }
+          className="login-input-form"
+        />
+        <button
+          type="button"
+          disabled={ isDisabled }
+          data-testid="login-submit-btn"
+          onClick={ clickButton }
+          className="login-btn-entrar"
+        >
+          Enter
+        </button>
+      </form>
       {isRedirect && <Redirect to="/foods" />}
     </div>
   );
