@@ -18,6 +18,7 @@ function FoodsById() {
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
 
@@ -42,6 +43,7 @@ function FoodsById() {
 
   useEffect(() => {
     getFetchFoodApi();
+
     checkIsFavorite();
   }, []);
 
@@ -215,5 +217,4 @@ function FoodsById() {
     </div>
   );
 }
-
 export default FoodsById;
