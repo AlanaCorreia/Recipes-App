@@ -7,7 +7,8 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../DetailsPage.css';
-import { removeFavoriteRecipe, setStorageFavoriteFood } from '../helpers/localStorage';
+import { checkRecipeFavorite, removeFavoriteRecipe,
+  setStorageFavoriteFood } from '../helpers/localStorage';
 
 const copy = require('clipboard-copy');
 
@@ -28,13 +29,20 @@ function FoodsById() {
     const resultsApi = await fetchFoodApi(`lookup.php?i=${id}`);
     setRecipeFood(resultsApi.meals);
     const ingredientsReturn = getIngredientsAndMeasure('9', '29', resultsApi.meals);
-    setIngredients(ingredientsReturn.filter((element) => element[1] !== ''));
+    setIngredients(ingredientsReturn
+      .filter((element) => element[0].includes('strIngredient')
+    && element[1] !== null && element[1] !== ''));
     const measuresReturn = getIngredientsAndMeasure('29', '48', resultsApi.meals);
     setMeasure(measuresReturn.filter((element) => element[1] !== ' '));
   }
 
+  function checkIsFavorite() {
+    setCheckFavorite(checkRecipeFavorite(id));
+  }
+
   useEffect(() => {
     getFetchFoodApi();
+    checkIsFavorite();
   }, []);
 
   function getVideo(url) {
@@ -96,10 +104,14 @@ function FoodsById() {
   }
 
   function clickFavorite() {
-    setCheckFavorite(!checkFavorite);
     if (checkFavorite) {
+      setCheckFavorite(false);
+      removeFavoriteRecipe(id);
+    } else {
+      setCheckFavorite(true);
+      console.log('setou', checkFavorite);
       setStorageFavoriteFood(recipeFood[0]);
-    } removeFavoriteRecipe(id);
+    }
   }
 
   return (

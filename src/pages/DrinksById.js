@@ -7,7 +7,8 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../DetailsPage.css';
-import { removeFavoriteRecipe, setStorageFavoriteDrink } from '../helpers/localStorage';
+import { checkRecipeFavorite, removeFavoriteRecipe,
+  setStorageFavoriteDrink } from '../helpers/localStorage';
 
 const copy = require('clipboard-copy');
 
@@ -27,13 +28,24 @@ function DrinksById() {
   async function getFetchDrinkApi() {
     const resultsApi = await fetchDrinkApi(`lookup.php?i=${id}`);
     setRecipeDrink(resultsApi.drinks);
+    console.log('api', resultsApi.drinks);
     const ingredientsReturn = getIngredientsAndMeasure('17', '32', resultsApi.drinks);
-    setIngredients(ingredientsReturn.filter((element) => element[1] !== null));
-    setMeasure(getIngredientsAndMeasure('32', '47', resultsApi.drinks));
+    setIngredients(ingredientsReturn
+      .filter((element) => element[0].includes('strIngredient')
+      && element[1] !== null && element[1] !== ''));
+    const measuresReturn = getIngredientsAndMeasure('32', '47', resultsApi.drinks);
+    setMeasure(measuresReturn.filter((element) => element[0].includes('strMeasure')
+    && element[1] !== null && element[1] !== ''));
+    console.log('measures', measuresReturn);
+  }
+
+  function checkIsFavorite() {
+    setCheckFavorite(checkRecipeFavorite(id));
   }
 
   useEffect(() => {
     getFetchDrinkApi();
+    checkIsFavorite();
   }, []);
 
   const redirectClick = (idRecipe) => {
@@ -45,11 +57,9 @@ function DrinksById() {
     const inProgressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const doneRecipeStorage = JSON.parse(localStorage.getItem('doneRecipes'));
 
-    console.log(inProgressStorage);
     if (doneRecipeStorage !== null) {
       const filterDoneRecipe = doneRecipeStorage.filter(({ name }) => (
         name === recipeName));
-      console.log(filterDoneRecipe);
       if (filterDoneRecipe.length > 0) {
         return '';
       }
@@ -89,10 +99,14 @@ function DrinksById() {
   }
 
   function clickFavorite() {
-    setCheckFavorite(!checkFavorite);
     if (checkFavorite) {
+      setCheckFavorite(false);
+      removeFavoriteRecipe(id);
+    } else {
+      setCheckFavorite(true);
+      console.log('setou', checkFavorite);
       setStorageFavoriteDrink(recipeDrink[0]);
-    } removeFavoriteRecipe(id);
+    }
   }
 
   return (

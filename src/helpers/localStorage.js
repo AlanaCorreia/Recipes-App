@@ -1,3 +1,5 @@
+const favoriteStorageKey = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
 export function setStorageFavoriteDrink(recipe) {
   const favoriteKey = {
     id: recipe.idDrink,
@@ -23,12 +25,23 @@ export function setStorageFavoriteDrink(recipe) {
 }
 
 export function removeFavoriteRecipe(idRecipe) {
-  const filterRemoveFavorite = favoriteStorageKey
-    .filter((favRecipe) => favRecipe.id !== idRecipe);
+  if (favoriteStorageKey) {
+    const filterRemoveFavorite = favoriteStorageKey
+      .filter((favRecipe) => favRecipe.id !== idRecipe);
 
-  localStorage.setItem('favoriteRecipes', JSON.stringify(
-    [...filterRemoveFavorite],
-  ));
+    localStorage.setItem('favoriteRecipes', JSON.stringify(
+      [...filterRemoveFavorite],
+    ));
+  }
+}
+
+export function checkRecipeFavorite(id) {
+  if (favoriteStorageKey) {
+    const searchFavorite = favoriteStorageKey.find((favorite) => favorite.id === id);
+    if (searchFavorite) {
+      return true;
+    }
+  } return false;
 }
 
 export function setStorageFavoriteFood(recipe) {
