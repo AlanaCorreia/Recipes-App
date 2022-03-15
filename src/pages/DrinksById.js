@@ -7,7 +7,7 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../DetailsPage.css';
-import { setStorageFavoriteDrink } from '../helpers/localStorage';
+import { removeFavoriteRecipe, setStorageFavoriteDrink } from '../helpers/localStorage';
 
 const copy = require('clipboard-copy');
 
@@ -37,8 +37,7 @@ function DrinksById() {
   }, []);
 
   const redirectClick = (idRecipe) => {
-    setLocalStorage();
-    history.push(`/drinks/${idRecipe}/in`);
+    history.push(`/drinks/${idRecipe}/in-progress`);
   };
 
   function checkRecipe() {
@@ -64,7 +63,7 @@ function DrinksById() {
           onClick={ () => redirectClick(id) }
           className="button-recipe"
         >
-          Continue recipe
+          Continue Recipe
         </button>);
     }
 
@@ -121,12 +120,12 @@ function DrinksById() {
                   <img src={ shareIcon } alt="share Icon" />
                 </button>
                 <button
-                  data-testid="favorite-btn"
                   type="button"
                   className="icon-button"
                   onClick={ clickFavorite }
                 >
                   <img
+                    data-testid="favorite-btn"
                     src={ checkFavorite
                       ? blackHeartIcon : whiteHeartIcon }
                     alt={ checkFavorite
@@ -136,7 +135,7 @@ function DrinksById() {
               </div>
               { checkCopy && (<p>Link copied!</p>)}
               <p className="category" data-testid="recipe-category">
-                {recipe.strCategory}
+                {recipe.strAlcoholic}
               </p>
               <h2 className="subtitles-recipe">Ingredients:</h2>
               <ul className="ingredients-list">
@@ -148,7 +147,7 @@ function DrinksById() {
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
                       <span>{element[1]}</span>
-                      {' - '}
+                      {' '}
                       {measure[index] !== null && (
                         <span>{measure[index][1]}</span>
                       )}
@@ -179,7 +178,7 @@ function DrinksById() {
                     <p className="recommended-category-text">
                       {meal.strCategory}
                     </p>
-                    <p data-testid={ `${index}-recomendation-card` }>
+                    <p data-testid={ `${index}-recomendation-title` }>
                       {' '}
                       {meal.strMeal}
                     </p>

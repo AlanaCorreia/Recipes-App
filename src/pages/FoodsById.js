@@ -7,7 +7,7 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../DetailsPage.css';
-import { setStorageFavoriteFood } from '../helpers/localStorage';
+import { removeFavoriteRecipe, setStorageFavoriteFood } from '../helpers/localStorage';
 
 const copy = require('clipboard-copy');
 
@@ -70,7 +70,7 @@ function FoodsById() {
           onClick={ () => redirectClick(id) }
           className="button-recipe"
         >
-          Continue recipe
+          Continue Recipe
         </button>);
     }
 
@@ -121,17 +121,17 @@ function FoodsById() {
                 data-testid="share-btn"
                 type="button"
                 className="icon-btn"
-                onClick={ () => clipboardCopy(recipe.idDrink) }
+                onClick={ () => clipboardCopy(recipe.idMeal) }
               >
                 <img src={ shareIcon } alt="share Icon" />
               </button>
               <button
-                data-testid="favorite-btn"
                 type="button"
                 className="icon-btn"
                 onClick={ clickFavorite }
               >
                 <img
+                  data-testid="favorite-btn"
                   src={ checkFavorite
                     ? blackHeartIcon : whiteHeartIcon }
                   alt={ checkFavorite
@@ -152,7 +152,7 @@ function FoodsById() {
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
                       <span>{element[1]}</span>
-                      {' - '}
+                      {' '}
                       { measure[index] !== null && <span>{measure[index][1]}</span>}
                     </li>
                   ))}
@@ -171,7 +171,7 @@ function FoodsById() {
               { drinkRecommendation.map((drink, index) => (
                 <div
                   key={ drink.strDrink }
-                  data-testid={ `${index}-recipe-card` }
+                  data-testid={ `${index}-recomendation-card` }
                   // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
                   onClick={ () => handleClick(drink.idDrink) }
                   onKeyDown={ handleClick }
@@ -188,7 +188,7 @@ function FoodsById() {
                   <p className="recommended-category-text">{drink.strAlcoholic}</p>
                   <p
                     className="recommended-text"
-                    data-testid={ `${index}-recomendation-card` }
+                    data-testid={ `${index}-recomendation-title` }
                   >
                     {' '}
                     { drink.strDrink }
