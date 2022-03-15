@@ -20,19 +20,15 @@ function DrinksByIdInProgress() {
       && element[1] !== null && element[1] !== ''));
   }
 
-  const progressDrinks = {
-    cocktails: {
-      [id]: ingredients.map((element) => element[1]),
-    },
-  };
-  console.log(progressDrinks);
+  const cocktails = { [id]: ingredients.map((element) => element[1]) };
+
+  const ingredientList = document.querySelector('#ingredientsList');
+  console.log(ingredientList);
 
   function progressStore() {
     const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (progressStorage === null) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify(progressDrinks));
-    } else {
-      localStorage.setItem('inProgressRecipes', { ...progressDrinks.cocktails });
+      localStorage.setItem('inProgressRecipes', JSON.stringify(cocktails));
     }
   }
 
@@ -41,8 +37,11 @@ function DrinksByIdInProgress() {
     progressStore();
   }, []);
 
+  useEffect(() => {
+    console.log('entrou');
+  }, [ingredients]);
+
   function handleCheckbox({ target }) {
-    console.log(target.parentNode);
     if (target.checked === true) {
       target.parentNode.className = 'selected';
     } else {
@@ -66,7 +65,7 @@ function DrinksByIdInProgress() {
 
           <p data-testid="recipe-category">{recipe.strCategory}</p>
           <h2>Ingredients:</h2>
-          <ul>
+          <ul id="ingredientsList">
             {
               ingredients.map((element, index) => (
                 <li
