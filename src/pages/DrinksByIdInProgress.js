@@ -8,21 +8,46 @@ function DrinksByIdInProgress() {
   const { location: { pathname } } = history;
   const [recipeDrink, setRecipeDrink] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-
   const id = pathname.replace(/[^0-9]/g, '');
+
   async function getFetchDrinkApi() {
     const resultsApi = await fetchDrinkApi(`lookup.php?i=${id}`);
     setRecipeDrink(resultsApi.drinks);
-    const ingredientsReturn = getIngredientsAndMeasure('17', '24', resultsApi.drinks);
+
+    const ingredientsReturn = getIngredientsAndMeasure('17', '32', resultsApi.drinks);
     setIngredients(ingredientsReturn
-      .filter((element) => element[1] !== null && element[1] !== ''));
+      .filter((element) => element[0].includes('strIngredient')
+      && element[1] !== null && element[1] !== ''));
   }
 
-  console.log(recipeDrink);
+  const progressDrinks = {
+    cocktails: {
+      [id]: ingredients.map((element) => element[1]),
+    },
+  };
+  console.log(progressDrinks);
+
+  /*   function progressStore() {
+    const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (progressStorage === null) {
+      localStorage.setItem('inProgressRecipes', progressDrinks);
+    } else {
+
+    }
+  } */
+
   useEffect(() => {
     getFetchDrinkApi();
   }, []);
 
+  function handleCheckbox({ target }) {
+    console.log(target.parentNode);
+    if (target.checked === true) {
+      target.parentNode.className = 'selected';
+    } else {
+      target.parentNode.className = 'not-selected';
+    }
+  }
   return (
     <div>
 
@@ -46,8 +71,9 @@ function DrinksByIdInProgress() {
                 <li
                   key={ index }
                   data-testid={ `${index}-ingredient-step` }
+                  className="not-selected"
                 >
-                  <input type="checkbox" />
+                  <input type="checkbox" onClick={ (event) => handleCheckbox(event) } />
                   <span>{element[1]}</span>
                 </li>
               ))

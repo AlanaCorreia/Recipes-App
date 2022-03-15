@@ -14,13 +14,24 @@ function FoodsByIdInProgress() {
   async function getFetchFoodApi() {
     const resultsApi = await fetchFoodApi(`lookup.php?i=${id}`);
     setRecipeFood(resultsApi.meals);
-    const ingredientsReturn = getIngredientsAndMeasure('9', '17', resultsApi.meals);
-    setIngredients(ingredientsReturn.filter((element) => element[1] !== ''));
+    const ingredientsReturn = getIngredientsAndMeasure('9', '29', resultsApi.meals);
+    setIngredients(ingredientsReturn
+      .filter((element) => element[0].includes('strIngredient')
+    && element[1] !== null && element[1] !== ''));
   }
 
   useEffect(() => {
     getFetchFoodApi();
   }, []);
+
+  function handleCheckbox({ target }) {
+    console.log(target.parentNode);
+    if (target.checked === true) {
+      target.parentNode.className = 'selected';
+    } else {
+      target.parentNode.className = 'not-selected';
+    }
+  }
 
   return (
     <div>
@@ -42,7 +53,12 @@ function FoodsByIdInProgress() {
                 <li
                   key={ Math.random() }
                   data-testid={ `${index}-ingredient-step` }
+                  className="not-selected"
                 >
+                  <input
+                    type="checkbox"
+                    onClick={ (event) => handleCheckbox(event) }
+                  />
                   <span>{element[1]}</span>
                 </li>
               ))}

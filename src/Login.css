@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.login-container {
+  background: url('./images/fundo-de-culinaria.jpg');
+  border: 1px solid rgb(214, 217, 220);
+  border-radius: 10px;
+  box-shadow: 7px 5px 5px darkgrey;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  margin: 20% 30px;
+  opacity: 0.7;
+  padding: 50px;
+  position: absolute;
+  width: 80vw;
+  z-index: -1;
+}
+
+.title-header {
+  color: black;
+  font-size: 50px;
+  font-weight: 300;
+  margin: 10px auto 30px;
+  text-align: center;
+}
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 100%;
+}
+
+input {
+  outline: none;
+}
+
+.login-input-form {
+  background-color: white;
+  border: 1px solid rgb(214, 217, 220);
+  border-radius: 8px;
+  font-size: 14px;
+  margin: 8px auto;
+  padding: 7px;
+  width: 100%;
+}
+
+.login-input-form:hover {
+  box-shadow: 5px 5px 8px rgb(65, 65, 65);
+}
+
+.login-btn-entrar {
+  background-color: #6cbe29c4;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  margin-top: 25px;
+  padding: 10px;
+}
+
+.login-btn-entrar:hover {
+  background-color: #a5e670fa;
+}
+
+.login-btn-entrar:active {
+  background-color: #76d627ab;
+}

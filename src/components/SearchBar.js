@@ -9,6 +9,8 @@ import { DEFAULT_URL_API, MAX_NUMBER_CARDS,
 import { searchDrinks, searchFoods } from '../services/searchApiByInputs';
 import { validateDrinks, validateMeals } from '../services/validateDatas';
 import renderCards from './renderCards';
+import '../PrincipalPage.css';
+import '../Header.css';
 
 function SearchBar({ name }) {
   const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
@@ -100,7 +102,7 @@ function SearchBar({ name }) {
     }
   }
   return (
-    <div>
+    <div className="searchBar">
       {searchBarShow && (
         <div>
           <input
@@ -154,25 +156,28 @@ function SearchBar({ name }) {
           </button>
         </div>
       )}
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        className="not-selected"
-        onClick={ (event) => filterCategory(event, 'all') }
-      >
-        All
-      </button>
-      {categories[name].map(({ strCategory }) => (
+      <div className="category-buttons-container">
         <button
           type="button"
-          data-testid={ `${strCategory}-category-filter` }
-          key={ strCategory }
-          className="not-selected"
-          onClick={ (event) => filterCategory(event, strCategory) }
+          data-testid="All-category-filter"
+          className="not-selected category-buttons"
+          onClick={ (event) => filterCategory(event, 'all') }
         >
-          {strCategory}
+          All
         </button>
-      ))}
+        {categories[name].map(({ strCategory }) => (
+          <button
+            type="button"
+            data-testid={ `${strCategory}-category-filter` }
+            key={ strCategory }
+            className="not-selected category-buttons"
+            onClick={ (event) => filterCategory(event, strCategory) }
+          >
+            {strCategory}
+          </button>
+        ))}
+      </div>
+
       {renderCards(apiResultsSplited, name, redirectToDetails)}
     </div>
   );
