@@ -5,7 +5,11 @@ import getIngredientsAndMeasure from '../helpers/getIngredientsAndMeasure';
 import fetchFoodApi from '../services/fetchApiFood';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../DetailsPage.css';
+import { setStorageFavoriteFood } from '../helpers/localStorage';
+
+const copy = require('clipboard-copy');
 
 function FoodsById() {
   const history = useHistory();
@@ -13,6 +17,8 @@ function FoodsById() {
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [checkCopy, setCheckCopy] = useState(false);
+  const [checkFavorite, setCheckFavorite] = useState(false);
 
   const { drinkRecommendation } = useContext(MyContext);
 
@@ -37,13 +43,64 @@ function FoodsById() {
     return videoUrl;
   }
 
+  const redirectClick = (idRecipe) => {
+    history.push(`/foods/${idRecipe}/in-progress`);
+  };
+
+  function checkRecipe() {
+    const recipeName = recipeFood.length > 0 ? recipeFood[0].strMeal : '';
+    const inProgressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const doneRecipeStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+
+    console.log(inProgressStorage);
+    if (doneRecipeStorage !== null) {
+      const filterDoneRecipe = doneRecipeStorage.filter(({ name }) => (
+        name === recipeName));
+      console.log(filterDoneRecipe);
+      if (filterDoneRecipe.length > 0) {
+        return '';
+      }
+    }
+
+    if (inProgressStorage !== null && inProgressStorage.meals[id] !== null) {
+      return (
+        <button
+          data-testid="start-recipe-btn"
+          type="button"
+          onClick={ () => redirectClick(id) }
+          className="button-recipe"
+        >
+          Continue recipe
+        </button>);
+    }
+
+    return (
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        onClick={ () => redirectClick(id) }
+        className="button-recipe"
+      >
+        Start recipe
+      </button>
+    );
+  }
+
   function handleClick(idReceita) {
     history.push(`/drinks/${idReceita}`);
   }
 
-  const redirectClick = (idRecipe) => {
-    history.push(`/foods/${idRecipe}/in-progress`);
-  };
+  function clipboardCopy(idLink) {
+    copy(`http://localhost:3000/foods/${idLink}`);
+    setCheckCopy(true);
+  }
+
+  function clickFavorite() {
+    setCheckFavorite(!checkFavorite);
+    if (checkFavorite) {
+      setStorageFavoriteFood(recipeFood[0]);
+    } removeFavoriteRecipe(id);
+  }
 
   return (
     <div>
@@ -60,13 +117,29 @@ function FoodsById() {
               <h1 className="title-recipe" data-testid="recipe-title">
                 {recipe.strMeal}
               </h1>
-              <button data-testid="share-btn" type="button" className="icon-btn">
+              <button
+                data-testid="share-btn"
+                type="button"
+                className="icon-btn"
+                onClick={ () => clipboardCopy(recipe.idDrink) }
+              >
                 <img src={ shareIcon } alt="share Icon" />
               </button>
-              <button data-testid="favorite-btn" type="button" className="icon-btn">
-                <img src={ whiteHeartIcon } alt="white Heart Icon" />
+              <button
+                data-testid="favorite-btn"
+                type="button"
+                className="icon-btn"
+                onClick={ clickFavorite }
+              >
+                <img
+                  src={ checkFavorite
+                    ? blackHeartIcon : whiteHeartIcon }
+                  alt={ checkFavorite
+                    ? 'black Heart Icon"' : 'white Heart Icon' }
+                />
               </button>
             </div>
+            { checkCopy && (<p>Link copied!</p>)}
             <p className="category" data-testid="recipe-category">
               {recipe.strCategory}
             </p>
@@ -123,14 +196,7 @@ function FoodsById() {
                 </div>
               ))}
             </div>
-            <button
-              className="button-recipe"
-              data-testid="start-recipe-btn"
-              type="button"
-              onClick={ () => redirectClick(id) }
-            >
-              Start recipe
-            </button>
+            { checkRecipe() }
           </div>
         </div>
       ))}
