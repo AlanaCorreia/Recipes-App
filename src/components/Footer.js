@@ -15,18 +15,31 @@ function Footer() {
   return (
     <footer data-testid="footer" className="footer-bar">
       <button
+        className="button-background"
         type="button"
         onClick={ () => handleClick('/drinks') }
       >
-        <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="drink icon" />
+        <img
+          data-testid="drinks-bottom-btn"
+          src={ drinkIcon }
+          alt="drink icon"
+          className="img-icons"
+        />
       </button>
       <button
+        className="button-background"
         type="button"
         onClick={ () => handleClick('/explore') }
       >
-        <img data-testid="explore-bottom-btn" src={ explore } alt="explore icon" />
+        <img
+          data-testid="explore-bottom-btn"
+          src={ explore }
+          alt="explore icon"
+          className="img-icons"
+        />
       </button>
       <button
+        className="button-background"
         type="button"
         onClick={ () => handleClick('/foods') }
       >
