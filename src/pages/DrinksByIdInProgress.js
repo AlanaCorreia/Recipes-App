@@ -27,17 +27,18 @@ function DrinksByIdInProgress() {
   };
   console.log(progressDrinks);
 
-  /*   function progressStore() {
+  function progressStore() {
     const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (progressStorage === null) {
-      localStorage.setItem('inProgressRecipes', progressDrinks);
+      localStorage.setItem('inProgressRecipes', JSON.stringify(progressDrinks));
     } else {
-
+      localStorage.setItem('inProgressRecipes', { ...progressDrinks.cocktails });
     }
-  } */
+  }
 
   useEffect(() => {
     getFetchDrinkApi();
+    progressStore();
   }, []);
 
   function handleCheckbox({ target }) {
