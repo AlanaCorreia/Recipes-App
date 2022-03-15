@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import img from '../images/shareIcon.svg';
 import Header from '../components/Header';
 
@@ -31,6 +32,7 @@ function DoneRecipes() {
     },
   ]);
   const [fullData, setFullData] = useState();
+  const history = useHistory();
 
   useEffect(() => {
     setFullData(doneRecipesArray);
@@ -62,6 +64,14 @@ function DoneRecipes() {
       setDoneRecipesArray(foodArray);
     } else {
       setDoneRecipesArray(fullData);
+    }
+  }
+
+  function redirectToDetails(type, id) {
+    if (type === 'food') {
+      history.push(`foods/${id}`);
+    } else {
+      history.push(`drinks/${id}`);
     }
   }
 
@@ -99,36 +109,45 @@ function DoneRecipes() {
         if (element.type === 'food') {
           return (
             <div key={ element.id }>
-              <img
-                src={ element.image }
-                alt={ element.name }
-                data-testid={ `${index}-horizontal-image` }
-                style={ { width: '200px' } }
-              />
-              <p
-                data-testid={ `${index}-horizontal-name` }
+              <div
+              // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                onClick={ () => redirectToDetails(element.type, element.id) }
+                onKeyDown={ redirectToDetails }
+                role="button"
+                tabIndex={ 0 }
               >
-                {element.name}
-              </p>
-              <p
-                data-testid={ `${index}-horizontal-top-text` }
-              >
-                {`${element.nationality} - ${element.category}`}
-              </p>
-              <p
-                data-testid={ `${index}-horizontal-done-date` }
-              >
-                {element.doneDate}
-              </p>
-              <ul>
-                {element.tags.length >= 1 && printTags(element.tags).map((tagElement) => (
-                  <li
-                    key={ tagElement }
-                    data-testid={ `${index}-${tagElement}-horizontal-tag` }
-                  >
-                    {tagElement}
-                  </li>))}
-              </ul>
+                <img
+                  src={ element.image }
+                  alt={ element.name }
+                  data-testid={ `${index}-horizontal-image` }
+                  style={ { width: '200px' } }
+                />
+                <p
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  {element.name}
+                </p>
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {`${element.nationality} - ${element.category}`}
+                </p>
+                <p
+                  data-testid={ `${index}-horizontal-done-date` }
+                >
+                  {element.doneDate}
+                </p>
+                <ul>
+                  {element.tags.length >= 1
+                   && printTags(element.tags).map((tagElement) => (
+                     <li
+                       key={ tagElement }
+                       data-testid={ `${index}-${tagElement}-horizontal-tag` }
+                     >
+                       {tagElement}
+                     </li>))}
+                </ul>
+              </div>
               <button
                 type="button"
                 onClick={ () => shareButtonClick(element.type, element.id) }
@@ -143,28 +162,38 @@ function DoneRecipes() {
           );
         }
         return (
-          <div key={ element.id }>
-            <img
-              src={ element.image }
-              alt={ element.name }
-              data-testid={ `${index}-horizontal-image` }
-              style={ { width: '200px' } }
-            />
-            <p
-              data-testid={ `${index}-horizontal-name` }
+          <div
+            key={ element.id }
+          >
+            <div
+            // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+              onClick={ () => redirectToDetails(element.type, element.id) }
+              onKeyDown={ redirectToDetails }
+              role="button"
+              tabIndex={ 0 }
             >
-              {element.name}
-            </p>
-            <p
-              data-testid={ `${index}-horizontal-top-text` }
-            >
-              {element.alcoholicOrNot}
-            </p>
-            <p
-              data-testid={ `${index}-horizontal-done-date` }
-            >
-              {element.doneDate}
-            </p>
+              <img
+                src={ element.image }
+                alt={ element.name }
+                data-testid={ `${index}-horizontal-image` }
+                style={ { width: '200px' } }
+              />
+              <p
+                data-testid={ `${index}-horizontal-name` }
+              >
+                {element.name}
+              </p>
+              <p
+                data-testid={ `${index}-horizontal-top-text` }
+              >
+                {element.alcoholicOrNot}
+              </p>
+              <p
+                data-testid={ `${index}-horizontal-done-date` }
+              >
+                {element.doneDate}
+              </p>
+            </div>
             <button
               type="button"
               onClick={ () => shareButtonClick(element.type, element.id) }
