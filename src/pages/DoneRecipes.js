@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import img from '../images/shareIcon.svg';
 import Header from '../components/Header';
 
@@ -6,7 +6,7 @@ const copy = require('clipboard-copy');
 
 function DoneRecipes() {
   const [linkCopied, setLinkCopied] = useState(false);
-  const doneRecipesArray = [
+  const [doneRecipesArray, setDoneRecipesArray] = useState([
     {
       id: '52771',
       type: 'food',
@@ -29,7 +29,12 @@ function DoneRecipes() {
       doneDate: '23/06/2020',
       tags: [],
     },
-  ];
+  ]);
+  const [fullData, setFullData] = useState();
+
+  useEffect(() => {
+    setFullData(doneRecipesArray);
+  }, []);
 
   function shareButtonClick(type, id) {
     if (type === 'food') {
@@ -48,6 +53,18 @@ function DoneRecipes() {
     return arrayTags;
   }
 
+  function filterDoneRecipes(typeParam) {
+    if (typeParam === 'drink') {
+      const drinkArray = fullData.filter((element) => element.type === 'drink');
+      setDoneRecipesArray(drinkArray);
+    } else if (typeParam === 'food') {
+      const foodArray = fullData.filter((element) => element.type === 'food');
+      setDoneRecipesArray(foodArray);
+    } else {
+      setDoneRecipesArray(fullData);
+    }
+  }
+
   return (
     <div>
       <div className="header-content">
@@ -57,14 +74,14 @@ function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          // onClick={ () => filterDoneRecipes('all', doneRecipesArray, setDoneRecipesArray) }
+          onClick={ () => filterDoneRecipes('all') }
         >
           All
         </button>
         <button
           type="button"
           data-testid="filter-by-food-btn"
-          // onClick={ () => filterDoneRecipes('foods', doneRecipesArray, setDoneRecipesArray) }
+          onClick={ () => filterDoneRecipes('food') }
 
         >
           Food
@@ -72,7 +89,7 @@ function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
-          // onClick={ () => filterDoneRecipes('drinks', doneRecipesArray, setDoneRecipesArray) }
+          onClick={ () => filterDoneRecipes('drink') }
         >
           Drinks
         </button>
