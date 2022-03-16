@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import shareButton from '../images/shareIcon.svg';
 import favoriteButton from '../images/blackHeartIcon.svg';
+import '../FavoritePage.css';
 
 const copy = require('clipboard-copy');
 
@@ -60,8 +61,9 @@ function FavoriteRecipes() {
         <Header name="Favorite Recipes" />
       </div>
       {/* To fix buttons */}
-      <div style={ { marginTop: '100px' } }>
+      <div className="buttons-container-fav">
         <button
+          className="button-fav"
           type="button"
           data-testid="filter-by-all-btn"
           onClick={ () => filterFavoriteRecipes('all') }
@@ -69,6 +71,7 @@ function FavoriteRecipes() {
           All
         </button>
         <button
+          className="button-fav"
           type="button"
           data-testid="filter-by-food-btn"
           onClick={ () => filterFavoriteRecipes('food') }
@@ -77,6 +80,7 @@ function FavoriteRecipes() {
           Food
         </button>
         <button
+          className="button-fav"
           type="button"
           data-testid="filter-by-drink-btn"
           onClick={ () => filterFavoriteRecipes('drink') }
