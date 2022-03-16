@@ -18,9 +18,10 @@ function DrinksByIdInProgress() {
     setIngredients(ingredientsReturn
       .filter((element) => element[0].includes('strIngredient')
       && element[1] !== null && element[1] !== ''));
+    console.log(ingredients);
   }
 
-  const progressDrinks = {
+  /* const progressDrinks = {
     cocktails: {
       [id]: ingredients.map((element) => element[1]),
     },
@@ -34,11 +35,11 @@ function DrinksByIdInProgress() {
     } else {
       localStorage.setItem('inProgressRecipes', { ...progressDrinks.cocktails });
     }
-  }
+  } */
 
   useEffect(() => {
     getFetchDrinkApi();
-    progressStore();
+    // progressStore();
   }, []);
 
   function handleCheckbox({ target }) {
