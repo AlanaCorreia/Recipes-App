@@ -30,18 +30,21 @@ function DrinksByIdInProgress() {
     );
   }
 
-  const ingredientList = document.querySelector('#ingredientsList');
-  console.log(ingredientList);
-
+  // Função responsável por atualizar a chave cocktails com novas receitas
+  // Só será renderizada novamente caso haja alguma atualização no id ou nos ingredientes
+  // https://developerplus.com.br/hook-usecallback-no-react-native
   const progressStore = useCallback(
     () => {
+      // Se o estado dos ingredientes vier vazio, a função não retorna nada
       if (ingredients.length === 0) {
         return;
       }
 
+      // Armazena o valor da chave inProgressRecipes na variável
       const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
-      if (progressStorage?.cocktails && !progressStorage.cocktails[id]) {
+      // Se a chave cocktails existir, mas a chave com o id da receita não existe, cria-se a chave id com o valor dos ingredientes
+      if (progressStorage.cocktails && !progressStorage.cocktails[id]) {
         progressStorage.cocktails[id] = ingredients.map((element) => element[1]);
         localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
       }
@@ -49,26 +52,30 @@ function DrinksByIdInProgress() {
     [id, ingredients],
   );
 
-  useEffect(() => {
-    getFetchDrinkApi();
-
+  // Função que seta inicialmente o localStorage
+  function setProgressStorageInicial() {
+    // Armazena o valor da chave inProgressRecipes na variável
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-
+    // Se a chave não existir, cria-se a chave inProgressRecipes e armazena a chave cocktails dentro dela com um objeto vazio
     if (inProgressRecipes === null) {
       localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {} }));
     } else if (!inProgressRecipes.cocktails) {
+      // Caso a chave inProgressRecipes exista, mas não tenha a chave cocktails, cria-se a chave cocktails com um objeto vazio
+      // e armazena no localStorage
       inProgressRecipes.cocktails = {};
       localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     }
+  }
+
+  useEffect(() => {
+    getFetchDrinkApi();
+    setProgressStorageInicial();
   }, []);
 
+  // A função ProgressStore só vai ser chamada se ela for atualizada
   useEffect(() => {
     progressStore();
   }, [progressStore]);
-
-  useEffect(() => {
-    console.log('entrou');
-  }, [ingredients]);
 
   function handleCheckbox({ target }) {
     if (target.checked === true) {
