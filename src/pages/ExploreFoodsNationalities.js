@@ -94,6 +94,7 @@ function ExploreFoodsNationalities() {
         name="nacionalities"
         data-testid="explore-by-nationality-dropdown"
         onChange={ handleChange }
+        className="select-dropbox"
       >
         { nacionalities.map((nacionality, index) => (
           <option
