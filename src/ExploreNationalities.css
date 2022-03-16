@@ -1,5 +1,8 @@
 .select-dropbox {
-  margin: 80px 10px 30px;
+  margin: 50px 0 30px;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .thumbFood {
@@ -16,7 +19,7 @@
 }
 
 .containerFood {
-  margin-bottom: 15px;
+  margin: 50px 0 15px;
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 4px 4px 4px;
