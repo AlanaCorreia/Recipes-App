@@ -1,6 +1,10 @@
+.select-dropbox {
+  margin: 80px 10px 30px;
+}
+
 .thumbFood {
   margin: 5px;
-  width: 20vw;
+  width: 95%;
   height: 30vh;
 }
 
@@ -12,7 +16,7 @@
 }
 
 .containerFood {
-  margin: 15px;
+  margin-bottom: 15px;
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 4px 4px 4px;
@@ -22,8 +26,4 @@
   font-size: 20px;
   margin: 10px;
   text-align: center;
-}
-
-.select-dropbox {
-  margin-top: 55px;
 }

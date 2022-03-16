@@ -73,13 +73,21 @@ function ExploreFoodsNationalities() {
     setSelectValue(target.value);
   }
 
+  function redirectToDetails(idReceita) {
+    history.push(`/foods/${idReceita}`);
+  }
+
   // Renderiza os cards de receita
   function renderCards() {
     if (mealsOfArea.length > 0) {
-      return mealsOfArea.map(({ strMeal, strMealThumb }, index) => (
+      return mealsOfArea.map(({ idMeal, strMeal, strMealThumb }, index) => (
         <div
           key={ strMeal }
           data-testid={ `${index}-recipe-card` }
+          onClick={ () => redirectToDetails(idMeal) }
+          onKeyDown={ redirectToDetails }
+          role="button"
+          tabIndex={ 0 }
           className="containerFood"
         >
           <img
