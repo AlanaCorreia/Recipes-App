@@ -65,7 +65,7 @@ function DrinksById() {
       }
     }
 
-    if (inProgressStorage !== null && inProgressStorage.cocktails[id] !== null) {
+    if (inProgressStorage && inProgressStorage.cocktails[id]) {
       return (
         <button
           data-testid="start-recipe-btn"
