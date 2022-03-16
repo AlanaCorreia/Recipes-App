@@ -8,6 +8,7 @@ const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const [linkCopied, setLinkCopied] = useState(false);
+  // pegar do localStorage
   const [favoriteRecipesArray, setFavoriteRecipesArray] = useState([
     {
       id: '52771',
@@ -65,8 +66,11 @@ function FavoriteRecipes() {
     }
   }
 
-  function favoriteButtonClick(type, id) {
-    console.log('entrou na favoriteButton', type, id);
+  function favoriteButtonClick(id) {
+    const newArray = fullData.filter((element) => element.id !== id);
+    setFullData(newArray);
+    setFavoriteRecipesArray(newArray);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
   }
 
   return (
@@ -139,7 +143,7 @@ function FavoriteRecipes() {
               </button>
               <button
                 type="button"
-                onClick={ () => favoriteButtonClick(element.type, element.id) }
+                onClick={ () => favoriteButtonClick(element.id) }
               >
                 <img
                   src={ favoriteButton }
@@ -190,7 +194,7 @@ function FavoriteRecipes() {
             </button>
             <button
               type="button"
-              onClick={ () => favoriteButtonClick(element.type, element.id) }
+              onClick={ () => favoriteButtonClick(element.id) }
             >
               <img
                 src={ favoriteButton }
