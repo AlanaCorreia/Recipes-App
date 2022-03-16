@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import img from '../images/shareIcon.svg';
 import Header from '../components/Header';
+import img from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
