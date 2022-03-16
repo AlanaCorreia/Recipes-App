@@ -8,32 +8,13 @@ const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const [linkCopied, setLinkCopied] = useState(false);
-  // pegar do localStorage
-  const [favoriteRecipesArray, setFavoriteRecipesArray] = useState([
-    {
-      id: '52771',
-      type: 'food',
-      nationality: 'Italian',
-      category: 'Vegetarian',
-      alcoholicOrNot: '',
-      name: 'Spicy Arrabiata Penne',
-      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    },
-    {
-      id: '178319',
-      type: 'drink',
-      nationality: '',
-      category: 'Cocktail',
-      alcoholicOrNot: 'Alcoholic',
-      name: 'Aquamarine',
-      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-    },
-  ]);
+  const [favoriteRecipesArray, setFavoriteRecipesArray] = useState([]);
   const [fullData, setFullData] = useState();
   const history = useHistory();
 
   useEffect(() => {
-    setFullData(favoriteRecipesArray);
+    setFullData(JSON.parse(localStorage.getItem('favoriteRecipes')));
+    setFavoriteRecipesArray(JSON.parse(localStorage.getItem('favoriteRecipes')));
   }, []);
 
   function shareButtonClick(type, id) {
@@ -78,7 +59,8 @@ function FavoriteRecipes() {
       <div className="header-content">
         <Header name="Favorite Recipes" />
       </div>
-      <div>
+      {/* To fix buttons */}
+      <div style={ { marginTop: '100px' } }>
         <button
           type="button"
           data-testid="filter-by-all-btn"
@@ -103,7 +85,7 @@ function FavoriteRecipes() {
         </button>
       </div>
       {linkCopied && <p>Link copied!</p>}
-      {favoriteRecipesArray.map((element, index) => {
+      {favoriteRecipesArray && favoriteRecipesArray.map((element, index) => {
         if (element.type === 'food') {
           return (
             <div key={ element.id }>

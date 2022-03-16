@@ -7,35 +7,13 @@ const copy = require('clipboard-copy');
 
 function DoneRecipes() {
   const [linkCopied, setLinkCopied] = useState(false);
-  const [doneRecipesArray, setDoneRecipesArray] = useState([
-    {
-      id: '52771',
-      type: 'food',
-      nationality: 'Italian',
-      category: 'Vegetarian',
-      alcoholicOrNot: '',
-      name: 'Spicy Arrabiata Penne',
-      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-      doneDate: '23/06/2020',
-      tags: ['Pasta', 'Curry'],
-    },
-    {
-      id: '178319',
-      type: 'drink',
-      nationality: '',
-      category: 'Cocktail',
-      alcoholicOrNot: 'Alcoholic',
-      name: 'Aquamarine',
-      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-      doneDate: '23/06/2020',
-      tags: [],
-    },
-  ]);
+  const [doneRecipesArray, setDoneRecipesArray] = useState([]);
   const [fullData, setFullData] = useState();
   const history = useHistory();
 
   useEffect(() => {
-    setFullData(doneRecipesArray);
+    setFullData(JSON.parse(localStorage.getItem('doneRecipes')));
+    setDoneRecipesArray(JSON.parse(localStorage.getItem('doneRecipes')));
   }, []);
 
   function shareButtonClick(type, id) {
@@ -80,7 +58,8 @@ function DoneRecipes() {
       <div className="header-content">
         <Header name="Done Recipes" />
       </div>
-      <div>
+      {/* To fix buttons */}
+      <div style={ { marginTop: '100px' } }>
         <button
           type="button"
           data-testid="filter-by-all-btn"
@@ -105,7 +84,7 @@ function DoneRecipes() {
         </button>
       </div>
       {linkCopied && <p>Link copied!</p>}
-      {doneRecipesArray.map((element, index) => {
+      {doneRecipesArray && doneRecipesArray.map((element, index) => {
         if (element.type === 'food') {
           return (
             <div key={ element.id }>
