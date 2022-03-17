@@ -94,24 +94,23 @@ function FoodsByIdInProgress() {
           <button type="button" data-testid="favorite-btn"> favoritar </button>
           <p data-testid="recipe-category">{recipe.strCategory}</p>
           <h2>Ingredients:</h2>
-          <ul>
-            {ingredients.length > 0
-              && ingredients.map((element, index) => (
-                <li
-                  key={ Math.random() }
-                  data-testid={ `${index}-ingredient-step` }
-                  className={
-                    checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
-                  }
-                >
-                  <input
-                    type="checkbox"
-                    onClick={ (event) => handleCheckbox(event) }
-                    defaultChecked={ checkedIngredients.includes(element[1]) }
-                  />
-                  <span>{element[1]}</span>
-                </li>
-              ))}
+          <ul id="ingredientsList">
+            {ingredients.map((element, index) => (
+              <li
+                key={ index }
+                data-testid={ `${index}-ingredient-step` }
+                className={
+                  checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
+                }
+              >
+                <input
+                  type="checkbox"
+                  onClick={ (event) => handleCheckbox(event) }
+                  defaultChecked={ checkedIngredients.includes(element[1]) }
+                />
+                <span>{element[1]}</span>
+              </li>
+            ))}
           </ul>
           <h2>Instructions</h2>
           <p data-testid="instructions">{recipe.strInstructions}</p>
