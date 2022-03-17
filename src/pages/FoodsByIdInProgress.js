@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import getIngredientsAndMeasure from '../helpers/getIngredientsAndMeasure';
 import fetchFoodApi from '../services/fetchApiFood';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import { checkRecipeFavorite, removeFavoriteRecipe,
+  setStorageFavoriteFood } from '../helpers/localStorage';
+
+const copy = require('clipboard-copy');
 
 function FoodsByIdInProgress() {
   const history = useHistory();
@@ -9,6 +16,8 @@ function FoodsByIdInProgress() {
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [checkedIngredients, setCheckedIngredients] = useState([]);
+  const [checkCopy, setCheckCopy] = useState(false);
+  const [checkFavorite, setCheckFavorite] = useState(false);
 
   const id = pathname.replace(/[^0-9]/g, '');
 
@@ -60,9 +69,14 @@ function FoodsByIdInProgress() {
     }
   }
 
+  function checkIsFavorite() {
+    setCheckFavorite(checkRecipeFavorite(id));
+  }
+
   useEffect(() => {
     getFetchFoodApi();
     getProgressStorageInicial();
+    checkIsFavorite();
   }, []);
 
   function handleCheckbox({ target }) {
@@ -80,8 +94,24 @@ function FoodsByIdInProgress() {
     progressStore(result);
   }
 
+  function clipboardCopy(idLink) {
+    copy(`http://localhost:3000/foods/${idLink}`);
+    setCheckCopy(true);
+  }
+
+  function clickFavorite() {
+    if (checkFavorite) {
+      setCheckFavorite(false);
+      removeFavoriteRecipe(id);
+    } else {
+      setCheckFavorite(true);
+      setStorageFavoriteFood(recipeFood[0]);
+    }
+  }
+
   return (
     <div>
+      { checkCopy && (<p>Link copied!</p>)}
       {recipeFood.map((recipe) => (
         <div key={ recipe.idMeal }>
           <img
@@ -90,8 +120,27 @@ function FoodsByIdInProgress() {
             alt={ recipe.strMeal }
           />
           <h1 data-testid="recipe-title">{recipe.strMeal}</h1>
-          <button type="button" data-testid="share-btn"> compartilhar </button>
-          <button type="button" data-testid="favorite-btn"> favoritar </button>
+          <button
+            data-testid="share-btn"
+            type="button"
+            className="icon-btn"
+            onClick={ () => clipboardCopy(recipe.idMeal) }
+          >
+            <img src={ shareIcon } alt="share Icon" />
+          </button>
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={ clickFavorite }
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ checkFavorite
+                ? blackHeartIcon : whiteHeartIcon }
+              alt={ checkFavorite
+                ? 'black Heart Icon"' : 'white Heart Icon' }
+            />
+          </button>
           <p data-testid="recipe-category">{recipe.strCategory}</p>
           <h2>Ingredients:</h2>
           <ul id="ingredientsList">

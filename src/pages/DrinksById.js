@@ -65,7 +65,8 @@ function DrinksById() {
       }
     }
 
-    if (inProgressStorage && inProgressStorage.cocktails[id]) {
+    if (inProgressStorage && inProgressStorage.cocktails
+       && inProgressStorage.cocktails[id]) {
       return (
         <button
           data-testid="start-recipe-btn"
@@ -161,10 +162,7 @@ function DrinksById() {
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
                       <span>{element[1]}</span>
-                      {' '}
-                      {measure[index] !== null && (
-                        <span>{measure[index][1]}</span>
-                      )}
+                      { measure[index] !== null && <span>{measure[index][1]}</span>}
                     </li>
                   ))}
               </ul>

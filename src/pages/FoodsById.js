@@ -109,7 +109,6 @@ function FoodsById() {
       removeFavoriteRecipe(id);
     } else {
       setCheckFavorite(true);
-      console.log('setou', checkFavorite);
       setStorageFavoriteFood(recipeFood[0]);
     }
   }

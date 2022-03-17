@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import getIngredientsAndMeasure from '../helpers/getIngredientsAndMeasure';
 import fetchDrinkApi from '../services/fetchApiDrink';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import { checkRecipeFavorite, removeFavoriteRecipe,
+  setStorageFavoriteDrink } from '../helpers/localStorage';
+
+const copy = require('clipboard-copy');
 
 function DrinksByIdInProgress() {
   const history = useHistory();
@@ -12,6 +19,8 @@ function DrinksByIdInProgress() {
   const [ingredients, setIngredients] = useState([]);
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const id = pathname.replace(/[^0-9]/g, '');
+  const [checkCopy, setCheckCopy] = useState(false);
+  const [checkFavorite, setCheckFavorite] = useState(false);
 
   /*  function saveIngredients({ target }) {
     if (target.checked === true) {
@@ -20,6 +29,10 @@ function DrinksByIdInProgress() {
       target.parentNode.className = 'not-selected';
     }
   } */
+
+  function checkIsFavorite() {
+    setCheckFavorite(checkRecipeFavorite(id));
+  }
 
   async function getFetchDrinkApi() {
     const resultsApi = await fetchDrinkApi(`lookup.php?i=${id}`);
@@ -74,6 +87,7 @@ function DrinksByIdInProgress() {
   useEffect(() => {
     getFetchDrinkApi();
     getProgressStorageInicial();
+    checkIsFavorite();
   }, []);
 
   function handleCheckbox({ target }) {
@@ -90,8 +104,24 @@ function DrinksByIdInProgress() {
     progressStore(result);
   }
 
+  function clipboardCopy(idLink) {
+    copy(`http://localhost:3000/drinks/${idLink}`);
+    setCheckCopy(true);
+  }
+
+  function clickFavorite() {
+    if (checkFavorite) {
+      setCheckFavorite(false);
+      removeFavoriteRecipe(id);
+    } else {
+      setCheckFavorite(true);
+      setStorageFavoriteDrink(recipeDrink[0]);
+    }
+  }
+
   return (
     <div>
+      { checkCopy && (<p>Link copied!</p>)}
       {recipeDrink.map((recipe) => (
         <div key={ recipe.idDrink }>
           <img
@@ -101,15 +131,26 @@ function DrinksByIdInProgress() {
           />
           <h1 data-testid="recipe-title">{recipe.strDrink}</h1>
 
-          <button type="button" data-testid="share-btn">
-            {' '}
-            compartilhar
-            {' '}
+          <button
+            data-testid="share-btn"
+            type="button"
+            className="icon-btn"
+            onClick={ () => clipboardCopy(recipe.idDrink) }
+          >
+            <img src={ shareIcon } alt="share Icon" />
           </button>
-          <button type="button" data-testid="favorite-btn">
-            {' '}
-            favoritar
-            {' '}
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={ clickFavorite }
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ checkFavorite
+                ? blackHeartIcon : whiteHeartIcon }
+              alt={ checkFavorite
+                ? 'black Heart Icon"' : 'white Heart Icon' }
+            />
           </button>
 
           <p data-testid="recipe-category">{recipe.strCategory}</p>
