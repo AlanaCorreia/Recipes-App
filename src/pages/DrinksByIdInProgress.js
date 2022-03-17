@@ -13,6 +13,14 @@ function DrinksByIdInProgress() {
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const id = pathname.replace(/[^0-9]/g, '');
 
+  /*  function saveIngredients({ target }) {
+    if (target.checked === true) {
+      const inProgressRecipes = localStorage.getItem('inProgressRecipes');
+    } else {
+      target.parentNode.className = 'not-selected';
+    }
+  } */
+
   async function getFetchDrinkApi() {
     const resultsApi = await fetchDrinkApi(`lookup.php?i=${id}`);
     setRecipeDrink(resultsApi.drinks);
@@ -25,8 +33,8 @@ function DrinksByIdInProgress() {
     setIngredients(
       ingredientsReturn.filter(
         (element) => element[0].includes('strIngredient')
-          && element[1] !== null
-          && element[1] !== '',
+              && element[1] !== null
+              && element[1] !== '',
       ),
     );
   }
@@ -81,6 +89,7 @@ function DrinksByIdInProgress() {
     setCheckedIngredients(result);
     progressStore(result);
   }
+
   return (
     <div>
       {recipeDrink.map((recipe) => (

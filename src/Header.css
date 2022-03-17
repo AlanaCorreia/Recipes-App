@@ -13,7 +13,12 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 70%;
+}
+
+.title-page {
+  font-size: 25px;
+  margin-left: 50px;
 }
 
 .img-icons {
