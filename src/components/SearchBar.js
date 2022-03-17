@@ -14,8 +14,8 @@ import '../Header.css';
 
 function SearchBar({ name }) {
   const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
+  const { radioValue, setRadioValue } = useContext(MyContext);
 
-  const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
   const [categories, setCategories] = useState({ [name]: [] });
 
@@ -44,6 +44,7 @@ function SearchBar({ name }) {
         const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
         setCategories({ [name]: splitedDrinkCategories });
         setApiResultsSplited({ [name]: splitedDrinkResponse });
+        console.log(radioValue);
       }
     };
     fetchApiInitial();

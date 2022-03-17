@@ -1,16 +1,29 @@
 import { React, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MyContext from '../context/myContext';
 
 function RenderCardsIngredients({ name }) {
   const { apiResultsIngredients } = useContext(MyContext);
+  const { setRadioValue } = useContext(MyContext);
+  const history = useHistory();
+
+  const redirectToPrincipalPage = (ingredient) => {
+    setRadioValue(ingredient);
+    history.push('/foods');
+  };
 
   return name === 'meals' ? (
     <div>
       { apiResultsIngredients.map(({ strIngredient }, index) => (
         <div
+          value={ strIngredient }
           key={ strIngredient }
           data-testid={ `${index}-ingredient-card` }
+          onClick={ () => redirectToPrincipalPage(strIngredient) }
+          onKeyDown={ redirectToPrincipalPage }
+          role="button"
+          tabIndex={ 0 }
         >
           <img
             style={ { width: '300px' } }
