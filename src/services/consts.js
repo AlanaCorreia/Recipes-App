@@ -14,3 +14,5 @@ export const MAX_NUMBER_CATEGORIES = 5;
 export const MAX_NUMBER_RECOMMEDATIONS = 6;
 
 export const DEFAULT_URL_API = 'search.php?s=';
+export const DEFAULT_URL_API_INGREDIENTS = 'list.php?i=list';
+export const DEFAULT_URL_API_RANDOM = 'random.php';
