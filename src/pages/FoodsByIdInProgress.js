@@ -8,6 +8,7 @@ function FoodsByIdInProgress() {
   const { location: { pathname } } = history;
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [checkedIngredients, setCheckedIngredients] = useState([]);
 
   const id = pathname.replace(/[^0-9]/g, '');
 
@@ -20,17 +21,63 @@ function FoodsByIdInProgress() {
     && element[1] !== null && element[1] !== ''));
   }
 
+  // Função responsável por atualizar a chave meals com novas receitas
+  const progressStore = (ingredientsToStore) => {
+    // Armazena o valor da chave inProgressRecipes na variável
+    const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    console.log('entrou na função');
+
+    if (!progressStorage.meals) {
+      // Caso a chave inProgressRecipes exista, mas não tenha a chave meals, cria-se a chave meals com um objeto vazio
+      // e armazena no localStorage
+      progressStorage.meals = {};
+      localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
+    } else if (progressStorage.meals) {
+      progressStorage.meals[id] = ingredientsToStore;
+      localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
+    }
+    // else {
+    //   progressStorage.meals[id] = ingredientsToStore;
+    // }
+    // Se a chave inProgressRecipes e a chave meals existirem, cria-se a chave id da receita com o valor dos ingredientes com check
+    // e armazena no localStorage
+    localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
+  };
+
+  // Função que seta inicialmente o localStorage
+  function getProgressStorageInicial() {
+    // Armazena o valor da chave inProgressRecipes na variável
+    let inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+    // Se a chave inProgressRecipes não existir, cria-se esta chave com o valor meals, que recebe um objeto vazio;
+    if (inProgressRecipes === null) {
+      inProgressRecipes = { meals: {} };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    }
+    // Se a chave meals com a chave do id da receita existir, atualiza o estado dos ingredientes com check com os ingredientes salvos no localStorage
+    if (inProgressRecipes.meals && inProgressRecipes.meals[id]) {
+      setCheckedIngredients(inProgressRecipes.meals[id]);
+    }
+  }
+
   useEffect(() => {
     getFetchFoodApi();
+    getProgressStorageInicial();
   }, []);
 
   function handleCheckbox({ target }) {
-    console.log(target.parentNode);
+    console.log('clicou');
+    const ingredient = target.parentNode.innerText;
+    let result;
+
     if (target.checked === true) {
-      target.parentNode.className = 'selected';
+      result = [...checkedIngredients, ingredient];
     } else {
-      target.parentNode.className = 'not-selected';
+      result = checkedIngredients.filter((i) => i !== ingredient);
     }
+
+    setCheckedIngredients(result);
+    progressStore(result);
   }
 
   return (
@@ -53,11 +100,14 @@ function FoodsByIdInProgress() {
                 <li
                   key={ Math.random() }
                   data-testid={ `${index}-ingredient-step` }
-                  className="not-selected"
+                  className={
+                    checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
+                  }
                 >
                   <input
                     type="checkbox"
                     onClick={ (event) => handleCheckbox(event) }
+                    defaultChecked={ checkedIngredients.includes(element[1]) }
                   />
                   <span>{element[1]}</span>
                 </li>
