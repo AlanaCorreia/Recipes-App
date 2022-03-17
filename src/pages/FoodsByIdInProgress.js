@@ -18,6 +18,7 @@ function FoodsByIdInProgress() {
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
+  const [checkDone, setCheckDone] = useState(true);
 
   const id = pathname.replace(/[^0-9]/g, '');
 
@@ -79,6 +80,25 @@ function FoodsByIdInProgress() {
     checkIsFavorite();
   }, []);
 
+  function finishButtonValidate() {
+    const checkboxs = document.querySelectorAll('.checkBoxs');
+    if (checkboxs.length > 0) {
+      const arrayOfCheckeds = [];
+      checkboxs.forEach((element) => {
+        if (element.checked) {
+          arrayOfCheckeds.push(element.checked);
+        }
+      });
+      if (checkboxs.length === arrayOfCheckeds.length) {
+        setCheckDone(false);
+      }
+    }
+  }
+
+  useEffect(() => {
+    finishButtonValidate();
+  }, [checkedIngredients]);
+
   function handleCheckbox({ target }) {
     console.log('clicou');
     const ingredient = target.parentNode.innerText;
@@ -107,6 +127,10 @@ function FoodsByIdInProgress() {
       setCheckFavorite(true);
       setStorageFavoriteFood(recipeFood[0]);
     }
+  }
+
+  function clickButtonFinish() {
+    history.push('/done-recipes');
   }
 
   return (
@@ -154,6 +178,7 @@ function FoodsByIdInProgress() {
               >
                 <input
                   type="checkbox"
+                  className="checkBoxs"
                   onClick={ (event) => handleCheckbox(event) }
                   defaultChecked={ checkedIngredients.includes(element[1]) }
                 />
@@ -163,7 +188,14 @@ function FoodsByIdInProgress() {
           </ul>
           <h2>Instructions</h2>
           <p data-testid="instructions">{recipe.strInstructions}</p>
-          <button data-testid="finish-recipe-btn" type="button">Finish</button>
+          <button
+            data-testid="finish-recipe-btn"
+            type="button"
+            disabled={ checkDone }
+            onClick={ () => clickButtonFinish() }
+          >
+            Finish
+          </button>
         </div>
       ))}
     </div>

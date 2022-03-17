@@ -21,6 +21,7 @@ function DrinksByIdInProgress() {
   const id = pathname.replace(/[^0-9]/g, '');
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
+  const [checkDone, setCheckDone] = useState(true);
 
   /*  function saveIngredients({ target }) {
     if (target.checked === true) {
@@ -57,12 +58,15 @@ function DrinksByIdInProgress() {
     // Armazena o valor da chave inProgressRecipes na variável
     const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
-    if (progressStorage.cocktails === null) {
+    if (!progressStorage.cocktails) {
       // Caso a chave inProgressRecipes exista, mas não tenha a chave cocktails, cria-se a chave cocktails com um objeto vazio
       // e armazena no localStorage
       progressStorage.cocktails = {};
       localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
-    } progressStorage.cocktails[id] = ingredientsToStore;
+    } else if (progressStorage.cocktails) {
+      progressStorage.cocktails[id] = ingredientsToStore;
+      localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
+    }
     // Se a chave inProgressRecipes e a chave cocktails existirem, cria-se a chave id da receita com o valor dos ingredientes com check
     // e armazena no localStorage
     localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
@@ -79,10 +83,29 @@ function DrinksByIdInProgress() {
       localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     }
     // Se a chave cocktails com a chave do id da receita existir, atualiza o estado dos ingredientes com check com os ingredientes salvos no localStorage
-    if (inProgressRecipes.cocktails[id]) {
+    if (inProgressRecipes.cocktails && inProgressRecipes.cocktails[id]) {
       setCheckedIngredients(inProgressRecipes.cocktails[id]);
     }
   }
+
+  function finishButtonValidate() {
+    const checkboxs = document.querySelectorAll('.checkBoxs');
+    if (checkboxs.length > 0) {
+      const arrayOfCheckeds = [];
+      checkboxs.forEach((element) => {
+        if (element.checked) {
+          arrayOfCheckeds.push(element.checked);
+        }
+      });
+      if (checkboxs.length === arrayOfCheckeds.length) {
+        setCheckDone(false);
+      }
+    }
+  }
+
+  useEffect(() => {
+    finishButtonValidate();
+  }, [checkedIngredients]);
 
   useEffect(() => {
     getFetchDrinkApi();
@@ -117,6 +140,10 @@ function DrinksByIdInProgress() {
       setCheckFavorite(true);
       setStorageFavoriteDrink(recipeDrink[0]);
     }
+  }
+
+  function clickButtonFinish() {
+    history.push('/done-recipes');
   }
 
   return (
@@ -166,6 +193,7 @@ function DrinksByIdInProgress() {
               >
                 <input
                   type="checkbox"
+                  className="checkBoxs"
                   onClick={ (event) => handleCheckbox(event) }
                   defaultChecked={ checkedIngredients.includes(element[1]) }
                 />
@@ -178,7 +206,12 @@ function DrinksByIdInProgress() {
           <h2>Instructions</h2>
           <p data-testid="instructions">{recipe.strInstructions}</p>
 
-          <button type="button" data-testid="finish-recipe-btn">
+          <button
+            type="button"
+            data-testid="finish-recipe-btn"
+            disabled={ checkDone }
+            onClick={ () => clickButtonFinish() }
+          >
             Finish
           </button>
         </div>
