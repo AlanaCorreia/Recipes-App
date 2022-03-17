@@ -18,6 +18,7 @@ function DrinksById() {
   const [recipeDrink, setRecipeDrink] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
 
@@ -28,7 +29,7 @@ function DrinksById() {
   async function getFetchDrinkApi() {
     const resultsApi = await fetchDrinkApi(`lookup.php?i=${id}`);
     setRecipeDrink(resultsApi.drinks);
-    console.log('api', resultsApi.drinks);
+
     const ingredientsReturn = getIngredientsAndMeasure('17', '32', resultsApi.drinks);
     setIngredients(ingredientsReturn
       .filter((element) => element[0].includes('strIngredient')
@@ -36,7 +37,6 @@ function DrinksById() {
     const measuresReturn = getIngredientsAndMeasure('32', '47', resultsApi.drinks);
     setMeasure(measuresReturn.filter((element) => element[0].includes('strMeasure')
     && element[1] !== null && element[1] !== ''));
-    console.log('measures', measuresReturn);
   }
 
   function checkIsFavorite() {
@@ -65,7 +65,7 @@ function DrinksById() {
       }
     }
 
-    if (inProgressStorage !== null && inProgressStorage.cocktails[id] !== null) {
+    if (inProgressStorage && inProgressStorage.cocktails[id]) {
       return (
         <button
           data-testid="start-recipe-btn"
@@ -206,5 +206,4 @@ function DrinksById() {
     </div>
   );
 }
-
 export default DrinksById;

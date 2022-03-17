@@ -18,13 +18,10 @@ function SearchBar({ name }) {
   const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
   const [categories, setCategories] = useState({ [name]: [] });
-
   const history = useHistory();
-
   function handleRadio({ target }) {
     setRadioValue(target.value);
   }
-
   // ComponentDidMout montando os filtros e o retorno default da API
   useEffect(() => {
     const fetchApiInitial = async () => {
@@ -48,7 +45,6 @@ function SearchBar({ name }) {
     };
     fetchApiInitial();
   }, []);
-
   // função para realizar as pesquisas
   async function searchButton() {
     if (name === 'meals') {
@@ -59,7 +55,6 @@ function SearchBar({ name }) {
       validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history);
     }
   }
-
   // função que renderiza as APIs com o retorno padrão
   async function defaultAPI() {
     if (name === 'meals') {
@@ -73,7 +68,6 @@ function SearchBar({ name }) {
       setApiResultsSplited({ [name]: splitedDrinkResponse });
     }
   }
-
   // função para lidar com os botões de filtro
   async function filterCategory(event, category) {
     if (category === 'all') {
@@ -131,7 +125,6 @@ function SearchBar({ name }) {
               data-testid="ingredient-search-radio"
             />
           </label>
-
           <label htmlFor="name">
             Name
             <input
@@ -143,7 +136,6 @@ function SearchBar({ name }) {
               data-testid="name-search-radio"
             />
           </label>
-
           <label htmlFor="first-letter">
             First letter
             <input
@@ -155,7 +147,6 @@ function SearchBar({ name }) {
               data-testid="first-letter-search-radio"
             />
           </label>
-
           <button
             type="button"
             data-testid="exec-search-btn"
@@ -191,7 +182,6 @@ function SearchBar({ name }) {
     </div>
   );
 }
-
 SearchBar.propTypes = {
   name: PropTypes.string.isRequired,
 };
