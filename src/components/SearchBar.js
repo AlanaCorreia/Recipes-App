@@ -13,9 +13,10 @@ import '../PrincipalPage.css';
 import '../Header.css';
 
 function SearchBar({ name }) {
-  const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
+  const { searchInput } = useContext(MyContext);
+  const { searchBarShow, handleSearch } = useContext(MyContext);
   const { radioValue, setRadioValue } = useContext(MyContext);
-
+  const { ingredientsFilterKey, setIngredientsFilterKey } = useContext(MyContext);
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
   const [categories, setCategories] = useState({ [name]: [] });
 
@@ -24,31 +25,6 @@ function SearchBar({ name }) {
   function handleRadio({ target }) {
     setRadioValue(target.value);
   }
-
-  // ComponentDidMout montando os filtros e o retorno default da API
-  useEffect(() => {
-    const fetchApiInitial = async () => {
-      if (name === 'meals') {
-        const foodCategories = await fetchFoodApi('list.php?c=list');
-        const splitedfoodCategories = foodCategories[name]
-          .slice(0, MAX_NUMBER_CATEGORIES);
-        const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
-        const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
-        setCategories({ [name]: splitedfoodCategories });
-        setApiResultsSplited({ [name]: splitedFoodResponse });
-      } else {
-        const drinkCategories = await fetchDrinkApi('list.php?c=list');
-        const splitedDrinkCategories = drinkCategories[name]
-          .slice(0, MAX_NUMBER_CATEGORIES);
-        const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
-        const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
-        setCategories({ [name]: splitedDrinkCategories });
-        setApiResultsSplited({ [name]: splitedDrinkResponse });
-        console.log(radioValue);
-      }
-    };
-    fetchApiInitial();
-  }, []);
 
   // função para realizar as pesquisas
   async function searchButton() {
@@ -60,6 +36,35 @@ function SearchBar({ name }) {
       validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history);
     }
   }
+
+  // ComponentDidMout montando os filtros e o retorno default da API
+  useEffect(() => {
+    const fetchApiInitial = async () => {
+      if (ingredientsFilterKey === false) {
+        if (name === 'meals') {
+          const foodCategories = await fetchFoodApi('list.php?c=list');
+          const splitedfoodCategories = foodCategories[name]
+            .slice(0, MAX_NUMBER_CATEGORIES);
+          const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
+          const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+          setCategories({ [name]: splitedfoodCategories });
+          setApiResultsSplited({ [name]: splitedFoodResponse });
+        } else {
+          const drinkCategories = await fetchDrinkApi('list.php?c=list');
+          const splitedDrinkCategories = drinkCategories[name]
+            .slice(0, MAX_NUMBER_CATEGORIES);
+          const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
+          const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+          setCategories({ [name]: splitedDrinkCategories });
+          setApiResultsSplited({ [name]: splitedDrinkResponse });
+        }
+      } else {
+        searchButton();
+        setIngredientsFilterKey(!ingredientsFilterKey);
+      }
+    };
+    fetchApiInitial();
+  }, []);
 
   // função que renderiza as APIs com o retorno padrão
   async function defaultAPI() {

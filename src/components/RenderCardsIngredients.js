@@ -5,20 +5,31 @@ import MyContext from '../context/myContext';
 
 function RenderCardsIngredients({ name }) {
   const { apiResultsIngredients } = useContext(MyContext);
+  const { setIngredientsFilterKey } = useContext(MyContext);
   const { setRadioValue } = useContext(MyContext);
+  const { setsearchInput } = useContext(MyContext);
   const history = useHistory();
 
   const redirectToPrincipalPage = (ingredient) => {
-    setRadioValue(ingredient);
-    history.push('/foods');
+    if (name === 'meals') {
+      setIngredientsFilterKey(true);
+      setsearchInput(ingredient);
+      setRadioValue('ingredient');
+      history.push('/foods');
+    } else {
+      setIngredientsFilterKey(true);
+      setsearchInput(ingredient);
+      setRadioValue('ingredient');
+      history.push('/drinks');
+    }
   };
 
-  return name === 'meals' ? (
+  return apiResultsIngredients.length > 0 && name === 'meals' ? (
     <div>
       { apiResultsIngredients.map(({ strIngredient }, index) => (
         <div
           value={ strIngredient }
-          key={ strIngredient }
+          key={ index }
           data-testid={ `${index}-ingredient-card` }
           onClick={ () => redirectToPrincipalPage(strIngredient) }
           onKeyDown={ redirectToPrincipalPage }
@@ -41,23 +52,31 @@ function RenderCardsIngredients({ name }) {
     </div>
   ) : (
     <div>
-      { apiResultsIngredients.map(({ strIngredient1 }, index) => (
-        <div
-          key={ strIngredient1 }
-          data-testid={ `${index}-ingredient-card` }
-        >
-          <img
-            style={ { width: '300px' } }
-            data-testid={ `${index}-card-img` }
-            src={ `https://www.themealdb.com/images/ingredients/${strIngredient1}-Small.png` }
-            alt={ strIngredient1 }
-          />
-          <p data-testid={ `${index}-card-name` }>
-            {' '}
-            {strIngredient1}
-          </p>
-        </div>
-      ))}
+      { console.log(apiResultsIngredients) }
+      { apiResultsIngredients.length > 0 && name === 'drinks' ? (
+        apiResultsIngredients.map(({ strIngredient1 }, index) => (
+          <div
+            value={ strIngredient1 }
+            key={ index }
+            data-testid={ `${index}-ingredient-card` }
+            onClick={ () => redirectToPrincipalPage(strIngredient1) }
+            onKeyDown={ redirectToPrincipalPage }
+            role="button"
+            tabIndex={ 0 }
+          >
+            <img
+              style={ { width: '300px' } }
+              data-testid={ `${index}-card-img` }
+              src={ `https://www.themealdb.com/images/ingredients/${strIngredient1}-Small.png` }
+              alt={ strIngredient1 }
+            />
+            { console.log(strIngredient1) }
+            <p data-testid={ `${index}-card-name` }>
+              {' '}
+              {strIngredient1}
+            </p>
+          </div>
+        ))) : (console.error('erro'))}
       ;
     </div>
   );
