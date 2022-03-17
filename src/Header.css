@@ -2,8 +2,10 @@
   align-items: center;
   background-color: rgb(199, 199, 199);
   display: flex;
-  height: 45px;
+  height: 50px;
   justify-content: space-between;
+  padding-top: 8px;
+  position: fixed;
   top: 0;
   width: 100%;
 }
@@ -12,11 +14,20 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 70%;
+}
+
+.title-page {
+  font-size: 25px;
+  margin-left: 50px;
 }
 
 .img-icons {
+  border: none;
   height: 40px;
   width: 40px;
 }
 
+.searchBar {
+  margin: 50px auto 10px;
+}

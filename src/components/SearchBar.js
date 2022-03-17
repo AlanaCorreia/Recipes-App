@@ -1,16 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import MyContext from '../context/myContext';
 import fetchDrinkApi from '../services/fetchApiDrink';
 import fetchFoodApi from '../services/fetchApiFood';
-import { MAX_NUMBER_CARDS } from '../services/consts';
+import { DEFAULT_URL_API, MAX_NUMBER_CARDS,
+  MAX_NUMBER_CATEGORIES } from '../services/consts';
+import { searchDrinks, searchFoods } from '../services/searchApiByInputs';
+import { validateDrinks, validateMeals } from '../services/validateDatas';
+import renderCards from './renderCards';
+import '../PrincipalPage.css';
+import '../Header.css';
 
 function SearchBar({ name }) {
   const { searchInput, searchBarShow, handleSearch } = useContext(MyContext);
 
   const [radioValue, setRadioValue] = useState('');
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
+  const [categories, setCategories] = useState({ [name]: [] });
 
   const history = useHistory();
 
@@ -18,122 +25,90 @@ function SearchBar({ name }) {
     setRadioValue(target.value);
   }
 
-  // Consome as APIs de foods.
-  async function searchFoods() {
-    if (radioValue === 'ingredient') {
-      const result = await fetchFoodApi(`filter.php?i=${searchInput}`);
-      return result;
-    } if (radioValue === 'name') {
-      const result = await fetchFoodApi(`search.php?s=${searchInput}`);
-      return result;
-    } if (radioValue === 'first-letter') {
-      if (searchInput.length <= 1) {
-        const result = await fetchFoodApi(`search.php?f=${searchInput}`);
-        return result;
-      }
-      global.alert('Your search must have only 1 (one) character');
-    }
-  }
-
-  // Consome as APIs de drinks.
-  async function searchDrinks() {
-    if (radioValue === 'ingredient') {
-      const result = await fetchDrinkApi(`filter.php?i=${searchInput}`);
-      return result;
-    } if (radioValue === 'name') {
-      const result = await fetchDrinkApi(`search.php?s=${searchInput}`);
-      return result;
-    } if (radioValue === 'first-letter') {
-      if (searchInput.length <= 1) {
-        const result = await fetchDrinkApi(`search.php?f=${searchInput}`);
-        return result;
-      }
-      global.alert('Your search must have only 1 (one) character');
-    }
-  }
-
-  // Recebe os valores da API de foods e lida com esses valores.
-  async function mealsCondition() {
-    const returnFoodsApi = await searchFoods();
-    if (returnFoodsApi !== undefined) {
-      if (returnFoodsApi.meals === null) {
-        global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      } else if (returnFoodsApi.meals.length === 1) {
-        history.push(`/foods/${returnFoodsApi.meals[0].idMeal}`);
-      } else if (returnFoodsApi.meals.length >= MAX_NUMBER_CARDS) {
-        const splitedArray = returnFoodsApi[name].slice(0, MAX_NUMBER_CARDS);
-        setApiResultsSplited({ [name]: splitedArray });
+  // ComponentDidMout montando os filtros e o retorno default da API
+  useEffect(() => {
+    const fetchApiInitial = async () => {
+      if (name === 'meals') {
+        const foodCategories = await fetchFoodApi('list.php?c=list');
+        const splitedfoodCategories = foodCategories[name]
+          .slice(0, MAX_NUMBER_CATEGORIES);
+        const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
+        const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setCategories({ [name]: splitedfoodCategories });
+        setApiResultsSplited({ [name]: splitedFoodResponse });
       } else {
-        setApiResultsSplited({ [name]: returnFoodsApi.meals });
+        const drinkCategories = await fetchDrinkApi('list.php?c=list');
+        const splitedDrinkCategories = drinkCategories[name]
+          .slice(0, MAX_NUMBER_CATEGORIES);
+        const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
+        const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+        setCategories({ [name]: splitedDrinkCategories });
+        setApiResultsSplited({ [name]: splitedDrinkResponse });
       }
-    }
-  }
+    };
+    fetchApiInitial();
+  }, []);
 
-  // Recebe os valores da API de drinks e lida com esses valores.
-  async function drinkCondition() {
-    const returnDrinkApi = await searchDrinks();
-    if (returnDrinkApi !== undefined) {
-      if (returnDrinkApi.drinks === null) {
-        global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      } else if (returnDrinkApi.drinks.length === 1) {
-        history.push(`/drinks/${returnDrinkApi.drinks[0].idDrink}`);
-      } else if (returnDrinkApi.drinks.length >= MAX_NUMBER_CARDS) {
-        const splitedArray = returnDrinkApi[name].slice(0, MAX_NUMBER_CARDS);
-        setApiResultsSplited({ [name]: splitedArray });
-      } else {
-        setApiResultsSplited({ [name]: returnDrinkApi.meals });
-      }
-    }
-  }
-
-  function fetchApi() {
+  // função para realizar as pesquisas
+  async function searchButton() {
     if (name === 'meals') {
-      mealsCondition();
+      const dataFoodToValidate = await searchFoods(radioValue, searchInput);
+      validateMeals(name, dataFoodToValidate, setApiResultsSplited, history);
     } else {
-      drinkCondition();
+      const dataDrinkToValidate = await searchDrinks(radioValue, searchInput);
+      validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history);
     }
   }
-  // teste criando branch
-  // Renderiza os Cards de foods/drinks na tela.
-  function renderCards() {
-    return apiResultsSplited[name].length > 0 && name === 'meals' ? (
-      apiResultsSplited[name].map(({ strMeal, strMealThumb }, index) => (
-        <div
-          key={ strMeal }
-          data-testid={ `${index}-recipe-card` }
-        >
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ strMealThumb }
-            alt={ strMeal }
-          />
-          <p data-testid={ `${index}-card-name` }>
-            {' '}
-            { strMeal }
-          </p>
-        </div>
-      ))
-    ) : (
-      apiResultsSplited[name].map(({ strDrink, strDrinkThumb }, index) => (
-        <div
-          key={ strDrink }
-          data-testid={ `${index}-recipe-card` }
-        >
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ strDrinkThumb }
-            alt={ strDrink }
-          />
-          <p data-testid={ `${index}-card-name` }>
-            {' '}
-            { strDrink }
-          </p>
-        </div>
-      ))
-    );
+
+  // função que renderiza as APIs com o retorno padrão
+  async function defaultAPI() {
+    if (name === 'meals') {
+      const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
+      const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
+      console.log(splitedFoodResponse);
+      setApiResultsSplited({ [name]: splitedFoodResponse });
+    } else {
+      const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
+      const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
+      setApiResultsSplited({ [name]: splitedDrinkResponse });
+    }
+  }
+
+  // função para lidar com os botões de filtro
+  async function filterCategory(event, category) {
+    if (category === 'all') {
+      defaultAPI();
+    } else {
+      const el = document.querySelector('.selected');
+      if (el && el !== event.target) {
+        el.className = 'not-selected';
+      }
+      if (event.target.className !== 'selected') {
+        event.target.className = 'selected';
+        if (name === 'meals') {
+          const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
+          validateMeals(name, foodCategory, setApiResultsSplited, history);
+        } else {
+          const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
+          validateDrinks(name, drinkCategory, setApiResultsSplited, history);
+        }
+      } else {
+        event.target.className = 'not-selected';
+        defaultAPI();
+      }
+    }
+  }
+
+  // Redireciona para a pagina de details quando clica em algum card
+  function redirectToDetails(idReceita) {
+    if (name === 'meals') {
+      history.push(`/foods/${idReceita}`);
+    } else {
+      history.push(`/drinks/${idReceita}`);
+    }
   }
   return (
-    <div>
+    <div className="searchBar">
       {searchBarShow && (
         <div>
           <input
@@ -184,13 +159,35 @@ function SearchBar({ name }) {
           <button
             type="button"
             data-testid="exec-search-btn"
-            onClick={ fetchApi }
+            onClick={ searchButton }
           >
             Search
           </button>
         </div>
       )}
-      {renderCards()}
+      <div className="category-buttons-container">
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          className="not-selected category-buttons"
+          onClick={ (event) => filterCategory(event, 'all') }
+        >
+          All
+        </button>
+        {categories[name].map(({ strCategory }) => (
+          <button
+            type="button"
+            data-testid={ `${strCategory}-category-filter` }
+            key={ strCategory }
+            className="not-selected category-buttons"
+            onClick={ (event) => filterCategory(event, strCategory) }
+          >
+            {strCategory}
+          </button>
+        ))}
+      </div>
+
+      {renderCards(apiResultsSplited, name, redirectToDetails)}
     </div>
   );
 }

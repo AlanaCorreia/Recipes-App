@@ -16,7 +16,7 @@ function Header({ name }) {
           className="img-icons"
         />
       </Link>
-      <h1 data-testid="page-title">
+      <h1 data-testid="page-title" className="title-page">
         {' '}
         {name}
         {' '}
