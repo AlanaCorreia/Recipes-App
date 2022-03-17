@@ -35,13 +35,15 @@ function DrinksByIdInProgress() {
   const progressStore = (ingredientsToStore) => {
     // Armazena o valor da chave inProgressRecipes na variável
     const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    // Se a chave inProgressRecipes não existir, cria-se esta chave com o valor cocktails, que recebe um objeto vazio;
-    if (!progressStorage.cocktails) {
+
+    if (progressStorage.cocktails === null) {
       // Caso a chave inProgressRecipes exista, mas não tenha a chave cocktails, cria-se a chave cocktails com um objeto vazio
       // e armazena no localStorage
       progressStorage.cocktails = {};
+      localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
     } progressStorage.cocktails[id] = ingredientsToStore;
     // Se a chave inProgressRecipes e a chave cocktails existirem, cria-se a chave id da receita com o valor dos ingredientes com check
+    // e armazena no localStorage
     localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
   };
 
@@ -50,8 +52,10 @@ function DrinksByIdInProgress() {
     // Armazena o valor da chave inProgressRecipes na variável
     let inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
-    if (!inProgressRecipes) {
+    // Se a chave inProgressRecipes não existir, cria-se esta chave com o valor cocktails, que recebe um objeto vazio;
+    if (inProgressRecipes === null) {
       inProgressRecipes = { cocktails: {} };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     }
     // Se a chave cocktails com a chave do id da receita existir, atualiza o estado dos ingredientes com check com os ingredientes salvos no localStorage
     if (inProgressRecipes.cocktails[id]) {
