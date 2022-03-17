@@ -83,7 +83,7 @@ function DrinksByIdInProgress() {
     if (target.checked === true) {
       result = [...checkedIngredients, ingredient];
     } else {
-      result = checkedIngredients.filter((i) => i !== ingredient);
+      result = checkedIngredients.filter((checkedIngred) => checkedIngred !== ingredient);
     }
 
     setCheckedIngredients(result);
