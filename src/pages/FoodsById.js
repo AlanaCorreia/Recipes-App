@@ -18,6 +18,7 @@ function FoodsById() {
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
 
@@ -42,6 +43,7 @@ function FoodsById() {
 
   useEffect(() => {
     getFetchFoodApi();
+
     checkIsFavorite();
   }, []);
 
@@ -54,23 +56,20 @@ function FoodsById() {
   const redirectClick = (idRecipe) => {
     history.push(`/foods/${idRecipe}/in-progress`);
   };
-
   function checkRecipe() {
     const recipeName = recipeFood.length > 0 ? recipeFood[0].strMeal : '';
     const inProgressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const doneRecipeStorage = JSON.parse(localStorage.getItem('doneRecipes'));
 
-    console.log(inProgressStorage);
     if (doneRecipeStorage !== null) {
       const filterDoneRecipe = doneRecipeStorage.filter(({ name }) => (
         name === recipeName));
-      console.log(filterDoneRecipe);
       if (filterDoneRecipe.length > 0) {
         return '';
       }
     }
 
-    if (inProgressStorage !== null && inProgressStorage.meals[id] !== null) {
+    if (inProgressStorage && inProgressStorage.meals && inProgressStorage.meals[id]) {
       return (
         <button
           data-testid="start-recipe-btn"
@@ -79,7 +78,8 @@ function FoodsById() {
           className="button-recipe"
         >
           Continue Recipe
-        </button>);
+        </button>
+      );
     }
 
     return (
@@ -109,7 +109,6 @@ function FoodsById() {
       removeFavoriteRecipe(id);
     } else {
       setCheckFavorite(true);
-      console.log('setou', checkFavorite);
       setStorageFavoriteFood(recipeFood[0]);
     }
   }
@@ -215,5 +214,4 @@ function FoodsById() {
     </div>
   );
 }
-
 export default FoodsById;
