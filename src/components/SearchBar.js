@@ -49,10 +49,23 @@ function SearchBar({ name }) {
   async function searchButton() {
     if (name === 'meals') {
       const dataFoodToValidate = await searchFoods(radioValue, searchInput);
-      validateMeals(name, dataFoodToValidate, setApiResultsSplited, history);
+      if (dataFoodToValidate.meals === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else if (dataFoodToValidate.meals.length === 1) {
+        history.push(`/foods/${dataFoodToValidate.meals[0].idMeal}`);
+      } else {
+        validateMeals(name, dataFoodToValidate, setApiResultsSplited);
+      }
     } else {
       const dataDrinkToValidate = await searchDrinks(radioValue, searchInput);
-      validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history);
+
+      if (dataDrinkToValidate.drinks === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else if (dataDrinkToValidate.drinks.length === 1) {
+        history.push(`/drinks/${dataDrinkToValidate.drinks[0].idDrink}`);
+      } else {
+        validateDrinks(name, dataDrinkToValidate, setApiResultsSplited);
+      }
     }
   }
   // função que renderiza as APIs com o retorno padrão
@@ -60,7 +73,6 @@ function SearchBar({ name }) {
     if (name === 'meals') {
       const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
       const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
-      console.log(splitedFoodResponse);
       setApiResultsSplited({ [name]: splitedFoodResponse });
     } else {
       const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
@@ -81,10 +93,10 @@ function SearchBar({ name }) {
         event.target.className = 'selected';
         if (name === 'meals') {
           const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
-          validateMeals(name, foodCategory, setApiResultsSplited, history);
+          validateMeals(name, foodCategory, setApiResultsSplited);
         } else {
           const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
-          validateDrinks(name, drinkCategory, setApiResultsSplited, history);
+          validateDrinks(name, drinkCategory, setApiResultsSplited);
         }
       } else {
         event.target.className = 'not-selected';
