@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import getIngredientsAndMeasure from '../helpers/getIngredientsAndMeasure';
 import fetchDrinkApi from '../services/fetchApiDrink';
@@ -10,6 +10,7 @@ function DrinksByIdInProgress() {
   } = history;
   const [recipeDrink, setRecipeDrink] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [checkedIngredients, setCheckedIngredients] = useState([]);
   const id = pathname.replace(/[^0-9]/g, '');
 
   async function getFetchDrinkApi() {
@@ -31,58 +32,50 @@ function DrinksByIdInProgress() {
   }
 
   // Função responsável por atualizar a chave cocktails com novas receitas
-  // Só será renderizada novamente caso haja alguma atualização no id ou nos ingredientes
-  // https://developerplus.com.br/hook-usecallback-no-react-native
-  const progressStore = useCallback(
-    () => {
-      // Se o estado dos ingredientes vier vazio, a função não retorna nada
-      if (ingredients.length === 0) {
-        return;
-      }
-
-      // Armazena o valor da chave inProgressRecipes na variável
-      const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-
-      // Se a chave cocktails existir, mas a chave com o id da receita não existe, cria-se a chave id com o valor dos ingredientes
-      if (progressStorage.cocktails && !progressStorage.cocktails[id]) {
-        progressStorage.cocktails[id] = ingredients.map((element) => element[1]);
-        localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
-      }
-    },
-    [id, ingredients],
-  );
-
-  // Função que seta inicialmente o localStorage
-  function setProgressStorageInicial() {
+  const progressStore = (ingredientsToStore) => {
     // Armazena o valor da chave inProgressRecipes na variável
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    // Se a chave não existir, cria-se a chave inProgressRecipes e armazena a chave cocktails dentro dela com um objeto vazio
-    if (inProgressRecipes === null) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify({ cocktails: {} }));
-    } else if (!inProgressRecipes.cocktails) {
+    const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    // Se a chave inProgressRecipes não existir, cria-se esta chave com o valor cocktails, que recebe um objeto vazio;
+    if (!progressStorage.cocktails) {
       // Caso a chave inProgressRecipes exista, mas não tenha a chave cocktails, cria-se a chave cocktails com um objeto vazio
       // e armazena no localStorage
-      inProgressRecipes.cocktails = {};
-      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+      progressStorage.cocktails = {};
+    } progressStorage.cocktails[id] = ingredientsToStore;
+    // Se a chave inProgressRecipes e a chave cocktails existirem, cria-se a chave id da receita com o valor dos ingredientes com check
+    localStorage.setItem('inProgressRecipes', JSON.stringify(progressStorage));
+  };
+
+  // Função que seta inicialmente o localStorage
+  function getProgressStorageInicial() {
+    // Armazena o valor da chave inProgressRecipes na variável
+    let inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
+    if (!inProgressRecipes) {
+      inProgressRecipes = { cocktails: {} };
+    }
+    // Se a chave cocktails com a chave do id da receita existir, atualiza o estado dos ingredientes com check com os ingredientes salvos no localStorage
+    if (inProgressRecipes.cocktails[id]) {
+      setCheckedIngredients(inProgressRecipes.cocktails[id]);
     }
   }
 
   useEffect(() => {
     getFetchDrinkApi();
-    setProgressStorageInicial();
+    getProgressStorageInicial();
   }, []);
 
-  // A função ProgressStore só vai ser chamada se ela for atualizada
-  useEffect(() => {
-    progressStore();
-  }, [progressStore]);
-
   function handleCheckbox({ target }) {
+    const ingredient = target.parentNode.innerText;
+    let result;
+
     if (target.checked === true) {
-      target.parentNode.className = 'selected';
+      result = [...checkedIngredients, ingredient];
     } else {
-      target.parentNode.className = 'not-selected';
+      result = checkedIngredients.filter((i) => i !== ingredient);
     }
+
+    setCheckedIngredients(result);
+    progressStore(result);
   }
   return (
     <div>
@@ -113,11 +106,14 @@ function DrinksByIdInProgress() {
               <li
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
-                className="not-selected"
+                className={
+                  checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
+                }
               >
                 <input
                   type="checkbox"
                   onClick={ (event) => handleCheckbox(event) }
+                  defaultChecked={ checkedIngredients.includes(element[1]) }
                 />
                 <span>{element[1]}</span>
               </li>
