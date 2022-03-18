@@ -17,19 +17,12 @@ function DrinksByIdInProgress() {
   } = history;
   const [recipeDrink, setRecipeDrink] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [measure, setMeasure] = useState([]);
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const id = pathname.replace(/[^0-9]/g, '');
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
   const [checkDone, setCheckDone] = useState(true);
-
-  /*  function saveIngredients({ target }) {
-    if (target.checked === true) {
-      const inProgressRecipes = localStorage.getItem('inProgressRecipes');
-    } else {
-      target.parentNode.className = 'not-selected';
-    }
-  } */
 
   function checkIsFavorite() {
     setCheckFavorite(checkRecipeFavorite(id));
@@ -51,6 +44,9 @@ function DrinksByIdInProgress() {
               && element[1] !== '',
       ),
     );
+    const measuresReturn = getIngredientsAndMeasure('32', '47', resultsApi.drinks);
+    setMeasure(measuresReturn.filter((element) => element[0].includes('strMeasure')
+    && element[1] !== null && element[1] !== ''));
   }
 
   // Função responsável por atualizar a chave cocktails com novas receitas
@@ -191,23 +187,30 @@ function DrinksByIdInProgress() {
             </p>
             <h2 className="subtitles-recipe">Ingredients:</h2>
             <ul id="ingredientsList" className="ingredients-list">
-              {ingredients.map((element, index) => (
-                <li
-                  key={ index }
-                  data-testid={ `${index}-ingredient-step` }
-                  className={
-                    checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
-                  }
-                >
-                  <input
-                    type="checkbox"
-                    className="checkBoxs"
-                    onClick={ (event) => handleCheckbox(event) }
-                    defaultChecked={ checkedIngredients.includes(element[1]) }
-                  />
-                  <span className="ingredient-text">{element[1]}</span>
-                </li>
-              ))}
+              {ingredients.length > 0
+                  && measure.length > 0
+                  && ingredients.map((element, index) => (
+                    <li
+                      key={ index }
+                      data-testid={ `${index}-ingredient-step` }
+                      className={
+                        checkedIngredients.includes(element[1])
+                          ? 'selected' : 'not-selected'
+                      }
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkBoxs"
+                        onClick={ (event) => handleCheckbox(event) }
+                        defaultChecked={ checkedIngredients.includes(element[1]) }
+                      />
+                      <span className="ingredient-text">{element[1]}</span>
+                      {' '}
+                      { measure[index] !== null && measure.length === 1
+                        ? <span className="measure-text">{measure[0][1]}</span>
+                        : <span className="measure-text">{measure[index][1]}</span>}
+                    </li>
+                  ))}
             </ul>
             <h2 className="subtitles-recipe">Instructions</h2>
             <div className="instructions-container">
