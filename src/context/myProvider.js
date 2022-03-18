@@ -12,6 +12,8 @@ function MyProvider({ children }) {
   const [drinkRecommendation, setDrinkRecommendation] = useState([]);
   const [apiResultsIngredients, setApiResultsIngredients] = useState([]);
   const [radioValue, setRadioValue] = useState('');
+  const [ingredientFilter, setIngredientFilter] = useState('');
+  const [ingredientsFilterKey, setIngredientsFilterKey] = useState(false);
 
   function handleSearch({ target }) {
     setsearchInput(target.value);
@@ -48,6 +50,10 @@ function MyProvider({ children }) {
     setApiResultsIngredients,
     radioValue,
     setRadioValue,
+    ingredientFilter,
+    setIngredientFilter,
+    ingredientsFilterKey,
+    setIngredientsFilterKey,
   };
   return (
     <MyContext.Provider value={ INITIAL_STATE }>

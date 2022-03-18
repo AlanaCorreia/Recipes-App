@@ -5,22 +5,33 @@ import MyContext from '../context/myContext';
 
 function RenderCardsIngredients({ name }) {
   const { apiResultsIngredients } = useContext(MyContext);
+  const { setIngredientsFilterKey } = useContext(MyContext);
   const { setRadioValue } = useContext(MyContext);
+  const { setsearchInput } = useContext(MyContext);
   const history = useHistory();
 
-  const redirectToPrincipalPage = (ingredient, route) => {
-    setRadioValue(ingredient);
-    history.push(route);
+  const redirectToPrincipalPage = (ingredient) => {
+    if (name === 'meals') {
+      setIngredientsFilterKey(true);
+      setsearchInput(ingredient);
+      setRadioValue('ingredient');
+      history.push('/foods');
+    } else {
+      setIngredientsFilterKey(true);
+      setsearchInput(ingredient);
+      setRadioValue('ingredient');
+      history.push('/drinks');
+    }
   };
 
-  return name === 'meals' ? (
+  return apiResultsIngredients.length > 0 && name === 'meals' ? (
     <div>
       { apiResultsIngredients.map(({ strIngredient }, index) => (
         <div
           value={ strIngredient }
           key={ `${strIngredient}-${index}` }
           data-testid={ `${index}-ingredient-card` }
-          onClick={ () => redirectToPrincipalPage(strIngredient, '/foods') }
+          onClick={ () => redirectToPrincipalPage(strIngredient) }
           onKeyDown={ redirectToPrincipalPage }
           role="button"
           tabIndex={ 0 }
@@ -46,7 +57,7 @@ function RenderCardsIngredients({ name }) {
           value={ strIngredient1 }
           key={ `${strIngredient1}-${index}` }
           data-testid={ `${index}-ingredient-card` }
-          onClick={ () => redirectToPrincipalPage(strIngredient1, '/drinks') }
+          onClick={ () => redirectToPrincipalPage(strIngredient1) }
           onKeyDown={ redirectToPrincipalPage }
           role="button"
           tabIndex={ 0 }
