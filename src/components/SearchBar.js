@@ -18,13 +18,10 @@ function SearchBar({ name }) {
 
   const [apiResultsSplited, setApiResultsSplited] = useState({ [name]: [] });
   const [categories, setCategories] = useState({ [name]: [] });
-
   const history = useHistory();
-
   function handleRadio({ target }) {
     setRadioValue(target.value);
   }
-
   // ComponentDidMout montando os filtros e o retorno default da API
   useEffect(() => {
     const fetchApiInitial = async () => {
@@ -49,24 +46,34 @@ function SearchBar({ name }) {
     };
     fetchApiInitial();
   }, []);
-
   // função para realizar as pesquisas
   async function searchButton() {
     if (name === 'meals') {
       const dataFoodToValidate = await searchFoods(radioValue, searchInput);
-      validateMeals(name, dataFoodToValidate, setApiResultsSplited, history);
+      if (dataFoodToValidate.meals === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else if (dataFoodToValidate.meals.length === 1) {
+        history.push(`/foods/${dataFoodToValidate.meals[0].idMeal}`);
+      } else {
+        validateMeals(name, dataFoodToValidate, setApiResultsSplited);
+      }
     } else {
       const dataDrinkToValidate = await searchDrinks(radioValue, searchInput);
-      validateDrinks(name, dataDrinkToValidate, setApiResultsSplited, history);
+
+      if (dataDrinkToValidate.drinks === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else if (dataDrinkToValidate.drinks.length === 1) {
+        history.push(`/drinks/${dataDrinkToValidate.drinks[0].idDrink}`);
+      } else {
+        validateDrinks(name, dataDrinkToValidate, setApiResultsSplited);
+      }
     }
   }
-
   // função que renderiza as APIs com o retorno padrão
   async function defaultAPI() {
     if (name === 'meals') {
       const foodResponse = await fetchFoodApi(DEFAULT_URL_API);
       const splitedFoodResponse = foodResponse[name].slice(0, MAX_NUMBER_CARDS);
-      console.log(splitedFoodResponse);
       setApiResultsSplited({ [name]: splitedFoodResponse });
     } else {
       const drinkResponse = await fetchDrinkApi(DEFAULT_URL_API);
@@ -74,7 +81,6 @@ function SearchBar({ name }) {
       setApiResultsSplited({ [name]: splitedDrinkResponse });
     }
   }
-
   // função para lidar com os botões de filtro
   async function filterCategory(event, category) {
     if (category === 'all') {
@@ -88,10 +94,10 @@ function SearchBar({ name }) {
         event.target.className = 'selected';
         if (name === 'meals') {
           const foodCategory = await fetchFoodApi(`filter.php?c=${category}`);
-          validateMeals(name, foodCategory, setApiResultsSplited, history);
+          validateMeals(name, foodCategory, setApiResultsSplited);
         } else {
           const drinkCategory = await fetchDrinkApi(`filter.php?c=${category}`);
-          validateDrinks(name, drinkCategory, setApiResultsSplited, history);
+          validateDrinks(name, drinkCategory, setApiResultsSplited);
         }
       } else {
         event.target.className = 'not-selected';
@@ -108,7 +114,6 @@ function SearchBar({ name }) {
       history.push(`/drinks/${idReceita}`);
     }
   }
-
   return (
     <div className="searchBar">
       {searchBarShow && (
@@ -133,7 +138,6 @@ function SearchBar({ name }) {
               data-testid="ingredient-search-radio"
             />
           </label>
-
           <label htmlFor="name">
             Name
             <input
@@ -145,7 +149,6 @@ function SearchBar({ name }) {
               data-testid="name-search-radio"
             />
           </label>
-
           <label htmlFor="first-letter">
             First letter
             <input
@@ -157,7 +160,6 @@ function SearchBar({ name }) {
               data-testid="first-letter-search-radio"
             />
           </label>
-
           <button
             type="button"
             data-testid="exec-search-btn"
@@ -193,7 +195,6 @@ function SearchBar({ name }) {
     </div>
   );
 }
-
 SearchBar.propTypes = {
   name: PropTypes.string.isRequired,
 };

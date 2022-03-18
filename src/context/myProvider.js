@@ -55,9 +55,7 @@ function MyProvider({ children }) {
     </MyContext.Provider>
   );
 }
-
 MyProvider.propTypes = {
   children: PropTypes.string,
 }.isRequired;
-
 export default MyProvider;
