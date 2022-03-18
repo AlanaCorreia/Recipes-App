@@ -52,6 +52,10 @@ li {
   margin-left: 10px;
 }
 
+.ingredient-text {
+  margin-left: 5px;
+}
+
 .ingredients-list {
   background-color: #C5995A;
   padding: 5px;
@@ -68,6 +72,15 @@ li {
 
 .img-recipe-details {
   width: 150px;
+}
+
+.button-finish-recipe {
+  background-color:#98A93E;
+  border: 1px solid #69443B;
+  border-radius: 8px;color: #141414;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 10px;
 }
 
 .button-recipe {
