@@ -36,7 +36,6 @@ function FoodsByIdInProgress() {
   const progressStore = (ingredientsToStore) => {
     // Armazena o valor da chave inProgressRecipes na variável
     const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log('entrou na função');
 
     if (!progressStorage.meals) {
       // Caso a chave inProgressRecipes exista, mas não tenha a chave meals, cria-se a chave meals com um objeto vazio
@@ -101,7 +100,6 @@ function FoodsByIdInProgress() {
   }, [checkedIngredients]);
 
   function handleCheckbox({ target }) {
-    console.log('clicou');
     const ingredient = target.parentNode.innerText;
     let result;
 
