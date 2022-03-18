@@ -1,4 +1,4 @@
-.details-page-default{
+.details-page-default {
   color: #141414;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .icon-btn {
-  background-color: #98A93E;
+  background-color: #98a93e;
   margin-right: 5px;
   padding: 5px;
 }
@@ -48,29 +48,30 @@ li {
 }
 
 .ingredients-list {
-  background-color: #C5995A;
+  background-color: #c5995a;
   border-radius: 8px;
   padding: 10px 6px;
 }
 
 .ingredient-text {
-  font-weight: bolder;
+  font-weight: 700;
   margin-left: 5px;
 }
 
 .measure-text {
- font-style: italic;
+  font-style: italic;
 }
 
 .instructions-container {
-  background-color: #C5995A;
+  background-color: #c5995a;
   border-radius: 8px;
 }
+
 .instructions-text {
   font-size: 17px;
   margin: 0 10px 20px;
   padding: 15px 6px;
-  text-align:justify;
+  text-align: justify;
 }
 
 .img-recipe-details {
@@ -78,17 +79,18 @@ li {
 }
 
 .button-finish-recipe {
-  background-color:#98A93E;
-  border: 1px solid #69443B;
-  border-radius: 8px;color: #141414;
+  background-color: #98a93e;
+  border: 1px solid #69443b;
+  border-radius: 8px;
+  color: #141414;
   font-size: 16px;
   font-weight: 300;
   padding: 8px 145px;
 }
 
 .button-recipe {
-  background-color:#98A93E;
-  border: 1px solid #69443B;
+  background-color: #98a93e;
+  border: 1px solid #69443b;
   border-radius: 8px;
   bottom: 0;
   color: #141414;

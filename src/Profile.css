@@ -2,8 +2,8 @@
   background-color: #c99d5f;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   height: 100vh;
+  justify-content: center;
 }
 
 .profile-email {
@@ -14,8 +14,8 @@
 }
 
 .profile-button {
-  background-color:#98A93E;
-  border: 1px solid #69443B;
+  background-color: #98a93e;
+  border: 1px solid #69443b;
   border-radius: 8px;
   color: #141414;
   font-size: 18px;
@@ -27,7 +27,7 @@
 }
 
 .profile-button:active {
-  background-color: rgba(139, 155, 58, 0.8)
+  background-color: rgba(139, 155, 58);
 }
 
 .profile-btn-done {
