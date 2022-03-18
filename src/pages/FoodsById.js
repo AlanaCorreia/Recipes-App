@@ -164,9 +164,11 @@ function FoodsById() {
                       key={ Math.random() }
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
-                      <span>{element[1]}</span>
+                      {'- '}
+                      <span className="ingredient-text">{element[1]}</span>
                       {' '}
-                      { measure[index] !== null && <span>{measure[index][1]}</span>}
+                      { measure[index] !== null
+                      && <span className="measure-text">{measure[index][1]}</span>}
                     </li>
                   ))}
             </ul>

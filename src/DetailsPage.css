@@ -22,12 +22,6 @@
   text-align: center;
 }
 
-.title-recipe-drink {
-  font-size: 40px;
-  margin-right: 5px;
-  text-align: center;
-}
-
 .subtitles-recipe {
   font-size: 26px;
 }
@@ -48,26 +42,35 @@
 }
 
 li {
+  font-size: 18px;
   list-style-type: none;
   margin-left: 10px;
 }
 
+.ingredients-list {
+  background-color: #C5995A;
+  border-radius: 8px;
+  padding: 10px 6px;
+}
+
 .ingredient-text {
+  font-weight: bolder;
   margin-left: 5px;
 }
 
-.ingredients-list {
-  background-color: #C5995A;
-  padding: 5px;
+.measure-text {
+ font-style: italic;
 }
 
 .instructions-container {
   background-color: #C5995A;
+  border-radius: 8px;
 }
 .instructions-text {
+  font-size: 17px;
   margin: 0 10px 20px;
-  padding: 5px;
-  text-align: justify;
+  padding: 15px 6px;
+  text-align:justify;
 }
 
 .img-recipe-details {
