@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import '../ExploreFoods.css';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { getRandomRecipeFood } from '../services/fetchApiRandomRecipes';
+import { DEFAULT_URL_API_RANDOM } from '../services/consts';
+import fetchFoodApi from '../services/fetchApiFood';
 
 function ExploreFoods() {
   const history = useHistory();
@@ -17,7 +18,7 @@ function ExploreFoods() {
   };
 
   const renderRandomFood = async () => {
-    const randomFood = await getRandomRecipeFood();
+    const randomFood = await fetchFoodApi(DEFAULT_URL_API_RANDOM);
     const { meals } = randomFood;
     const id = meals[0].idMeal;
     redirectToDetails(id);

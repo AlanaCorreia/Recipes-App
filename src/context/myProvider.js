@@ -10,6 +10,10 @@ function MyProvider({ children }) {
   const [searchBarShow, setSearchBarShow] = useState(false);
   const [mealsRecommendation, setMealsRecommendation] = useState([]);
   const [drinkRecommendation, setDrinkRecommendation] = useState([]);
+  const [apiResultsIngredients, setApiResultsIngredients] = useState([]);
+  const [radioValue, setRadioValue] = useState('');
+  const [ingredientFilter, setIngredientFilter] = useState('');
+  const [ingredientsFilterKey, setIngredientsFilterKey] = useState(false);
 
   function handleSearch({ target }) {
     setsearchInput(target.value);
@@ -42,6 +46,14 @@ function MyProvider({ children }) {
     setMealsRecommendation,
     drinkRecommendation,
     setDrinkRecommendation,
+    apiResultsIngredients,
+    setApiResultsIngredients,
+    radioValue,
+    setRadioValue,
+    ingredientFilter,
+    setIngredientFilter,
+    ingredientsFilterKey,
+    setIngredientsFilterKey,
   };
   return (
     <MyContext.Provider value={ INITIAL_STATE }>

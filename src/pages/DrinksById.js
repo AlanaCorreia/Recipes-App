@@ -162,7 +162,8 @@ function DrinksById() {
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
                       <span>{element[1]}</span>
-                      { measure[index] !== null && <span>{measure[index][1]}</span>}
+                      { measure[index] !== null && measure.length === 1
+                        ? <span>{measure[0][1]}</span> : <span>{measure[index][1]}</span>}
                     </li>
                   ))}
               </ul>
