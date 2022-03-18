@@ -8,9 +8,9 @@ function RenderCardsIngredients({ name }) {
   const { setRadioValue } = useContext(MyContext);
   const history = useHistory();
 
-  const redirectToPrincipalPage = (ingredient) => {
+  const redirectToPrincipalPage = (ingredient, route) => {
     setRadioValue(ingredient);
-    history.push('/foods');
+    history.push(route);
   };
 
   return name === 'meals' ? (
@@ -18,9 +18,9 @@ function RenderCardsIngredients({ name }) {
       { apiResultsIngredients.map(({ strIngredient }, index) => (
         <div
           value={ strIngredient }
-          key={ strIngredient }
+          key={ `${strIngredient}-${index}` }
           data-testid={ `${index}-ingredient-card` }
-          onClick={ () => redirectToPrincipalPage(strIngredient) }
+          onClick={ () => redirectToPrincipalPage(strIngredient, '/foods') }
           onKeyDown={ redirectToPrincipalPage }
           role="button"
           tabIndex={ 0 }
@@ -43,13 +43,18 @@ function RenderCardsIngredients({ name }) {
     <div>
       { apiResultsIngredients.map(({ strIngredient1 }, index) => (
         <div
-          key={ strIngredient1 }
+          value={ strIngredient1 }
+          key={ `${strIngredient1}-${index}` }
           data-testid={ `${index}-ingredient-card` }
+          onClick={ () => redirectToPrincipalPage(strIngredient1, '/drinks') }
+          onKeyDown={ redirectToPrincipalPage }
+          role="button"
+          tabIndex={ 0 }
         >
           <img
             style={ { width: '300px' } }
             data-testid={ `${index}-card-img` }
-            src={ `https://www.themealdb.com/images/ingredients/${strIngredient1}-Small.png` }
+            src={ `https://www.thecocktaildb.com/images/ingredients/${strIngredient1}-Small.png` }
             alt={ strIngredient1 }
           />
           <p data-testid={ `${index}-card-name` }>

@@ -41,7 +41,6 @@ function SearchBar({ name }) {
         const splitedDrinkResponse = drinkResponse[name].slice(0, MAX_NUMBER_CARDS);
         setCategories({ [name]: splitedDrinkCategories });
         setApiResultsSplited({ [name]: splitedDrinkResponse });
-        console.log(radioValue);
       }
     };
     fetchApiInitial();
