@@ -114,7 +114,7 @@ function FoodsById() {
   }
 
   return (
-    <div>
+    <div className="details-page-default">
       {recipeFood && recipeFood.map((recipe) => (
         <div key={ recipe.idMeal }>
           <img
@@ -123,11 +123,11 @@ function FoodsById() {
             alt={ recipe.strMeal }
             className="img-recipe"
           />
-          <div className="details-container">
-            <div className="header-details-container">
-              <h1 className="title-recipe" data-testid="recipe-title">
-                {recipe.strMeal}
-              </h1>
+          <div className="header-details-container">
+            <h1 className="title-recipe" data-testid="recipe-title">
+              {recipe.strMeal}
+            </h1>
+            <div>
               <button
                 data-testid="share-btn"
                 type="button"
@@ -150,10 +150,12 @@ function FoodsById() {
                 />
               </button>
             </div>
-            { checkCopy && (<p>Link copied!</p>)}
+          </div>
+          <div className="details-recipe-container">
             <p className="category" data-testid="recipe-category">
               {recipe.strCategory}
             </p>
+            { checkCopy && (<p>Link copied!</p>)}
             <h2 className="subtitles-recipe">Ingredients:</h2>
             <ul className="ingredients-list">
               {ingredients.length > 0 && measure.length > 0
@@ -169,13 +171,16 @@ function FoodsById() {
                   ))}
             </ul>
             <h2 className="subtitles-recipe">Instructions</h2>
-            <p data-testid="instructions" className="instructions-text">
-              {recipe.strInstructions}
-            </p>
+            <div className="instructions-container">
+              <p data-testid="instructions" className="instructions-text">
+                {recipe.strInstructions}
+              </p>
+            </div>
             <iframe
               data-testid="video"
               src={ getVideo(recipe.strYoutube) }
               title={ recipe.idMeal }
+              width="340"
             />
             <h2 className="subtitles-recipe">Recommended</h2>
             <div className="recommended-container">
