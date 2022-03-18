@@ -105,7 +105,6 @@ function DrinksById() {
       removeFavoriteRecipe(id);
     } else {
       setCheckFavorite(true);
-      console.log('setou', checkFavorite);
       setStorageFavoriteDrink(recipeDrink[0]);
     }
   }
