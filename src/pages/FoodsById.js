@@ -75,7 +75,7 @@ function FoodsById() {
           data-testid="start-recipe-btn"
           type="button"
           onClick={ () => redirectClick(id) }
-          className="button-recipe"
+          className="button-recipe button-continue"
         >
           Continue Recipe
         </button>
@@ -87,7 +87,7 @@ function FoodsById() {
         data-testid="start-recipe-btn"
         type="button"
         onClick={ () => redirectClick(id) }
-        className="button-recipe"
+        className="button-recipe button-start"
       >
         Start recipe
       </button>

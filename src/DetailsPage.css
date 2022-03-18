@@ -83,7 +83,7 @@ li {
   border-radius: 8px;color: #141414;
   font-size: 16px;
   font-weight: 300;
-  padding: 10px;
+  padding: 8px 145px;
 }
 
 .button-recipe {
@@ -95,8 +95,16 @@ li {
   font-size: 16px;
   font-weight: 300;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 8px 108px;
   position: fixed;
+}
+
+.button-start {
+  padding: 8px 126px;
+}
+
+.button-continue {
+  padding: 8px 108px;
 }
 
 .button-recipe:hover {
