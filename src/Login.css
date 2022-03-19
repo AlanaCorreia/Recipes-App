@@ -5,7 +5,7 @@
 }
 
 .login-container {
-  background: url('./images/fundo-de-culinaria.jpg');
+  background: url("./images/fundo-de-culinaria.jpg");
   border: 1px solid rgb(214, 217, 220);
   border-radius: 10px;
   box-shadow: 7px 5px 5px darkgrey;
@@ -64,7 +64,7 @@ input {
 }
 
 .login-btn-entrar:hover {
-  background-color: #a5e670fa;
+  background-color: #6d123f;
 }
 
 .login-btn-entrar:active {

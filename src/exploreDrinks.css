@@ -1,12 +1,29 @@
-.contentExplore {
+.explore-drinks {
   display: flex;
-  justify-content: space-around;
-  margin-top: 40vh;
+  justify-content: center;
 }
 
-.buttonsExplore {
+.contentExploreDrinks {
+  display: flex;
+  flex-direction: column;
+  height: 590px;
+  justify-content: center;
+  margin: none;
+  width: 70%;
+}
+
+.buttonsExploreDrinks {
   background-color: rgb(203, 211, 194);
   border: 1px solid rgb(155, 155, 155);
   border-radius: 7px;
+  margin: 20px;
   padding: 10px;
+}
+
+.buttonsExploreDrinks:hover {
+  background-color: #6d123f;
+}
+
+.buttonsExploreDrinks:active {
+  background-color: rgb(199, 199, 199);
 }

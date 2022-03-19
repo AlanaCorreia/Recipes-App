@@ -16,11 +16,13 @@ function Header({ name }) {
           className="img-icons"
         />
       </Link>
-      <h1 data-testid="page-title" className="title-page">
-        {' '}
-        {name}
-        {' '}
-      </h1>
+      <div className="title-content">
+        <h1 data-testid="page-title" className="title-page">
+          {' '}
+          {name}
+          {' '}
+        </h1>
+      </div>
     </div>
   );
 }
