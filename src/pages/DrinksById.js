@@ -179,32 +179,34 @@ function DrinksById() {
               </div>
               <h2 className="subtitles-recipe">Recommended</h2>
               <div className="recommended-container">
-                {mealsRecommendation.map((meal, index) => (
-                  <div
-                    key={ meal.strMeal }
-                    data-testid={ `${index}-recomendation-card` }
-                    // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
-                    onClick={ () => handleClick(meal.idMeal) }
-                    onKeyDown={ handleClick }
-                    role="button"
-                    tabIndex={ 0 }
-                    className="recommended-card"
-                  >
-                    <img
-                      className="recommended-img"
-                      data-testid={ `${index}-card-img` }
-                      src={ meal.strMealThumb }
-                      alt={ meal.strMeal }
-                    />
-                    <p className="recommended-category-text">
-                      {meal.strCategory}
-                    </p>
-                    <p data-testid={ `${index}-recomendation-title` }>
-                      {' '}
-                      {meal.strMeal}
-                    </p>
-                  </div>
-                ))}
+                <div className="recommended-cards-container">
+                  {mealsRecommendation.map((meal, index) => (
+                    <div
+                      key={ meal.strMeal }
+                      data-testid={ `${index}-recomendation-card` }
+                      // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                      onClick={ () => handleClick(meal.idMeal) }
+                      onKeyDown={ handleClick }
+                      role="button"
+                      tabIndex={ 0 }
+                      className="recommended-card"
+                    >
+                      <img
+                        className="recommended-img"
+                        data-testid={ `${index}-card-img` }
+                        src={ meal.strMealThumb }
+                        alt={ meal.strMeal }
+                      />
+                      <p className="recommended-category-text">
+                        {meal.strCategory}
+                      </p>
+                      <p data-testid={ `${index}-recomendation-title` }>
+                        {' '}
+                        {meal.strMeal}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
               { checkRecipe() }
             </div>

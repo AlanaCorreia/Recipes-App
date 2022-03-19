@@ -103,7 +103,7 @@ li {
 }
 
 .button-start {
-  padding: 8px 126px;
+  padding: 8px 116px;
 }
 
 .button-continue {
@@ -119,6 +119,10 @@ li {
 }
 
 .recommended-container {
+  overflow: hidden;
+}
+
+.recommended-cards-container {
   display: flex;
   overflow-x: scroll;
 }
@@ -131,7 +135,8 @@ li {
 }
 
 .recommended-img {
-  width: 160px;
+  border-radius: 8px;
+  width: 150px;
 }
 
 .recommended-category-text {

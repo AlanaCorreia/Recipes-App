@@ -186,33 +186,35 @@ function FoodsById() {
             />
             <h2 className="subtitles-recipe">Recommended</h2>
             <div className="recommended-container">
-              { drinkRecommendation.map((drink, index) => (
-                <div
-                  key={ drink.strDrink }
-                  data-testid={ `${index}-recomendation-card` }
-                  // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
-                  onClick={ () => handleClick(drink.idDrink) }
-                  onKeyDown={ handleClick }
-                  role="button"
-                  tabIndex={ 0 }
-                  className="recommended-card"
-                >
-                  <img
-                    className="recommended-img"
-                    data-testid={ `${index}-card-img` }
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                  />
-                  <p className="recommended-category-text">{drink.strAlcoholic}</p>
-                  <p
-                    className="recommended-text"
-                    data-testid={ `${index}-recomendation-title` }
+              <div className="recommended-cards-container">
+                { drinkRecommendation.map((drink, index) => (
+                  <div
+                    key={ drink.strDrink }
+                    data-testid={ `${index}-recomendation-card` }
+                    // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                    onClick={ () => handleClick(drink.idDrink) }
+                    onKeyDown={ handleClick }
+                    role="button"
+                    tabIndex={ 0 }
+                    className="recommended-card"
                   >
-                    {' '}
-                    { drink.strDrink }
-                  </p>
-                </div>
-              ))}
+                    <img
+                      className="recommended-img"
+                      data-testid={ `${index}-card-img` }
+                      src={ drink.strDrinkThumb }
+                      alt={ drink.strDrink }
+                    />
+                    <p className="recommended-category-text">{drink.strAlcoholic}</p>
+                    <p
+                      className="recommended-text"
+                      data-testid={ `${index}-recomendation-title` }
+                    >
+                      {' '}
+                      { drink.strDrink }
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
             { checkRecipe() }
           </div>
