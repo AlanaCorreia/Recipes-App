@@ -72,7 +72,7 @@ function DrinksById() {
           data-testid="start-recipe-btn"
           type="button"
           onClick={ () => redirectClick(id) }
-          className="button-recipe"
+          className="button-recipe button-continue"
         >
           Continue Recipe
         </button>);
@@ -83,7 +83,7 @@ function DrinksById() {
         data-testid="start-recipe-btn"
         type="button"
         onClick={ () => redirectClick(id) }
-        className="button-recipe"
+        className="button-recipe button-start"
       >
         Start recipe
       </button>
@@ -105,13 +105,12 @@ function DrinksById() {
       removeFavoriteRecipe(id);
     } else {
       setCheckFavorite(true);
-      console.log('setou', checkFavorite);
       setStorageFavoriteDrink(recipeDrink[0]);
     }
   }
 
   return (
-    <div>
+    <div className="details-page-default">
       {recipeDrink
         && recipeDrink.map((recipe) => (
           <div key={ recipe.idDrink }>
@@ -121,22 +120,22 @@ function DrinksById() {
               src={ recipe.strDrinkThumb }
               alt={ recipe.strDrink }
             />
-            <div className="details-container">
-              <div className="header-details-container">
-                <h1 className="title-recipe-drink" data-testid="recipe-title">
-                  {recipe.strDrink}
-                </h1>
+            <div className="header-details-container">
+              <h1 className="title-recipe" data-testid="recipe-title">
+                {recipe.strDrink}
+              </h1>
+              <div>
                 <button
                   data-testid="share-btn"
                   type="button"
-                  className="icon-button"
+                  className="icon-btn"
                   onClick={ () => clipboardCopy(recipe.idDrink) }
                 >
                   <img src={ shareIcon } alt="share Icon" />
                 </button>
                 <button
                   type="button"
-                  className="icon-button"
+                  className="icon-btn"
                   onClick={ clickFavorite }
                 >
                   <img
@@ -148,10 +147,12 @@ function DrinksById() {
                   />
                 </button>
               </div>
-              { checkCopy && (<p>Link copied!</p>)}
+            </div>
+            <div className="details-recipe-container">
               <p className="category" data-testid="recipe-category">
                 {recipe.strAlcoholic}
               </p>
+              { checkCopy && (<p>Link copied!</p>)}
               <h2 className="subtitles-recipe">Ingredients:</h2>
               <ul className="ingredients-list">
                 {ingredients.length > 0
@@ -161,42 +162,51 @@ function DrinksById() {
                       key={ Math.random() }
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
-                      <span>{element[1]}</span>
+                      {'- '}
+                      <span className="ingredient-text">{element[1]}</span>
+                      {' '}
                       { measure[index] !== null && measure.length === 1
-                        ? <span>{measure[0][1]}</span> : <span>{measure[index][1]}</span>}
+                        ? <span className="measure-text">{measure[0][1]}</span>
+                        : <span className="measure-text">{measure[index][1]}</span>}
                     </li>
                   ))}
               </ul>
               <h2 className="subtitles-recipe">Instructions</h2>
-              <p data-testid="instructions">{recipe.strInstructions}</p>
+              <div className="instructions-container">
+                <p data-testid="instructions" className="instructions-text">
+                  {recipe.strInstructions}
+                </p>
+              </div>
               <h2 className="subtitles-recipe">Recommended</h2>
               <div className="recommended-container">
-                {mealsRecommendation.map((meal, index) => (
-                  <div
-                    key={ meal.strMeal }
-                    data-testid={ `${index}-recomendation-card` }
-                    // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
-                    onClick={ () => handleClick(meal.idMeal) }
-                    onKeyDown={ handleClick }
-                    role="button"
-                    tabIndex={ 0 }
-                    className="recommended-card"
-                  >
-                    <img
-                      className="recommended-img"
-                      data-testid={ `${index}-card-img` }
-                      src={ meal.strMealThumb }
-                      alt={ meal.strMeal }
-                    />
-                    <p className="recommended-category-text">
-                      {meal.strCategory}
-                    </p>
-                    <p data-testid={ `${index}-recomendation-title` }>
-                      {' '}
-                      {meal.strMeal}
-                    </p>
-                  </div>
-                ))}
+                <div className="recommended-cards-container">
+                  {mealsRecommendation.map((meal, index) => (
+                    <div
+                      key={ meal.strMeal }
+                      data-testid={ `${index}-recomendation-card` }
+                      // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                      onClick={ () => handleClick(meal.idMeal) }
+                      onKeyDown={ handleClick }
+                      role="button"
+                      tabIndex={ 0 }
+                      className="recommended-card"
+                    >
+                      <img
+                        className="recommended-img"
+                        data-testid={ `${index}-card-img` }
+                        src={ meal.strMealThumb }
+                        alt={ meal.strMeal }
+                      />
+                      <p className="recommended-category-text">
+                        {meal.strCategory}
+                      </p>
+                      <p data-testid={ `${index}-recomendation-title` }>
+                        {' '}
+                        {meal.strMeal}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
               { checkRecipe() }
             </div>

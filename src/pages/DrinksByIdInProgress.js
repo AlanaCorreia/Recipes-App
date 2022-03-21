@@ -17,19 +17,12 @@ function DrinksByIdInProgress() {
   } = history;
   const [recipeDrink, setRecipeDrink] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [measure, setMeasure] = useState([]);
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const id = pathname.replace(/[^0-9]/g, '');
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
   const [checkDone, setCheckDone] = useState(true);
-
-  /*  function saveIngredients({ target }) {
-    if (target.checked === true) {
-      const inProgressRecipes = localStorage.getItem('inProgressRecipes');
-    } else {
-      target.parentNode.className = 'not-selected';
-    }
-  } */
 
   function checkIsFavorite() {
     setCheckFavorite(checkRecipeFavorite(id));
@@ -51,6 +44,9 @@ function DrinksByIdInProgress() {
               && element[1] !== '',
       ),
     );
+    const measuresReturn = getIngredientsAndMeasure('32', '47', resultsApi.drinks);
+    setMeasure(measuresReturn.filter((element) => element[0].includes('strMeasure')
+    && element[1] !== null && element[1] !== ''));
   }
 
   // Função responsável por atualizar a chave cocktails com novas receitas
@@ -114,7 +110,7 @@ function DrinksByIdInProgress() {
   }, []);
 
   function handleCheckbox({ target }) {
-    const ingredient = target.parentNode.innerText;
+    const ingredient = target.parentNode.firstChild.nextSibling.innerText;
     let result;
 
     if (target.checked === true) {
@@ -147,7 +143,7 @@ function DrinksByIdInProgress() {
   }
 
   return (
-    <div>
+    <div className="details-page-default">
       { checkCopy && (<p>Link copied!</p>)}
       {recipeDrink.map((recipe) => (
         <div key={ recipe.idDrink }>
@@ -155,65 +151,83 @@ function DrinksByIdInProgress() {
             data-testid="recipe-photo"
             src={ recipe.strDrinkThumb }
             alt={ recipe.strDrink }
+            className="img-recipe"
           />
-          <h1 data-testid="recipe-title">{recipe.strDrink}</h1>
-
-          <button
-            data-testid="share-btn"
-            type="button"
-            className="icon-btn"
-            onClick={ () => clipboardCopy(recipe.idDrink) }
-          >
-            <img src={ shareIcon } alt="share Icon" />
-          </button>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={ clickFavorite }
-          >
-            <img
-              data-testid="favorite-btn"
-              src={ checkFavorite
-                ? blackHeartIcon : whiteHeartIcon }
-              alt={ checkFavorite
-                ? 'black Heart Icon"' : 'white Heart Icon' }
-            />
-          </button>
-
-          <p data-testid="recipe-category">{recipe.strCategory}</p>
-          <h2>Ingredients:</h2>
-          <ul id="ingredientsList">
-            {ingredients.map((element, index) => (
-              <li
-                key={ index }
-                data-testid={ `${index}-ingredient-step` }
-                className={
-                  checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
-                }
+          <div className="header-details-container">
+            <h1 data-testid="recipe-title" className="title-recipe">
+              {recipe.strDrink}
+            </h1>
+            <div>
+              <button
+                data-testid="share-btn"
+                type="button"
+                className="icon-btn"
+                onClick={ () => clipboardCopy(recipe.idDrink) }
               >
-                <input
-                  type="checkbox"
-                  className="checkBoxs"
-                  onClick={ (event) => handleCheckbox(event) }
-                  defaultChecked={ checkedIngredients.includes(element[1]) }
+                <img src={ shareIcon } alt="share Icon" />
+              </button>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={ clickFavorite }
+              >
+                <img
+                  data-testid="favorite-btn"
+                  src={ checkFavorite
+                    ? blackHeartIcon : whiteHeartIcon }
+                  alt={ checkFavorite
+                    ? 'black Heart Icon"' : 'white Heart Icon' }
                 />
-                <span>{element[1]}</span>
-              </li>
-            ))}
-          </ul>
-          <h2>Category:</h2>
-
-          <h2>Instructions</h2>
-          <p data-testid="instructions">{recipe.strInstructions}</p>
-
-          <button
-            type="button"
-            data-testid="finish-recipe-btn"
-            disabled={ checkDone }
-            onClick={ () => clickButtonFinish() }
-          >
-            Finish
-          </button>
+              </button>
+            </div>
+          </div>
+          <div className="details-recipe-container">
+            <p data-testid="recipe-category" className="category">
+              {recipe.strCategory}
+            </p>
+            <h2 className="subtitles-recipe">Ingredients:</h2>
+            <ul id="ingredientsList" className="ingredients-list">
+              {ingredients.length > 0
+                  && measure.length > 0
+                  && ingredients.map((element, index) => (
+                    <li
+                      key={ index }
+                      data-testid={ `${index}-ingredient-step` }
+                      className={
+                        checkedIngredients.includes(element[1])
+                          ? 'selected' : 'not-selected'
+                      }
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkBoxs"
+                        onClick={ (event) => handleCheckbox(event) }
+                        defaultChecked={ checkedIngredients.includes(element[1]) }
+                      />
+                      <span className="ingredient-text">{element[1]}</span>
+                      {' '}
+                      { measure[index] !== null && measure.length === 1
+                        ? <span className="measure-text">{measure[0][1]}</span>
+                        : <span className="measure-text">{measure[index][1]}</span>}
+                    </li>
+                  ))}
+            </ul>
+            <h2 className="subtitles-recipe">Instructions</h2>
+            <div className="instructions-container">
+              <p data-testid="instructions" className="instructions-text">
+                {recipe.strInstructions}
+              </p>
+            </div>
+            <button
+              className="button-finish-recipe"
+              type="button"
+              data-testid="finish-recipe-btn"
+              disabled={ checkDone }
+              onClick={ () => clickButtonFinish() }
+            >
+              Finish
+            </button>
+          </div>
         </div>
       ))}
     </div>

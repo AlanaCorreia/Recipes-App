@@ -75,7 +75,7 @@ function FoodsById() {
           data-testid="start-recipe-btn"
           type="button"
           onClick={ () => redirectClick(id) }
-          className="button-recipe"
+          className="button-recipe button-continue"
         >
           Continue Recipe
         </button>
@@ -87,7 +87,7 @@ function FoodsById() {
         data-testid="start-recipe-btn"
         type="button"
         onClick={ () => redirectClick(id) }
-        className="button-recipe"
+        className="button-recipe button-start"
       >
         Start recipe
       </button>
@@ -114,7 +114,7 @@ function FoodsById() {
   }
 
   return (
-    <div>
+    <div className="details-page-default">
       {recipeFood && recipeFood.map((recipe) => (
         <div key={ recipe.idMeal }>
           <img
@@ -123,11 +123,11 @@ function FoodsById() {
             alt={ recipe.strMeal }
             className="img-recipe"
           />
-          <div className="details-container">
-            <div className="header-details-container">
-              <h1 className="title-recipe" data-testid="recipe-title">
-                {recipe.strMeal}
-              </h1>
+          <div className="header-details-container">
+            <h1 className="title-recipe" data-testid="recipe-title">
+              {recipe.strMeal}
+            </h1>
+            <div>
               <button
                 data-testid="share-btn"
                 type="button"
@@ -150,10 +150,12 @@ function FoodsById() {
                 />
               </button>
             </div>
-            { checkCopy && (<p>Link copied!</p>)}
+          </div>
+          <div className="details-recipe-container">
             <p className="category" data-testid="recipe-category">
               {recipe.strCategory}
             </p>
+            { checkCopy && (<p>Link copied!</p>)}
             <h2 className="subtitles-recipe">Ingredients:</h2>
             <ul className="ingredients-list">
               {ingredients.length > 0 && measure.length > 0
@@ -162,50 +164,57 @@ function FoodsById() {
                       key={ Math.random() }
                       data-testid={ `${index}-ingredient-name-and-measure` }
                     >
-                      <span>{element[1]}</span>
+                      {'- '}
+                      <span className="ingredient-text">{element[1]}</span>
                       {' '}
-                      { measure[index] !== null && <span>{measure[index][1]}</span>}
+                      { measure[index] !== null
+                      && <span className="measure-text">{measure[index][1]}</span>}
                     </li>
                   ))}
             </ul>
             <h2 className="subtitles-recipe">Instructions</h2>
-            <p data-testid="instructions" className="instructions-text">
-              {recipe.strInstructions}
-            </p>
+            <div className="instructions-container">
+              <p data-testid="instructions" className="instructions-text">
+                {recipe.strInstructions}
+              </p>
+            </div>
             <iframe
               data-testid="video"
               src={ getVideo(recipe.strYoutube) }
               title={ recipe.idMeal }
+              width="340"
             />
             <h2 className="subtitles-recipe">Recommended</h2>
             <div className="recommended-container">
-              { drinkRecommendation.map((drink, index) => (
-                <div
-                  key={ drink.strDrink }
-                  data-testid={ `${index}-recomendation-card` }
-                  // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
-                  onClick={ () => handleClick(drink.idDrink) }
-                  onKeyDown={ handleClick }
-                  role="button"
-                  tabIndex={ 0 }
-                  className="recommended-card"
-                >
-                  <img
-                    className="recommended-img"
-                    data-testid={ `${index}-card-img` }
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                  />
-                  <p className="recommended-category-text">{drink.strAlcoholic}</p>
-                  <p
-                    className="recommended-text"
-                    data-testid={ `${index}-recomendation-title` }
+              <div className="recommended-cards-container">
+                { drinkRecommendation.map((drink, index) => (
+                  <div
+                    key={ drink.strDrink }
+                    data-testid={ `${index}-recomendation-card` }
+                    // link referencia: https://stackoverflow.com/questions/56441825/how-to-fix-button-interactive-role-must-be-focusable
+                    onClick={ () => handleClick(drink.idDrink) }
+                    onKeyDown={ handleClick }
+                    role="button"
+                    tabIndex={ 0 }
+                    className="recommended-card"
                   >
-                    {' '}
-                    { drink.strDrink }
-                  </p>
-                </div>
-              ))}
+                    <img
+                      className="recommended-img"
+                      data-testid={ `${index}-card-img` }
+                      src={ drink.strDrinkThumb }
+                      alt={ drink.strDrink }
+                    />
+                    <p className="recommended-category-text">{drink.strAlcoholic}</p>
+                    <p
+                      className="recommended-text"
+                      data-testid={ `${index}-recomendation-title` }
+                    >
+                      {' '}
+                      { drink.strDrink }
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
             { checkRecipe() }
           </div>

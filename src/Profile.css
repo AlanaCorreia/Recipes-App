@@ -1,0 +1,43 @@
+.profile-container {
+  background-color: #c99d5f;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.profile-email {
+  color: #141414;
+  font-size: 30px;
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.profile-button {
+  background-color: #98a93e;
+  border: 1px solid #69443b;
+  border-radius: 8px;
+  color: #141414;
+  font-size: 18px;
+  margin: 5px auto;
+}
+
+.profile-button:hover {
+  background-color: #aec24d;
+}
+
+.profile-button:active {
+  background-color: rgba(139, 155, 58);
+}
+
+.profile-btn-done {
+  padding: 5px 50px;
+}
+
+.profile-btn-fav {
+  padding: 5px 40px;
+}
+
+.profile-btn-logout {
+  padding: 5px 80px;
+}

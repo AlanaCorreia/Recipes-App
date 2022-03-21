@@ -7,6 +7,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { checkRecipeFavorite, removeFavoriteRecipe,
   setStorageFavoriteFood } from '../helpers/localStorage';
+import '../DetailsPage.css';
 
 const copy = require('clipboard-copy');
 
@@ -15,6 +16,7 @@ function FoodsByIdInProgress() {
   const { location: { pathname } } = history;
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [measure, setMeasure] = useState([]);
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const [checkCopy, setCheckCopy] = useState(false);
   const [checkFavorite, setCheckFavorite] = useState(false);
@@ -29,6 +31,8 @@ function FoodsByIdInProgress() {
     setIngredients(ingredientsReturn
       .filter((element) => element[0].includes('strIngredient')
     && element[1] !== null && element[1] !== ''));
+    const measuresReturn = getIngredientsAndMeasure('29', '48', resultsApi.meals);
+    setMeasure(measuresReturn.filter((element) => element[1] !== ' '));
   }
 
   // Função responsável por atualizar a chave meals com novas receitas
@@ -100,8 +104,7 @@ function FoodsByIdInProgress() {
   }, [checkedIngredients]);
 
   function handleCheckbox({ target }) {
-    console.log('clicou');
-    const ingredient = target.parentNode.innerText;
+    const ingredient = target.parentNode.firstChild.nextSibling.innerText;
     let result;
 
     if (target.checked === true) {
@@ -134,7 +137,7 @@ function FoodsByIdInProgress() {
   }
 
   return (
-    <div>
+    <div className="details-page-default">
       { checkCopy && (<p>Link copied!</p>)}
       {recipeFood.map((recipe) => (
         <div key={ recipe.idMeal }>
@@ -142,60 +145,81 @@ function FoodsByIdInProgress() {
             data-testid="recipe-photo"
             src={ recipe.strMealThumb }
             alt={ recipe.strMeal }
+            className="img-recipe"
           />
-          <h1 data-testid="recipe-title">{recipe.strMeal}</h1>
-          <button
-            data-testid="share-btn"
-            type="button"
-            className="icon-btn"
-            onClick={ () => clipboardCopy(recipe.idMeal) }
-          >
-            <img src={ shareIcon } alt="share Icon" />
-          </button>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={ clickFavorite }
-          >
-            <img
-              data-testid="favorite-btn"
-              src={ checkFavorite
-                ? blackHeartIcon : whiteHeartIcon }
-              alt={ checkFavorite
-                ? 'black Heart Icon"' : 'white Heart Icon' }
-            />
-          </button>
-          <p data-testid="recipe-category">{recipe.strCategory}</p>
-          <h2>Ingredients:</h2>
-          <ul id="ingredientsList">
-            {ingredients.map((element, index) => (
-              <li
-                key={ index }
-                data-testid={ `${index}-ingredient-step` }
-                className={
-                  checkedIngredients.includes(element[1]) ? 'selected' : 'not-selected'
-                }
+          <div className="header-details-container">
+            <h1 data-testid="recipe-title" className="title-recipe">
+              {recipe.strMeal}
+            </h1>
+            <div>
+              <button
+                data-testid="share-btn"
+                type="button"
+                className="icon-btn"
+                onClick={ () => clipboardCopy(recipe.idMeal) }
               >
-                <input
-                  type="checkbox"
-                  className="checkBoxs"
-                  onClick={ (event) => handleCheckbox(event) }
-                  defaultChecked={ checkedIngredients.includes(element[1]) }
+                <img src={ shareIcon } alt="share Icon" />
+              </button>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={ clickFavorite }
+              >
+                <img
+                  data-testid="favorite-btn"
+                  src={ checkFavorite
+                    ? blackHeartIcon : whiteHeartIcon }
+                  alt={ checkFavorite
+                    ? 'black Heart Icon"' : 'white Heart Icon' }
                 />
-                <span>{element[1]}</span>
-              </li>
-            ))}
-          </ul>
-          <h2>Instructions</h2>
-          <p data-testid="instructions">{recipe.strInstructions}</p>
-          <button
-            data-testid="finish-recipe-btn"
-            type="button"
-            disabled={ checkDone }
-            onClick={ () => clickButtonFinish() }
-          >
-            Finish
-          </button>
+              </button>
+            </div>
+          </div>
+          <div className="details-recipe-container">
+            <p data-testid="recipe-category" className="category">
+              {recipe.strCategory}
+            </p>
+            <h2 className="subtitles-recipe">Ingredients:</h2>
+            <ul id="ingredientsList" className="ingredients-list">
+              {ingredients.length > 0 && measure.length > 0
+                  && ingredients.map((element, index) => (
+                    <li
+                      key={ index }
+                      data-testid={ `${index}-ingredient-step` }
+                      className={
+                        checkedIngredients.includes(element[1])
+                          ? 'selected' : 'not-selected'
+                      }
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkBoxs"
+                        onClick={ (event) => handleCheckbox(event) }
+                        defaultChecked={ checkedIngredients.includes(element[1]) }
+                      />
+                      <span className="ingredient-text">{element[1]}</span>
+                      {' '}
+                      { measure[index] !== null
+                      && <span className="measure-text">{measure[index][1]}</span>}
+                    </li>
+                  ))}
+            </ul>
+            <h2 className="subtitles-recipe">Instructions</h2>
+            <div className="instructions-container">
+              <p data-testid="instructions" className="instructions-text">
+                {recipe.strInstructions}
+              </p>
+            </div>
+            <button
+              className="button-finish-recipe"
+              data-testid="finish-recipe-btn"
+              type="button"
+              disabled={ checkDone }
+              onClick={ () => clickButtonFinish() }
+            >
+              Finish
+            </button>
+          </div>
         </div>
       ))}
     </div>
