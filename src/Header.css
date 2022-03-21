@@ -1,9 +1,10 @@
 .header-content {
   align-items: center;
-  background-color: rgb(199, 199, 199);
+  background-color: #6d123f;
   display: flex;
-  height: 50px;
+  height: 60px;
   justify-content: space-between;
+  padding-bottom: 8px;
   padding-top: 8px;
   position: fixed;
   top: 0;
@@ -13,19 +14,33 @@
 .profileTitle {
   align-items: center;
   display: flex;
+  height: 50px;
   justify-content: space-between;
-  width: 70%;
+  margin: 8px;
+  width: 85%;
+}
+
+.title-content {
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  width: 85%;
 }
 
 .title-page {
-  font-size: 25px;
-  margin-left: 50px;
+  color: rgb(199, 199, 199);
+  font-size: 30px;
+  height: 50px;
+  margin-top: 5px;
 }
 
 .img-icons {
-  border: none;
-  height: 40px;
-  width: 40px;
+  background-color: #96496d;
+  border-radius: 22.5px;
+  height: 42px;
+  opacity: 0.6;
+  padding: 7px;
+  width: 42px;
 }
 
 .searchBar {

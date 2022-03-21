@@ -43,7 +43,12 @@ function Footer() {
         type="button"
         onClick={ () => handleClick('/foods') }
       >
-        <img data-testid="food-bottom-btn" src={ mealtIcon } alt="mealt icon" />
+        <img
+          className="btn-food"
+          data-testid="food-bottom-btn"
+          src={ mealtIcon }
+          alt="mealt icon"
+        />
       </button>
     </footer>
   );

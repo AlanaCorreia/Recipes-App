@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
+// comentario para teste
 
 function Header({ name }) {
   return (
@@ -16,11 +17,13 @@ function Header({ name }) {
           className="img-icons"
         />
       </Link>
-      <h1 data-testid="page-title" className="title-page">
-        {' '}
-        {name}
-        {' '}
-      </h1>
+      <div className="title-content">
+        <h1 data-testid="page-title" className="title-page">
+          {' '}
+          {name}
+          {' '}
+        </h1>
+      </div>
     </div>
   );
 }

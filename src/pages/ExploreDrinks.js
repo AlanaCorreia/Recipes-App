@@ -29,23 +29,25 @@ function ExploreDrinks() {
       <div className="header-content">
         <Header name="Explore Drinks" />
       </div>
-      <div className="contentExplore">
-        <button
-          className="buttonsExplore"
-          type="button"
-          data-testid="explore-by-ingredient"
-          onClick={ () => handleClick('/explore/drinks/ingredients') }
-        >
-          By Ingredient
-        </button>
-        <button
-          type="button"
-          className="buttonsExplore"
-          data-testid="explore-surprise"
-          onClick={ () => renderRandomDrink() }
-        >
-          Surprise me!
-        </button>
+      <div className="explore-drinks">
+        <div className="contentExploreDrinks">
+          <button
+            className="buttonsExploreDrinks"
+            type="button"
+            data-testid="explore-by-ingredient"
+            onClick={ () => handleClick('/explore/drinks/ingredients') }
+          >
+            By Ingredient
+          </button>
+          <button
+            type="button"
+            className="buttonsExploreDrinks"
+            data-testid="explore-surprise"
+            onClick={ () => renderRandomDrink() }
+          >
+            Surprise me!
+          </button>
+        </div>
       </div>
       <Footer />
     </div>

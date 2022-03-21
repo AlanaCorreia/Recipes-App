@@ -1,25 +1,29 @@
 .explore-content {
   display: flex;
-  flex-direction: column;
+  height: 590px;
+  justify-content: center;
+  width: 100%;
 }
 
 .explore-buttons {
   display: flex;
-  justify-content: space-around;
-  margin-top: 40vh;
+  flex-direction: column;
+  justify-content: center;
+  width: 70%;
 }
 
 .buttons-explore {
   background-color: rgb(203, 211, 194);
   border: 1px solid rgb(155, 155, 155);
   border-radius: 7px;
+  margin: 20px;
   padding: 10px;
 }
 
 .buttons-explore:hover {
-  background-color: rgb(195, 221, 163);
+  background-color: #6d123f;
 }
 
 .buttons-explore:active {
-  background-color: rgb(153, 167, 137);
+  background-color: rgb(199, 199, 199);
 }
