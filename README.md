@@ -9,7 +9,7 @@ O projeto foi montando com um layout mobile only 📱, com foco nos dispositivos
 <details>
   <summary>
     <strong>👨‍💻 O que deverá ser desenvolvido:</strong>
-  </summary><br>
+  </summary>
 
   ## Rotas utilizadas na aplicação:
 
@@ -35,7 +35,7 @@ O projeto foi montando com um layout mobile only 📱, com foco nos dispositivos
 <details>
   <summary>
     <strong>🔧 Construído com:</strong>
-  </summary><br>
+  </summary>
   
   ### API's utilizadas na aplicação:
       - https://www.themealdb.com/
