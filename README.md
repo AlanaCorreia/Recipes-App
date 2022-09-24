@@ -56,7 +56,7 @@ O projeto foi montando com um layout mobile only 📱, com foco nos dispositivos
 <details>
   <summary>
     <strong>:bicyclist: Começando:</strong>
-  </summary><br>
+  </summary>
 
   ### :hammer_and_wrench: Instalação
   1- Clone o projeto em sua máquina rodando o seguinte comando no terminal:
