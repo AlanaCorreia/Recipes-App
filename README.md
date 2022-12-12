@@ -65,7 +65,7 @@ O projeto foi montando com um layout mobile only 📱, com foco nos dispositivos
 
   2- Depois de clonado, entre no diretório:
 
-  ``` cd project-recipes-app ```
+  ``` cd Recipes-app ```
 
   3- Instale as dependências
     Para isso, use o seguinte comando: ``` npm install ```
